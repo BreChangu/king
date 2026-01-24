@@ -1,0 +1,137 @@
+
+@use 'variables' as *;
+.king-navbar {
+  position: fixed; // Flota sobre todo
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); // Animación fluida
+  background: transparent; // Empieza transparente
+
+  // --- ESTADO SCROLLED (Cuando bajas la página) ---
+  &.scrolled {
+    background: rgba(255, 255, 255, 0.85); // Blanco semitransparente
+    backdrop-filter: blur(12px); // Efecto vidrio esmerilado (Muy Apple/Moderno)
+    padding: 1rem 0; // Se hace más compacta
+    box-shadow: 0 1px 0 0 rgba(0,0,0,0.05); // Línea sutil abajo
+  }
+
+  .container {
+    max-width: 1400px; // Mismo ancho que tu Hero
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // LOGO
+  .logo {
+    font-family: 'Space Grotesk', sans-serif; // O tu fuente técnica
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: $king-black;
+    text-decoration: none;
+    letter-spacing: 1px;
+    z-index: 10;
+
+    .tm {
+      font-size: 0.6em;
+      vertical-align: super;
+      margin-left: 2px;
+      color: #94a3b8;
+    }
+  }
+
+  // LINKS
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 3rem;
+    margin: 0;
+    padding: 0;
+
+    @media (max-width: 900px) { display: none; } // Ocultar en móvil
+
+    a {
+      text-decoration: none;
+      color: #475569; // Gris medio elegante
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px; // Tracking amplio = Lujo
+      position: relative;
+      transition: color 0.3s ease;
+
+      // Animación de subrayado invisible
+      &::after {
+        content: '';
+        position: absolute;
+        width: 0%;
+        height: 1px;
+        background: $king-black;
+        bottom: -4px;
+        left: 0;
+        transition: width 0.3s ease;
+      }
+
+      &:hover {
+        color: $king-black;
+        &::after { width: 100%; }
+      }
+    }
+  }
+
+  // ACCIONES
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .login-link {
+      font-size: 0.85rem;
+      color: $king-black;
+      text-decoration: none;
+      font-weight: 600;
+      @media (max-width: 600px) { display: none; }
+    }
+
+    .btn-contact {
+      background: $king-black;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+      
+      &:hover {
+        background: black;
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+// Menú Hamburguesa (Visual básico)
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  
+  @media (max-width: 900px) { display: flex; }
+
+  .bar {
+    width: 24px;
+    height: 2px;
+    background-color: $king-black;
+  }
+}

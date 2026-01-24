@@ -32,6 +32,13 @@
             "styles": [
               "src/styles.scss"
             ],
+            
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/theme"
+              ]
+            },
+
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {

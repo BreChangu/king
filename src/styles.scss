@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'theme/variables' as *;
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: none;
+}
+
+
+@media (hover: none) {
+  body { cursor: auto; }
+  app-custom-cursor { display: none; } // Ocultar nuestro cursor en celular
+}

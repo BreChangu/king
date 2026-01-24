@@ -1,0 +1,29 @@
+// src/theme/_variables.scss
+
+// --- Colores Principales ---
+$king-black: #0F172A;     // Azul casi negro (Sobrio, Autoridad)
+$king-blue:  #334155;     // Azul acero (Estructura secundaria)
+$accent:     #eec521;     // Amarillo Ocre (Acciones clave)
+
+// --- Superficies (Arquitectura) ---
+$bg-canvas:  #F8FAFC;     // Blanco grisáceo (Papel técnico)
+$bg-panel:   #FFFFFF;     // Blanco puro (Tarjetas)
+$border:     #E2E8F0;     // Líneas estructurales finas
+$accent-color: #334155;
+
+// --- Tipografía ---
+$text-main:  #1E293B;     // Gris muy oscuro (Legibilidad)
+$text-muted: #64748B;     // Gris medio (Etiquetas)
+
+// --- Dimensiones ---
+$radius-tech: 4px;        // Bordes casi rectos
+$shadow-elevation: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+
+// --- Alias de Compatibilidad ---
+$primary-color: $king-black;
+$bg-app:        $bg-canvas;
+$font-main:     'Inter', system-ui, sans-serif;
+
+// --- Fuentes Específicas ---
+$font-serif:    'Times New Roman', serif;
+$font-tech:     'Courier New', monospace;
