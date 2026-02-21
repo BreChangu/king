@@ -1,25 +1,22 @@
-
 @use 'variables' as *;
+
 .king-navbar {
-  position: fixed; // Flota sobre todo
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 1.5rem 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); // Animación fluida
-  background: transparent; // Empieza transparente
+  background-color: #FFFFFF;
+  padding: 1.25rem 0;
+  transition: all 0.3s ease;
 
-  // --- ESTADO SCROLLED (Cuando bajas la página) ---
   &.scrolled {
-    background: rgba(255, 255, 255, 0.85); // Blanco semitransparente
-    backdrop-filter: blur(12px); // Efecto vidrio esmerilado (Muy Apple/Moderno)
-    padding: 1rem 0; // Se hace más compacta
-    box-shadow: 0 1px 0 0 rgba(0,0,0,0.05); // Línea sutil abajo
+    padding: 0.75rem 0;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05); // 4px 12px
   }
 
   .container {
-    max-width: 1400px; // Mismo ancho que tu Hero
+    max-width: 87.5rem; // 1400px
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
@@ -27,111 +24,82 @@
     align-items: center;
   }
 
-  // LOGO
   .logo {
-    font-family: 'Space Grotesk', sans-serif; // O tu fuente técnica
-    font-weight: 700;
+    font-weight: 800;
     font-size: 1.1rem;
-    color: $king-black;
+    color: #000;
     text-decoration: none;
-    letter-spacing: 1px;
-    z-index: 10;
-
-    .tm {
-      font-size: 0.6em;
-      vertical-align: super;
-      margin-left: 2px;
-      color: #94a3b8;
-    }
+    letter-spacing: 0.0625rem;
+    .tm { font-size: 0.6em; vertical-align: super; color: #94a3b8; }
   }
 
-  // LINKS
   .nav-links {
-    list-style: none;
     display: flex;
     gap: 3rem;
-    margin: 0;
-    padding: 0;
+    list-style: none;
 
-    @media (max-width: 900px) { display: none; } // Ocultar en móvil
+    // 📱 Responsividad: Menú lateral en móvil
+    @media (max-width: 64rem) { // 1024px
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #FFF;
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+      border-bottom: 0.0625rem solid #f1f5f9;
+      transform: translateY(-150%);
+      transition: transform 0.4s ease;
+      &.active { transform: translateY(0); }
+    }
 
     a {
       text-decoration: none;
-      color: #475569; // Gris medio elegante
+      color: #475569;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 1.5px; // Tracking amplio = Lujo
-      position: relative;
-      transition: color 0.3s ease;
-
-      // Animación de subrayado invisible
-      &::after {
-        content: '';
-        position: absolute;
-        width: 0%;
-        height: 1px;
-        background: $king-black;
-        bottom: -4px;
-        left: 0;
-        transition: width 0.3s ease;
-      }
-
-      &:hover {
-        color: $king-black;
-        &::after { width: 100%; }
-      }
+      letter-spacing: 0.1rem;
+      &:hover { color: #000; }
     }
   }
 
-  // ACCIONES
   .nav-actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 
-    .login-link {
-      font-size: 0.85rem;
-      color: $king-black;
-      text-decoration: none;
-      font-weight: 600;
-      @media (max-width: 600px) { display: none; }
-    }
-
     .btn-contact {
-      background: $king-black;
-      color: white;
+      background: #000;
+      color: #FFF;
       border: none;
-      padding: 0.6rem 1.2rem;
+      padding: 0.625rem 1.5rem;
+      font-weight: 700;
       font-size: 0.8rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s;
-      
-      &:hover {
-        background: black;
-        transform: scale(1.05);
-      }
+      &:hover { transform: translateY(-0.125rem); }
     }
   }
-}
 
-// Menú Hamburguesa (Visual básico)
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  
-  @media (max-width: 900px) { display: flex; }
-
-  .bar {
-    width: 24px;
-    height: 2px;
-    background-color: $king-black;
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    @media (max-width: 64rem) { display: flex; }
+    
+    .bar {
+      width: 1.5rem;
+      height: 0.125rem;
+      background: #000;
+      transition: 0.3s;
+    }
+    &.open .bar:nth-child(1) { transform: translateY(0.45rem) rotate(45deg); }
+    &.open .bar:nth-child(2) { opacity: 0; }
+    &.open .bar:nth-child(3) { transform: translateY(-0.45rem) rotate(-45deg); }
   }
 }

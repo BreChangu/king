@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
+import { SpotlightDirective } from '../../shared/directives/spotlight';
 @Component({
   selector: 'app-landing',
-  imports: [],
+  standalone: true,
+  // 👇 2. La agregas al arreglo de imports
+  imports: [CommonModule, SpotlightDirective], 
   templateUrl: './landing.html',
-  styleUrl: './landing.scss',
+  styleUrl: './landing.scss'
 })
-export class Landing {
-
+export class LandingComponent {
 }

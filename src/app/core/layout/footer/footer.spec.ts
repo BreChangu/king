@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomCursorComponent } from './custom-cursor';
+import { Footer } from './footer';
 
-describe('CustomCursorComponent', () => {
-  let component: CustomCursorComponent;
-  let fixture: ComponentFixture<CustomCursorComponent>;
+describe('Footer', () => {
+  let component: Footer;
+  let fixture: ComponentFixture<Footer>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CustomCursorComponent]
+      imports: [Footer]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CustomCursorComponent);
+    fixture = TestBed.createComponent(Footer);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
