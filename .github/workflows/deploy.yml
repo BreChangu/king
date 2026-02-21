@@ -3,10 +3,10 @@ name: Deploy King Panel 🚀
 on:
   push:
     branches:
-      - main  # Se activa cuando subes cambios a la rama 'main'
+      - main 
 
 permissions:
-  contents: write # Permiso para publicar en el repositorio
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -19,19 +19,19 @@ jobs:
       - name: Setup Node.js 🔧
         uses: actions/setup-node@v4
         with:
-          node-version: '20' 
+          node-version: '20'
           cache: 'npm'
 
       - name: Install Dependencies 📦
         run: npm ci
 
       - name: Build Angular App 🏗️
-        # Se usa /king/ porque ese es el nombre de tu repositorio según los logs
+        # Base-href debe ser /king/ porque ese es el nombre de tu proyecto y repo
         run: npx ng build --configuration production --base-href /king/
 
       - name: Deploy 🚀  
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          # Ajustado a 'dist/king' que es donde tus logs indican que se genera el build
-          folder: dist/king
+          # 🎯 ESTA ES LA RUTA CLAVE:
+          folder: dist/king/browser 
           branch: gh-pages
