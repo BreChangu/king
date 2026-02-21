@@ -1,2 +1,0 @@
-export default `body{margin:0;font-family:Space Grotesk,sans-serif}@media(hover:none){body{cursor:auto}app-custom-cursor{display:none}}
-`;
