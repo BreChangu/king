@@ -2,31 +2,40 @@
 
   <div class="content">
     <span class="brand-tag">
-      DISTRIBUIDORES EXPERTOS EN ESTADO DE MÉXICO, CDMX Y ÁREA METROPOLITANA
+      FABRICANTES DIRECTOS • INSTALACIÓN A GRAN ESCALA
     </span>
 
     <h1>
-      Materiales para<br>
+      Sistemas para<br>
       <span class="text-highlight">Construcción Ligera</span>
     </h1>
 
     <p class="description">
-      Venta especializada de panel aislado, perfiles metálicos y lámina.
-      Suministro profesional para contratistas y proyectos industriales.
+      Somos <strong>fabricantes de perfil metálico</strong> y distribuidores de paneles de yeso. 
+      Ofrecemos suministro e <strong>instalación especializada para proyectos de gran escala</strong>  con los más altos estándares.
     </p>
 
     <ul class="trust-badges" aria-label="Beneficios de comprar con King Panel">
-      <li>✔️ Entrega a pie de obra</li>
-      <li>✔️ Precios de mayoreo</li>
-      <li>✔️ Asesoría técnica especializada</li>
+      <li>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M13 3l8 4v14"/><path d="M9 12v9"/></svg>
+        Instalación por Proyecto
+      </li>
+      <li>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
+        Fabricantes de Perfilería
+      </li>
+      <li>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="8" x="2" y="8" rx="1"/><path d="M18 8h2a1 1 0 0 1 1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-1"/><path d="M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M14.5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+        Suministro a Gran Escala
+      </li>
     </ul>
 
     <div class="actions">
       <a href="#cotizar" class="btn-primary">
-        Cotizar materiales
+        Cotizar Proyecto
       </a>
       <a href="#productos" class="link-secondary">
-        Ver materiales →
+        Explorar Materiales
       </a>
     </div>
   </div>
@@ -44,30 +53,11 @@
 
 </section>
 
-<section class="hero-products" id="productos" aria-label="Productos principales">
+<div class="products-grid">
+    @for (item of misProductos; track item.id) {
+      <app-product-card [product]="item"></app-product-card>
+    } @empty {
+      <p>Cargando catálogo de productos...</p>
+    }
+  </div>
 
-  <article class="product-card">
-    <img src="assets/productos/panel.webp"
-         alt="Panel aislado para construcción ligera"
-         loading="lazy">
-    <h2>Panel Aislado</h2>
-    <p>Aislamiento térmico y estructural para muros y cubiertas.</p>
-  </article>
-
-  <article class="product-card">
-    <img src="assets/productos/perfil.webp"
-         alt="Perfiles metálicos galvanizados"
-         loading="lazy">
-    <h2>Perfiles Metálicos</h2>
-    <p>Estructuras precisas y resistentes.</p>
-  </article>
-
-  <article class="product-card">
-    <img src="assets/productos/lamina.webp"
-         alt="Lámina para construcción ligera"
-         loading="lazy">
-    <h2>Lámina</h2>
-    <p>Cerramientos durables y eficientes.</p>
-  </article>
-
-</section>

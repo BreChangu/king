@@ -1,0 +1,131 @@
+@use '../../../theme/variables' as *; 
+
+// =========================================
+// HERO INMERSIVO Y CENTRADO
+// =========================================
+.product-detail-hero {
+  position: relative; 
+  background-color: #0f141e; 
+  min-height: 80vh; 
+  display: flex; align-items: center; flex-direction: column; justify-content: center; 
+  padding: 12rem 8% 8rem 8%; font-family: $font-main; overflow: hidden;
+
+  .visual {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+    .image-wrapper {
+      width: 100%; height: 100%;
+      img { width: 100%; height: 100%; object-fit: cover; }
+      .overlay-gradient {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at left, rgba(15, 20, 30, 0.95) 0%, rgba(15, 20, 30, 0.4) 100%);
+      }
+    }
+  }
+}
+
+.detail-container {
+  position: relative; z-index: 2; width: 100%; max-width: 1200px; 
+  margin: 0 auto; box-sizing: border-box; 
+}
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; 
+  color: rgba(255, 255, 255, 0.7); font-weight: 600; font-size: 0.85rem; 
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4rem; transition: color 0.3s ease;
+  .arrow { transition: transform 0.3s ease; }
+  &:hover { color: #ffffff; .arrow { transform: translateX(-5px); } }
+}
+
+// =========================================
+// TEXTOS 
+// =========================================
+.family-header {
+  margin-bottom: 5rem; max-width: 800px;
+  .category { font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; color: $accent; text-transform: uppercase; display: block; margin-bottom: 1rem; }
+  h1 { font-family: $font-heading; color: #ffffff; font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1.1; font-weight: 800; margin-bottom: 1.5rem; letter-spacing: -1.5px; }
+  .divider { width: 80px; height: 4px; background-color: $accent; margin-bottom: 2rem; }
+  .description { font-size: 1.15rem; line-height: 1.8; color: rgba(255, 255, 255, 0.9); margin-bottom: 2.5rem; }
+}
+
+.features-list {
+  list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px;
+  li { font-size: 1rem; color: #ffffff; display: flex; align-items: center; gap: 12px; .bullet { width: 6px; height: 6px; background-color: $accent; border-radius: 50%; } }
+}
+
+// =========================================
+// TARJETAS Y E-COMMERCE LAYOUT
+// =========================================
+.family-explorer {
+  width: 100%; margin-bottom: 6rem;
+  .explorer-title { font-family: $font-heading; font-size: 1.2rem; color: #ffffff; margin-bottom: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 1rem; }
+  .subproduct-list { display: flex; flex-direction: column; gap: 3.5rem; }
+
+  .subproduct-row-card {
+    display: flex; background-color: $bg-panel; border: 1px solid transparent; box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden; transition: border-color 0.3s ease;
+    &:hover { border-color: $king-blue; }
+
+    .sub-image { flex: 0 0 38%; min-width: 280px; background-color: #ffffff; display: flex; align-items: center; justify-content: center; padding: 1rem; img { width: 100%; height: 100%; object-fit: contain; } }
+
+    .sub-info {
+      flex: 1; padding: 3.5rem; display: flex; flex-direction: column; justify-content: center;
+      .sub-header {
+        margin-bottom: 2.5rem;
+        h4 { font-family: $font-heading; font-size: 1.6rem; color: $king-black; margin-bottom: 1rem; font-weight: 800; }
+        p { font-size: 1.05rem; color: $text-muted; line-height: 1.7; margin: 0; }
+      }
+
+      // 🌟 EL NUEVO DISEÑO E-COMMERCE TIPO HOME DEPOT
+      .sub-variants {
+        .variants-label { display: block; font-size: 0.85rem; font-weight: 700; color: $king-black; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+
+        .variants-selector {
+          display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 2rem;
+          .variant-btn {
+            background: $bg-canvas; border: 2px solid $border; padding: 0.8rem 1.2rem; border-radius: 4px; cursor: pointer; text-align: left; transition: all 0.2s ease; display: flex; flex-direction: column;
+            .v-size { font-size: 0.95rem; font-weight: 700; color: $king-black; }
+            .v-cal { font-size: 0.75rem; color: $text-muted; margin-top: 4px; }
+            &:hover { border-color: $king-blue; }
+            &.active { border-color: $king-black; background-color: $king-black; .v-size, .v-cal { color: #ffffff; } }
+          }
+        }
+
+        .purchase-bar {
+          display: flex; gap: 1rem; align-items: stretch; height: 50px;
+          .quantity-control {
+            display: flex; align-items: center; border: 2px solid $border; border-radius: 4px; background: #ffffff;
+            .qty-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0 1rem; color: $king-black; height: 100%; transition: background 0.2s; &:hover { background: #f0f0f0; } }
+            .qty-display { font-weight: 700; font-size: 1rem; color: $king-black; min-width: 40px; text-align: center; }
+          }
+          .add-to-quote-btn {
+            flex-grow: 1; background-color: $accent; color: $king-black; border: none; border-radius: 4px; font-family: $font-heading; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            &:hover { background-color: darken($accent, 10%); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+          }
+        }
+        
+        @media (max-width: 600px) {
+          .purchase-bar { flex-direction: column; height: auto; }
+          .quantity-control { justify-content: space-between; height: 50px; }
+          .add-to-quote-btn { padding: 1rem; }
+        }
+      }
+    }
+
+    @media (max-width: 900px) { flex-direction: column; .sub-image { aspect-ratio: 16/9; } .sub-info { padding: 2rem; } }
+  }
+}
+
+// =========================================
+// ACCIONES Y TOAST
+// =========================================
+.actions {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  .btn-secondary { padding: 1.2rem 2.5rem; font-family: $font-heading; font-size: 0.95rem; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; border: 1px solid #ffffff; color: #ffffff; &:hover { background-color: #ffffff; color: $king-black; transform: translateY(-3px); } }
+}
+
+.premium-toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background-color: $king-black; color: #ffffff; padding: 1rem 2rem; border-radius: 50px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  .icon { background-color: $accent; color: $king-black; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 800; font-size: 0.8rem; }
+  p { margin: 0; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px; }
+  &.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
+  @media (max-width: 768px) { width: 90%; padding: 0.8rem 1.5rem; bottom: 20px; p { font-size: 0.85rem; } }
+}

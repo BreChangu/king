@@ -1,270 +1,167 @@
-@use 'variables' as *;
-
-$font-main: 'Inter', system-ui, sans-serif;
+@use '../../../theme/variables' as *; 
 
 /* =========================================
-   HERO PRINCIPAL
+   HERO INMERSIVO (Equilibrado)
 ========================================= */
-
 .hero-luxury {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  overflow: hidden;
-  background-color: #ffffff;
-  font-family: $font-main;
   position: relative;
+  // 🌟 Redujimos de 100vh a 80vh para que no se sienta tan "infinito"
+  min-height: 20vh; 
+  display: flex;
+  align-items: center; 
+  // 🌟 Redujimos el padding inferior de 14rem a 8rem para quitar el hueco vacío
+  padding: 10rem 2rem 8rem 2rem; 
+  overflow: hidden;
 
-  @media (max-width: 900px) {
-    flex-direction: column;
-    min-height: auto;
-  }
-
-  /* =============================
-     CONTENIDO
-  ============================= */
-  .content {
-    flex: 1.2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 7.5rem 8% 0 8%;
-    position: relative;
-    z-index: 2;
-
-    .brand-tag {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: #94a3b8;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-    }
-
-    h1 {
-      font-size: clamp(3rem, 5vw, 5.5rem);
-      line-height: 0.95;
-      font-weight: 800;
-      color: $king-black;
-      letter-spacing: -1px;
-      margin-bottom: 1.5rem;
-
-      .text-highlight {
-        color: #94a3b8;
-      }
-    }
-
-    .description {
-      font-size: 1.125rem;
-      line-height: 1.6;
-      color: #64748b;
-      max-width: 520px;
-      margin-bottom: 2rem;
-    }
-
-    .trust-badges {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 3.5rem 0;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-
-      li {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: $king-black;
-        background: #f1f5f9;
-        padding: 8px 16px;
-        border-radius: 50px;
-        border: 1px solid #e2e8f0;
-      }
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-
-      @media (max-width: 600px) {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.25rem;
-      }
-
-      .btn-primary {
-        background-color: $king-black;
-        color: white;
-        padding: 1rem 2.5rem;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-        &:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-      }
-
-      .link-secondary {
-        color: $king-black;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.95rem;
-        position: relative;
-
-        &::after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 2px;
-          background: $king-black;
-          bottom: -4px;
-          left: 0;
-          transform: scaleX(0);
-          transform-origin: right;
-          transition: transform 0.3s ease;
-        }
-
-        &:hover::after {
-          transform: scaleX(1);
-          transform-origin: left;
-        }
-      }
-    }
-  }
-
-  /* =============================
-     VISUAL
-  ============================= */
+  /* 1. LA IMAGEN DE FONDO ABSOLUTO */
   .visual {
-    flex: 0.8;
-    position: relative;
-    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 
     .image-wrapper {
       width: 100%;
       height: 100%;
-      position: relative;
-
+      
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center; 
       }
 
+      /* Degradado para contraste y legibilidad */
       .overlay-gradient {
         position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to right,
-          rgba(255, 255, 255, 0.65) 0%,
-          rgba(255, 255, 255, 0.25) 30%,
-          transparent 60%
-        );
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(15, 20, 30, 0.95) 0%, rgba(15, 20, 30, 0.4) 100%);
+        
+        @media (max-width: 768px) {
+          background: linear-gradient(180deg, rgba(15, 20, 30, 0.7) 0%, rgba(15, 20, 30, 0.95) 100%);
+        }
       }
     }
   }
 
-  /* =============================
-     SCROLL INDICATOR
-  ============================= */
-  .scroll-indicator {
-    position: absolute;
-    bottom: 24px;
-    left: 50%;
-    width: 1px;
-    height: 40px;
-    background: #cbd5f5;
-    opacity: 0.6;
-    transform: translateX(-50%);
-  }
+  /* 2. EL TEXTO */
+  .content {
+    position: relative;
+    z-index: 2; 
+    max-width: 700px; 
+    
+    .brand-tag {
+      display: block;
+      color: $accent; 
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
 
-  /* =============================
-     MOBILE HERO
-  ============================= */
-  @media (max-width: 600px) {
-    .content {
-      padding: 5rem 6% 3rem 6%;
-
-      h1 {
-        font-size: clamp(2.5rem, 8vw, 3.5rem);
-      }
-
-      .trust-badges {
-        margin-bottom: 2rem;
+    h1 {
+      color: #ffffff; 
+      font-family: $font-heading;
+      font-size: clamp(3rem, 5vw, 4.5rem); 
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+      
+      .text-highlight {
+        color: $accent; 
       }
     }
 
-    .visual {
-      height: 55vh;
+    .description {
+      color: rgba(255, 255, 255, 0.85); 
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin-bottom: 3rem; 
+    }
+
+    /* BOTONES */
+    .actions {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem; 
+      flex-wrap: wrap;
+
+      .btn-primary {
+        background-color: $accent; 
+        color: $king-black; 
+        padding: 1.2rem 2.5rem;
+        font-family: $font-heading;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        &:hover { background-color: darken($accent, 10%); transform: translateY(-3px); }
+      }
+      
+      .link-secondary {
+        color: white;
+        padding: 1.2rem 2.5rem;
+        font-family: $font-heading;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        border: 1px solid white;
+        transition: all 0.3s ease;
+        &:hover { background-color: white; color: $king-black; transform: translateY(-3px); }
+      }
+    }
+
+    /* BADGES */
+    .trust-badges {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+
+      li {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        .icon { 
+          width: 20px;
+          height: 20px;
+          color: $accent; 
+        }
+      }
     }
   }
 }
 
 /* =========================================
-   PRODUCTOS PRINCIPALES
-========================================= */
+   CATÁLOGO TÉCNICO (Las Tarjetas)
 
-.hero-products {
-  width: 80%;
-  background: #ffffff;
-  padding: 4.5rem 8%;
+   
+
+/* --- Grid de Productos --- */
+.products-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
-  border-top: 1px solid #e5e7eb;
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-    padding: 3rem 6%;
-  }
-}
-
-.product-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 2.5rem 2rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
-  }
-
-  img {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    margin-bottom: 1.5rem;
-    filter: grayscale(100%);
-    transition: 0.3s ease;
-  }
-
-  &:hover img {
-    filter: grayscale(0%);
-    transform: scale(1.05);
-  }
-
-  h2 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: $king-black;
-    margin-bottom: 0.75rem;
-  }
-
-  p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #64748b;
-    max-width: 260px;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  // 🌟 Aumentamos el hueco entre tarjetas para que "respiren"
+  gap: 2.5rem; 
+  width: 90%;
+  // 🌟 ¡EL SECRETO! Un ancho máximo evita que toquen los bordes de la pantalla
+  pointer-events: auto; 
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.08)); // Sombra un poco más sutil
+  margin: 2rem ;
 }
