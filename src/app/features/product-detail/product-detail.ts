@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router'; 
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'; 
 import { ProductService } from '../../core/services/product.service';
 import { QuoteService } from '../../core/services/quote.service'; 
 import { Product, SubProduct, ProductVariant } from '../../shared/models/product.model';
@@ -16,113 +16,98 @@ import { QuoteItem } from '../../shared/models/quote.model';
 export class ProductDetailComponent implements OnInit {
   
   productoActual: Product | undefined;
-  
-  // 🌟 Objeto para guardar la variante seleccionada y cantidad de CADA subproducto en la pantalla
   selecciones: { [subProductId: string]: { variant: ProductVariant, quantity: number } } = {};
 
-  // 🌟 Variables para el Toast (Notificación)
-  toastMessage: string = '';
-  showToast: boolean = false;
-  private toastTimeout: any; 
+  // 🌟 EL MENÚ GLOBAL DEL CATÁLOGO (Puedes alimentar esto desde tu Service después)
+  categoriasMenu = [
+    { id: 'perf-001', name: 'Sistemas de Perfilería' },
+    { id: 'pan-001', name: 'Paneles de Yeso' }, // Ejemplos de otras URLs
+    { id: 'comp-001', name: 'Masillas y Adhesivos' },
+    { id: 'torn-001', name: 'Tornillería y Fijación' }
+  ];
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router, // 🌟 Inyectamos el Router
     private productService: ProductService,
-    private quoteService: QuoteService,
-    private cdr: ChangeDetectorRef 
+    private quoteService: QuoteService 
   ) {}
 
   ngOnInit() {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    
-    if (idParam) {
-      this.productoActual = this.productService.getProductById(idParam);
-      // Pre-cargamos la primera medida de cada material apenas entramos a la página
-      this.inicializarSelecciones(); 
-    }
+    // 🌟 MAGIA ANGULAR: Escuchamos los cambios en la URL de forma activa
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (idParam) {
+        this.productoActual = this.productService.getProductById(idParam);
+        this.inicializarSelecciones(); 
+        
+        // Cuando cambia de categoría, subimos el scroll al inicio suavemente
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
   }
 
-  // ==========================================
-  // LÓGICA DE SELECCIÓN Y COMPRA
-  // ==========================================
-
-  // Asigna por defecto la primera medida disponible y una cantidad de 1
   inicializarSelecciones() {
     if (this.productoActual?.subProducts) {
       this.productoActual.subProducts.forEach(sub => {
         if (sub.variants && sub.variants.length > 0) {
-          this.selecciones[sub.id] = {
-            variant: sub.variants[0], 
-            quantity: 1
-          };
+          this.selecciones[sub.id] = { variant: sub.variants[0], quantity: 0 };
         }
       });
     }
   }
 
-  // Actualiza la medida cuando el usuario hace clic en una caja diferente
-  seleccionarVariante(subId: string, variant: ProductVariant) {
-    if (this.selecciones[subId]) {
-      this.selecciones[subId].variant = variant;
+  // 🌟 NAVEGACIÓN ENTRE FAMILIAS (Sin recargar página)
+  navegarACategoria(catId: string) {
+    if (this.productoActual?.id === catId) return; // Si ya estoy aquí, no hago nada
+    this.router.navigate(['/producto', catId]); // Viaja a la nueva familia
+  }
+
+  // 🌟 NAVEGACIÓN INTERNA (Scroll)
+  scrollToSection(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const yOffset = element.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({ top: yOffset, behavior: 'smooth' });
     }
   }
 
-  // Suma o resta la cantidad con los botones (+) y (-)
+  seleccionarVariante(subId: string, variant: ProductVariant) {
+    if (this.selecciones[subId]) this.selecciones[subId].variant = variant;
+  }
+
   cambiarCantidad(subId: string, delta: number) {
     if (this.selecciones[subId]) {
       const nuevaCantidad = this.selecciones[subId].quantity + delta;
-      // Evitamos que el cliente ponga 0 o números negativos
-      if (nuevaCantidad >= 1) { 
-        this.selecciones[subId].quantity = nuevaCantidad;
-      }
+      if (nuevaCantidad >= 0) this.selecciones[subId].quantity = nuevaCantidad;
     }
   }
 
-  // Toma los datos actuales, los manda al servicio y lanza la notificación
+  onInputCantidad(subId: string, event: Event) {
+    const input = event.target as HTMLInputElement;
+    let valor = parseInt(input.value, 10);
+    if (isNaN(valor) || valor < 0) valor = 0; 
+    if (this.selecciones[subId]) this.selecciones[subId].quantity = valor;
+  }
+
   agregarACotizacion(sub: SubProduct) {
     const seleccion = this.selecciones[sub.id];
-    
-    // Si por alguna razón no hay nada seleccionado, abortamos
-    if (!seleccion || !seleccion.variant) return;
+    if (!seleccion || seleccion.quantity <= 0) {
+      alert("Por favor, ingresa una cantidad válida para cotizar.");
+      return;
+    }
 
-    // Construimos el objeto para el carrito
     const newItem: QuoteItem = {
-      id: `${sub.id}-${seleccion.variant.id}`, // ID único combinando producto y variante
+      id: `${sub.id}-${seleccion.variant.id}`,
       productId: sub.id,
       productName: sub.name,
       variantName: seleccion.variant.name,
       calibre: seleccion.variant.calibre,
       image: sub.image,
-      quantity: seleccion.quantity // Toma exactamente la cantidad que el cliente ajustó
+      quantity: seleccion.quantity
     };
 
-    // 1. Guardamos en memoria (El Cerebro)
     this.quoteService.addItem(newItem);
-    
-    // 2. Disparamos la notificación elegante
-    this.lanzarToast(`${seleccion.quantity}x ${sub.name} agregado a tu cotización.`);
-    
-    // 3. (Opcional pero recomendado en UX) Reiniciamos la cantidad a 1 por si quiere agregar otra medida
-    this.selecciones[sub.id].quantity = 1; 
-  }
-
-  // ==========================================
-  // CONTROL DEL TOAST FLOTANTE
-  // ==========================================
-  
-  lanzarToast(mensaje: string) {
-    this.toastMessage = mensaje;
-    this.showToast = true;
-
-    // Si había un temporizador previo, lo limpiamos para que la animación no salte
-    if (this.toastTimeout) {
-      clearTimeout(this.toastTimeout);
-    }
-
-    // A los 3 segundos exactos, ocultamos el mensaje
-    this.toastTimeout = setTimeout(() => {
-      this.showToast = false;
-      this.cdr.detectChanges(); // Pellizcamos a Angular para que actualice la vista sin mover el mouse
-    }, 3000);
+    this.selecciones[sub.id].quantity = 0; 
   }
 }

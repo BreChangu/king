@@ -1,9 +1,11 @@
 <section class="product-detail-hero" *ngIf="productoActual; else noEncontrado">
   <div class="detail-container">
     
-    <a routerLink="/" class="back-link">
-      <span class="arrow">←</span> Volver al Catálogo
-    </a>
+    <div class="breadcrumbs">
+      <a routerLink="/">Catálogo Central</a>
+      <span class="separator">/</span>
+      <span class="current">{{ productoActual.name }}</span>
+    </div>
 
     <div class="family-header">
       <span class="category">{{ productoActual.category }}</span>
@@ -23,72 +25,108 @@
     @if (productoActual.subProducts && productoActual.subProducts.length > 0) {
       <div class="family-explorer">
         <h3 class="explorer-title">Materiales en este sistema:</h3>
-        
-        <div class="subproduct-list">
-          @for (sub of productoActual.subProducts; track sub.id) {
+
+        <div class="catalog-layout">
+          
+          <aside class="catalog-sidebar">
+            <span class="sidebar-title">Catálogo Completo</span>
             
-            <article class="subproduct-row-card">
-              
-              <div class="sub-image">
-                <img [src]="sub.image" [alt]="sub.name" loading="lazy">
-              </div>
-
-              <div class="sub-info">
-                <div class="sub-header">
-                  <h4>{{ sub.name }}</h4>
-                  <p>{{ sub.shortDescription }}</p>
-                </div>
-                
-                <div class="sub-variants">
-                  <span class="variants-label">Selecciona la medida:</span>
+            <ul class="global-menu">
+              @for (cat of categoriasMenu; track cat.id) {
+                <li class="menu-item" [class.active-family]="cat.id === productoActual.id">
                   
-                  <div class="variants-selector">
-                    @for (variant of sub.variants; track variant.id) {
-                      <button class="variant-btn" 
-                              [class.active]="selecciones[sub.id]?.variant?.id === variant.id"
-                              (click)="seleccionarVariante(sub.id, variant)">
-                        <span class="v-size">{{ variant.name }}</span>
-                        <span class="v-cal">Cal. {{ variant.calibre }}</span>
-                      </button>
-                    }
+                  <button class="cat-btn" (click)="navegarACategoria(cat.id)">
+                    <span class="cat-name">{{ cat.name }}</span>
+                    <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </button>
+
+                  @if (cat.id === productoActual.id) {
+                    <ul class="sub-nav">
+                      @for (sub of productoActual.subProducts; track sub.id) {
+                        <li>
+                          <button class="nav-pill" (click)="scrollToSection(sub.id)">
+                            {{ sub.name }}
+                          </button>
+                        </li>
+                      }
+                    </ul>
+                  }
+
+                </li>
+              }
+            </ul>
+          </aside>
+
+          <main class="catalog-content">
+            <div class="quick-add-grid">
+              @for (sub of productoActual.subProducts; track sub.id) {
+                
+                <article class="grid-card" [id]="sub.id">
+                  <div class="card-image">
+                    <img [src]="sub.image" [alt]="sub.name" loading="lazy" />
                   </div>
 
-                  <div class="purchase-bar">
-                    <div class="quantity-control">
-                      <button class="qty-btn" (click)="cambiarCantidad(sub.id, -1)">-</button>
-                      <span class="qty-display">{{ selecciones[sub.id]?.quantity || 1 }}</span>
-                      <button class="qty-btn" (click)="cambiarCantidad(sub.id, 1)">+</button>
+                  <div class="card-info">
+                    <div class="card-header">
+                      <h4>{{ sub.name }}</h4>
+                      <p class="description" [title]="sub.shortDescription">{{ sub.shortDescription }}</p>
                     </div>
-                    
-                    <button class="add-to-quote-btn" (click)="agregarACotizacion(sub)">
-                      Agregar a cotización
-                    </button>
+
+                    <div class="card-variants">
+                      <span class="label">Medida:</span>
+                      <div class="chips-container">
+                        @for (variant of sub.variants; track variant.id) {
+                          <button 
+                            class="chip-btn" 
+                            [class.active]="selecciones[sub.id]?.variant?.id === variant.id"
+                            (click)="seleccionarVariante(sub.id, variant)"
+                          >
+                            <span class="v-size">{{ variant.name }}</span>
+                            <span class="v-cal">Cal. {{ variant.calibre }}</span>
+                          </button>
+                        }
+                      </div>
+                    </div>
+
+                    <div class="card-purchase">
+                      <div class="qty-control">
+                        <button class="qty-btn" (click)="cambiarCantidad(sub.id, -1)">-</button>
+                        <input 
+                          type="number" 
+                          class="qty-input" 
+                          [value]="selecciones[sub.id]?.quantity === 0 ? '' : selecciones[sub.id]?.quantity"
+                          placeholder="0"
+                          (input)="onInputCantidad(sub.id, $event)"
+                          (focus)="$any($event.target).select()"
+                          min="0"
+                        />
+                        <button class="qty-btn" (click)="cambiarCantidad(sub.id, 1)">+</button>
+                      </div>
+                      <button class="add-btn" (click)="agregarACotizacion(sub)">Agregar</button>
+                    </div>
                   </div>
-                </div>
+                </article>
+              }
+            </div>
+          </main>
 
-              </div>
-            </article>
-
-          }
-        </div>
+        </div> 
       </div>
     }
-    
-    <div class="actions">
-      <a href="/assets/fichas/catalogo-general.pdf" target="_blank" class="btn-secondary">Descargar Catálogo</a>
-    </div>
 
+    <div class="actions">
+      <a href="/assets/fichas/catalogo-general.pdf" target="_blank" class="btn-secondary">
+        Descargar Catálogo
+      </a>
+    </div>
   </div>
 </section>
 
 <ng-template #noEncontrado>
   <div class="error-container">
-    <h2>Material no encontrado</h2>
+    <h2>Familia de materiales no encontrada</h2>
     <a routerLink="/" class="btn-primary">Regresar al inicio</a>
   </div>
 </ng-template>
-
-<div class="premium-toast" [class.show]="showToast">
-  <span class="icon">✓</span>
-  <p>{{ toastMessage }}</p>
-</div>

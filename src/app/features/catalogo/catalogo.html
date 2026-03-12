@@ -1,0 +1,67 @@
+<section class="catalog-hero">
+  <div class="hero-overlay"></div>
+  
+  <div class="hero-content fade-in-up">
+    <h1>Catálogo de Materiales</h1>
+    <p class="subtitle">Todo lo que necesitas para tu proyecto de construcción ligera en un solo lugar.</p>
+    
+    <div class="search-bar-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+          </svg>
+        </span>
+        <input 
+          type="text" 
+          placeholder="Ej: Perfilería, Paneles, Masilla..." 
+          [(ngModel)]="searchTerm"
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="catalog-hub-section">
+  <div class="container">
+    
+    <div class="results-header" *ngIf="searchTerm">
+      <h3>Resultados para: "{{ searchTerm }}"</h3>
+    </div>
+
+    <div class="hub-grid">
+      @for (familia of familiasFiltradas; track familia.id) {
+        
+        <a [routerLink]="['/producto', familia.id]" class="family-card">
+          
+          <div class="card-image-wrapper">
+            <img [src]="familia.image" [alt]="familia.name" loading="lazy">
+            <div class="hover-overlay">
+              <span class="view-text">Ver Materiales ➔</span>
+            </div>
+          </div>
+          
+          <div class="card-content">
+            <div class="card-header">
+              <span class="icon-badge">{{ familia.icon }}</span>
+              <h2>{{ familia.name }}</h2>
+            </div>
+            <p class="card-desc">{{ familia.description }}</p>
+          </div>
+          
+          <div class="accent-line"></div>
+        </a>
+        
+      }
+
+      @if (familiasFiltradas.length === 0) {
+        <div class="no-results">
+          <p>No encontramos ninguna categoría que coincida con "<strong>{{ searchTerm }}</strong>".</p>
+          <button (click)="searchTerm = ''" class="btn-clear">Ver todo el catálogo</button>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

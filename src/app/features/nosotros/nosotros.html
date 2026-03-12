@@ -1,0 +1,91 @@
+<section class="about-hero">
+  <div class="hero-overlay"></div> <div class="hero-content fade-in-up">
+    <span class="badge">NUESTRO ADN</span>
+    <h1>No solo vendemos materiales, construimos la base de grandes proyectos.</h1>
+    <p class="subtitle">
+      Somos fabricantes de perfilería metálica y distribuidores especializados en sistemas de construcción ligera.
+    </p>
+  </div>
+</section>
+
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      @for (stat of stats; track stat.label) {
+        <div class="stat-card">
+          <span class="stat-number">{{ stat.numero }}</span>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="differentiator-section">
+  <div class="container">
+    <div class="split-layout">
+      
+      <div class="text-content">
+        <h2>La ventaja de comprar directo de fábrica.</h2>
+        <div class="divider"></div>
+        
+        <p>
+          En la industria de la construcción, los tiempos de entrega y la calidad del material no son negociables. Por eso, en <strong>King Panel®</strong> tomamos el control de la producción. 
+        </p>
+        <p>
+          Al fabricar nuestra propia línea de acero galvanizado, eliminamos a los intermediarios que encarecen tu presupuesto. Te entregamos calibre exacto, medidas precisas y stock garantizado para que tu obra nunca se detenga.
+        </p>
+
+        <ul class="values-list">
+          <li>
+            <div class="icon-wrapper">
+              <svg class="val-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M11 5L14 2l3 3m1 3l3 3-3 3M8 22l-3-3 3-3M6 16l-3-3 3-3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" stroke-width="2"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Calibre Real</strong>
+              <span>Garantizamos el espesor del acero según las normas internacionales.</span>
+            </div>
+          </li>
+          <li>
+            <div class="icon-wrapper">
+              <svg class="val-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="1" y="3" width="15" height="13" rx="2" ry="2" stroke-width="2"/>
+                <path d="M16 8h4l3 3v5h-7V8z" stroke-width="2"/>
+                <circle cx="5.5" cy="18.5" r="2.5" stroke-width="2"/>
+                <circle cx="18.5" cy="18.5" r="2.5" stroke-width="2"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Logística Especializada</strong>
+              <span>Entregas precisas directamente a pie de obra.</span>
+            </div>
+          </li>
+          <li>
+            <div class="icon-wrapper">
+              <svg class="val-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l1.4 1.4a2 2 0 0 1 0 2.83L12 22l-6-6-3-3a2 2 0 0 1 0-2.83l1.4-1.4a2 2 0 0 1 2.83 0l1.6 1.6 4.7-4.7z" stroke-width="2"/>
+                <path d="M6 18l-3 3M21 3l-3 3" stroke-width="2"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Respaldo Técnico</strong>
+              <span>Asesoría en la cuantificación de tus sistemas de muros y plafones.</span>
+            </div>
+          </li>
+        </ul>
+
+        <a routerLink="/" class="btn-primary">Ver Catálogo de Materiales</a>
+      </div>
+
+      <div class="image-content">
+        <div class="image-frame">
+          <img src="/assets/show/maquina.webp" alt="Fabricación de perfilería metálica King Panel">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -23,9 +23,9 @@ export class ProductService {
       subProducts: [
         {
           id: 'poste',
-          name: 'Poste Metálico Perfirey',
+          name: 'Poste Metálico ',
           shortDescription: 'Diseñado para soportar el peso del panel de yeso y recibir cargas estructurales en muros divisorios.',
-          image: 'assets/productos/poste.jpg', 
+          image: 'assets/productos/poste-6.webp', 
           variants: [
             { id: 'v1', name: '4.10 cm x 2.44 m', calibre: '26', sku: '546996' },
             { id: 'v2', name: '4.10 cm x 3.05 m', calibre: '26', sku: '850794' },
@@ -36,7 +36,7 @@ export class ProductService {
           id: 'canal-amarre',
           name: 'Canal de Amarre Perfirey',
           shortDescription: 'Complemento del poste metálico. Se utiliza para crear los bastidores horizontales (pecheras, cajillos) en muros y plafones.',
-          image: 'assets/productos/canal-amarre.jpg', 
+          image: 'assets/productos/canal-amarre.webp', 
           variants: [
             { id: 'v1', name: 'Ancho: 4.20 cm', calibre: '26', sku: '321496' },
             { id: 'v2', name: 'Ancho: 6.60 cm', calibre: '26' },
@@ -47,7 +47,7 @@ export class ProductService {
           id: 'esquinero',
           name: 'Esquinero Metálico Perfirey',
           shortDescription: 'Protege las esquinas de los muros de panel de yeso contra golpes y daños en áreas expuestas (puertas, ventanas).',
-          image: 'assets/productos/esquinero.jpg',
+          image: 'assets/productos/esquinero-metalico.webp',
           variants: [
             { id: 'v1', name: '2.51 cm x 3.05 m', calibre: '26', sku: '379374' },
             { id: 'v2', name: '4.00 cm x 3.05 m', calibre: '26' }
@@ -55,9 +55,9 @@ export class ProductService {
         },
         {
           id: 'canaleta',
-          name: 'Canaleta de Carga Plata',
+          name: 'Canaleta de Carga',
           shortDescription: 'Soporta el peso de materiales en plafones corridos y estructura principal.',
-          image: 'assets/productos/canaleta.jpg',
+          image: 'assets/productos/canaleta-carga.webp',
           variants: [
             { id: 'v1', name: '4.00 cm x 3.05 m', calibre: '22' },
             { id: 'v2', name: '4.00 cm x 4.00 m', calibre: '22', sku: '173938' }

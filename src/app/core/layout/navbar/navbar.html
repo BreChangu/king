@@ -1,27 +1,114 @@
 <header class="king-navbar" [class.scrolled]="isScrolled">
   <div class="container">
-    
-    <a routerLink="/" class="logo" aria-label="King Panel - Distribuidor en Estado de México y CDMX">
-      KING PANEL<span class="tm">®</span>
-    </a>
+    <a routerLink="/" class="logo">KING PANEL<span class="tm">®</span></a>
 
-    <nav aria-label="Navegación principal">
+    <nav>
       <ul class="nav-links" [class.active]="isMenuOpen">
         <li><a href="#sistemas" (click)="toggleMenu()">Sistemas</a></li>
-        <li><a href="#materiales" (click)="toggleMenu()">Complementos</a></li>
-        <li><a href="#nosotros" (click)="toggleMenu()">Nosotros</a></li>
+        <li><a routerLink="catalogo" (click)="toggleMenu()">Catalogo</a></li>
+        <li><a routerLink="nosotros" (click)="toggleMenu()">Nosotros</a></li>
       </ul>
     </nav>
 
     <div class="nav-actions">
-      <button class="btn-contact" aria-label="Solicitar cotización">Cotizar</button>
-      
-      <button class="menu-toggle" (click)="toggleMenu()" [class.open]="isMenuOpen" aria-label="Abrir menú">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+      <div class="quote-trigger" (click)="toggleDrawer()">
+        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M6 6h15l-1.5 9h-13z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
+          <circle cx="18" cy="20" r="1.5" fill="currentColor"/>
+        </svg>
+        <span class="badge" [class.pop]="popBadge" *ngIf="(itemsCount$ | async) as count">
+          {{ count }}
+        </span>
+      </div>
+
+      <button class="btn-contact" (click)="toggleDrawer()">Mi Lista</button>
+
+      <button class="menu-toggle" (click)="toggleMenu()" [class.open]="isMenuOpen">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </button>
     </div>
-
   </div>
 </header>
+
+<div class="mini-cart-toast" [class.show]="showMiniToast">
+  <div class="toast-header">
+    <div class="header-left">
+      <span class="check-icon">✓</span> Agregado a tu lista
+    </div>
+    <button class="close-toast-btn" (click)="cerrarMiniToast()">✕</button>
+  </div>
+
+  <div class="toast-body" *ngIf="lastAddedItem">
+    <img [src]="lastAddedItem.image" [alt]="lastAddedItem.productName" class="toast-img">
+    <div class="toast-info">
+      <p class="t-name">{{ lastAddedItem.quantity }}x {{ lastAddedItem.productName }}</p>
+      <p class="t-var">{{ lastAddedItem.variantName }} | Cal {{ lastAddedItem.calibre }}</p>
+    </div>
+  </div>
+
+  <button class="toast-btn" (click)="toggleDrawer()">Ver lista completa</button>
+  <div class="toast-progress-bar"></div>
+</div>
+
+<div class="drawer-backdrop" [class.show]="isDrawerOpen" (click)="toggleDrawer()"></div>
+
+<div class="quotation-drawer" [class.open]="isDrawerOpen">
+  <div class="drawer-header">
+    <h2>Tu Cotización</h2>
+    <button class="close-btn" (click)="toggleDrawer()">✕</button>
+  </div>
+
+  <div class="items-list">
+    <ng-container *ngIf="(cartItems$ | async) as items">
+      <div *ngIf="items.length === 0" class="empty-cart">
+        <p>Aún no has agregado materiales a tu proyecto.</p>
+        <button class="btn-continue" (click)="toggleDrawer()">Explorar Materiales</button>
+      </div>
+
+      <div class="item-row" *ngFor="let item of items">
+        <div class="item-image-wrapper">
+          <img [src]="item.image" [alt]="item.productName">
+        </div>
+        <div class="item-info">
+          <h4>{{ item.productName }}</h4>
+          <p class="variants">{{ item.variantName }} | Cal {{ item.calibre }}</p>
+          <div class="qty-control">
+            <span class="qty-text">Cant: <strong>{{ item.quantity }}</strong></span>
+            <button class="btn-delete" (click)="removeItem(item.id)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cross-sell-container" *ngIf="items.length > 0">
+        <h4 class="cross-sell-title">Completa tu instalación:</h4>
+        
+        <div class="cross-sell-carousel">
+          <div class="cross-card" *ngFor="let comp of complementosSugeridos">
+            <img [src]="comp.image" [alt]="comp.name">
+            <div class="c-info">
+              <p class="c-name">{{ comp.name }}</p>
+              <p class="c-var">{{ comp.variant }}</p>
+            </div>
+            <button class="c-add-btn" (click)="agregarComplemento(comp)">+ Agregar</button>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+  </div>
+
+  <div class="drawer-footer">
+    <label>Nombre o empresa</label>
+    <input type="text" placeholder="Tu Nombre" [(ngModel)]="nombreCliente">
+    
+    <label>Correo Electrónico (Opcional)</label>
+    <input type="email" placeholder="correo@empresa.com" [(ngModel)]="clienteEmail">
+
+    <p class="footer-hint">Elige cómo enviar tu solicitud:</p>
+    <div class="action-buttons">
+      <button class="whatsapp-btn" (click)="enviarAWhatsApp()">WhatsApp</button>
+      <button class="email-btn" (click)="enviarPorCorreo()">Correo</button>
+    </div>
+  </div>
+</div>
