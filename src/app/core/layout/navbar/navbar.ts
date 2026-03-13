@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isScrolled = false;
   isMenuOpen = false;
   isDrawerOpen = false;
+  isCatalogExpanded = false; // 🆕 Control del panel desplegable
 
   nombreCliente = '';
   clienteEmail = '';
@@ -86,10 +87,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   toggleMenu() { this.isMenuOpen = !this.isMenuOpen; }
 
+  toggleCatalogPanel() {
+    this.isCatalogExpanded = !this.isCatalogExpanded;
+  }
+
   toggleDrawer() {
     this.isDrawerOpen = !this.isDrawerOpen;
     this.isMenuOpen = false;
     this.showMiniToast = false;
+    this.isCatalogExpanded = false; // Cerrar catálogo al abrir drawer
   }
 
   removeItem(id: string) { this.quoteService.removeItem(id); }
