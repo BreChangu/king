@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core'; // 🌟 1. Agregamos OnDestroy
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; 
 import { ProductService } from '../../core/services/product.service';
 import { QuoteService } from '../../core/services/quote.service'; 
+import { SeoService } from '../../core/services/seo.service'; // 🌟 2. Importamos el SeoService
 import { Product, SubProduct, ProductVariant } from '../../shared/models/product.model';
 import { QuoteItem } from '../../shared/models/quote.model'; 
 
@@ -13,38 +14,49 @@ import { QuoteItem } from '../../shared/models/quote.model';
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss'
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, OnDestroy { // 🌟 3. Implementamos OnDestroy
   
   productoActual: Product | undefined;
   selecciones: { [subProductId: string]: { variant: ProductVariant, quantity: number } } = {};
 
-  // 🌟 EL MENÚ GLOBAL DEL CATÁLOGO (Puedes alimentar esto desde tu Service después)
+  // EL MENÚ GLOBAL DEL CATÁLOGO
   categoriasMenu = [
     { id: 'perf-001', name: 'Sistemas de Perfilería' },
-    { id: 'pan-001', name: 'Paneles de Yeso' }, // Ejemplos de otras URLs
+    { id: 'pan-001', name: 'Paneles de Yeso' }, 
     { id: 'comp-001', name: 'Masillas y Adhesivos' },
     { id: 'torn-001', name: 'Tornillería y Fijación' }
   ];
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router, // 🌟 Inyectamos el Router
+    private router: Router, 
     private productService: ProductService,
-    private quoteService: QuoteService 
+    private quoteService: QuoteService,
+    private seoService: SeoService // 🌟 4. Inyectamos el servicio
   ) {}
 
   ngOnInit() {
-    // 🌟 MAGIA ANGULAR: Escuchamos los cambios en la URL de forma activa
+    // Escuchamos los cambios en la URL de forma activa
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam) {
         this.productoActual = this.productService.getProductById(idParam);
         this.inicializarSelecciones(); 
         
+        // 🌟 5. INYECTAMOS EL SEO AL CARGAR EL PRODUCTO
+        if (this.productoActual) {
+          this.seoService.setProductStructuredData(this.productoActual);
+        }
+
         // Cuando cambia de categoría, subimos el scroll al inicio suavemente
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
+  }
+
+  // 🌟 6. LIMPIAMOS EL SEO AL SALIR DE LA PÁGINA
+  ngOnDestroy() {
+    this.seoService.clearStructuredData();
   }
 
   inicializarSelecciones() {
@@ -57,13 +69,11 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  // 🌟 NAVEGACIÓN ENTRE FAMILIAS (Sin recargar página)
   navegarACategoria(catId: string) {
-    if (this.productoActual?.id === catId) return; // Si ya estoy aquí, no hago nada
-    this.router.navigate(['/producto', catId]); // Viaja a la nueva familia
+    if (this.productoActual?.id === catId) return; 
+    this.router.navigate(['/producto', catId]); 
   }
 
-  // 🌟 NAVEGACIÓN INTERNA (Scroll)
   scrollToSection(id: string) {
     const element = document.getElementById(id);
     if (element) {
@@ -90,7 +100,7 @@ export class ProductDetailComponent implements OnInit {
     if (this.selecciones[subId]) this.selecciones[subId].quantity = valor;
   }
 
-agregarACotizacion(sub: SubProduct) {
+  agregarACotizacion(sub: SubProduct) {
     const seleccion = this.selecciones[sub.id];
     if (!seleccion || seleccion.quantity <= 0) {
       alert("Por favor, ingresa una cantidad válida para cotizar.");
@@ -101,16 +111,13 @@ agregarACotizacion(sub: SubProduct) {
       id: `${sub.id}-${seleccion.variant.id}`,
       productId: sub.id,
       
-      // 🌟 1. EL FIX DE LOS TÍTULOS PARA EL CARRITO:
-      // Invertimos los nombres para que la variante sea el título principal
-      productName: seleccion.variant.name, // Ej: "Cinta de Papel Reforzada"
-      variantName: sub.name,               // Ej: "Ready Mix Ligero"
+      // EL FIX DE LOS TÍTULOS PARA EL CARRITO
+      productName: seleccion.variant.name, 
+      variantName: sub.name,              
       
       calibre: seleccion.variant.calibre,
       
-      // 🌟 2. EL FIX DE LA FOTO DINÁMICA:
-      // Intenta usar la foto de la variante. Si no tiene, usa la general.
-      // (Nota: Asegúrate de agregar 'image?: string' a tu interface ProductVariant)
+      // EL FIX DE LA FOTO DINÁMICA
       image: seleccion.variant.image || sub.image, 
       
       quantity: seleccion.quantity
@@ -118,4 +125,5 @@ agregarACotizacion(sub: SubProduct) {
 
     this.quoteService.addItem(newItem);
     this.selecciones[sub.id].quantity = 0; 
-  }}
+  }
+}
