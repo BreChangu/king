@@ -5,10 +5,14 @@
 ========================================= */
 .hero-luxury {
   position: relative;
-  min-height: 20vh; 
+  // 🌟 FIX 1: Se ajusta solo, con tope mínimo y máximo
+  padding: clamp(4rem, 8vh, 8rem) 0; 
+  min-height: 50vh;
+  max-height: 600px; // 🚨 FIX 2: Nunca pasará de esta altura en monitores gigantes
+  
   display: flex;
   align-items: center; 
-  padding: 10rem 2rem 8rem 2rem; 
+  justify-content: center; // Centrado perfecto
   overflow: hidden;
 
   /* 1. LA IMAGEN DE FONDO ABSOLUTO */
@@ -39,10 +43,6 @@
         width: 100%;
         height: 100%;
         background: linear-gradient(90deg, rgba(15, 20, 30, 0.95) 0%, rgba(15, 20, 30, 0.4) 100%);
-        
-        @media (max-width: 768px) {
-          background: linear-gradient(180deg, rgba(15, 20, 30, 0.7) 0%, rgba(15, 20, 30, 0.95) 100%);
-        }
       }
     }
   }
@@ -51,7 +51,16 @@
   .content {
     position: relative;
     z-index: 2; 
-    max-width: 700px; 
+    
+    // 🌟 FIX 3: Alineamos el texto exacto con el grid de tarjetas
+    width: 90%;
+    max-width: 1200px; 
+    margin: 0 auto; 
+
+    // Mantenemos el texto contenido en el lado izquierdo
+    h1, .description, .brand-tag, .actions, .trust-badges {
+      max-width: 700px; 
+    }
     
     .brand-tag {
       display: block;
@@ -147,7 +156,7 @@
 }
 
 /* =========================================
-   GRILLA EXCLUSIVA DEL LANDING (Solución al estiramiento)
+   GRILLA EXCLUSIVA DEL LANDING
 ========================================= */
 .landing-exclusive-grid {
   display: flex;
@@ -156,28 +165,75 @@
   gap: 2.5rem; 
   width: 90%;
   max-width: 1200px; 
-  margin: 3rem auto 6rem auto; /* Espacio arriba, auto a los lados, espacio abajo */
+  margin: 3rem auto 6rem auto; 
 
-  /* 🌟 EL SECRETO: Controlamos el componente hijo desde aquí */
+  /* Control del componente hijo */
   app-product-card {
-    flex: 1 1 300px; /* Crece si hay espacio, empieza en 300px */
-    max-width: 380px; /* 🚨 LÍMITE: ¡Nunca se verán gigantes aunque te alejes! */
+    flex: 1 1 300px; 
+    max-width: 380px; /* 🚨 LÍMITE DE ESTIRAMIENTO */
     width: 100%;
   }
 }
 
 /* ==========================================
-   📱 REGLAS PARA MÓVIL
+   📱 ECOSISTEMA DE RESPONSIVIDAD (Media Queries)
 ========================================== */
+
+/* 1. TABLETS HORIZONTALES Y LAPTOPS PEQUEÑAS */
+@media (max-width: 1024px) {
+  .landing-exclusive-grid {
+    gap: 1.5rem;
+  }
+  .hero-luxury .content h1 {
+    font-size: 3.5rem; 
+  }
+}
+
+/* 2. TABLETS VERTICALES Y CELULARES GRANDES */
 @media (max-width: 768px) {
+  .hero-luxury {
+    padding: 6rem 0 3rem 0;
+    max-height: none; // En celular dejamos que el texto mande sobre la altura
+    
+    .visual .image-wrapper .overlay-gradient {
+      background: linear-gradient(180deg, rgba(15, 20, 30, 0.7) 0%, rgba(15, 20, 30, 0.95) 100%);
+    }
+
+    .content {
+      h1 { font-size: 2.5rem; }
+      .trust-badges {
+        flex-direction: column; 
+        gap: 12px;
+      }
+    }
+  }
+
   .landing-exclusive-grid {
     width: 100%; 
     padding: 0 1.5rem; 
-    margin: 1rem auto 4rem auto;
     gap: 1.5rem; 
-
+    
     app-product-card {
-      max-width: 100%; /* En móvil sí queremos que abarquen el ancho de la pantalla */
+      max-width: 100%; 
     }
+  }
+}
+
+/* 3. CELULARES PEQUEÑOS */
+@media (max-width: 480px) {
+  .hero-luxury .content {
+    h1 { font-size: 2rem; }
+    
+    .actions {
+      flex-direction: column; 
+      .btn-primary, .link-secondary {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+
+  .landing-exclusive-grid {
+    padding: 0 1rem; 
   }
 }

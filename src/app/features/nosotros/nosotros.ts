@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common'; // 🌟 1. Importamos el scroller
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -11,7 +11,6 @@ import { RouterLink } from '@angular/router';
 })
 export class NosotrosComponent implements OnInit {
 
-  // Puedes llenar estos datos desde un servicio si en el futuro cambian
   stats = [
     { numero: '+15', label: 'Años de Experiencia' },
     { numero: '+5,000', label: 'Toneladas de Acero Transformadas' },
@@ -19,10 +18,11 @@ export class NosotrosComponent implements OnInit {
     { numero: '+800', label: 'Proyectos Soportados' }
   ];
 
-  constructor() { }
+  // 🌟 2. Inyectamos el ViewportScroller
+  constructor(private viewportScroller: ViewportScroller) { }
 
   ngOnInit(): void {
-    // Asegura que al entrar a la página cargue desde arriba
-    window.scrollTo(0, 0);
+    // 🌟 3. Forma segura de subir el scroll al inicio (Compatible con SSR y Vercel)
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 }
