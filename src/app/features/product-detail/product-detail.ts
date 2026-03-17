@@ -90,7 +90,7 @@ export class ProductDetailComponent implements OnInit {
     if (this.selecciones[subId]) this.selecciones[subId].quantity = valor;
   }
 
-  agregarACotizacion(sub: SubProduct) {
+agregarACotizacion(sub: SubProduct) {
     const seleccion = this.selecciones[sub.id];
     if (!seleccion || seleccion.quantity <= 0) {
       alert("Por favor, ingresa una cantidad válida para cotizar.");
@@ -100,14 +100,22 @@ export class ProductDetailComponent implements OnInit {
     const newItem: QuoteItem = {
       id: `${sub.id}-${seleccion.variant.id}`,
       productId: sub.id,
-      productName: sub.name,
-      variantName: seleccion.variant.name,
+      
+      // 🌟 1. EL FIX DE LOS TÍTULOS PARA EL CARRITO:
+      // Invertimos los nombres para que la variante sea el título principal
+      productName: seleccion.variant.name, // Ej: "Cinta de Papel Reforzada"
+      variantName: sub.name,               // Ej: "Ready Mix Ligero"
+      
       calibre: seleccion.variant.calibre,
-      image: sub.image,
+      
+      // 🌟 2. EL FIX DE LA FOTO DINÁMICA:
+      // Intenta usar la foto de la variante. Si no tiene, usa la general.
+      // (Nota: Asegúrate de agregar 'image?: string' a tu interface ProductVariant)
+      image: seleccion.variant.image || sub.image, 
+      
       quantity: seleccion.quantity
     };
 
     this.quoteService.addItem(newItem);
     this.selecciones[sub.id].quantity = 0; 
-  }
-}
+  }}

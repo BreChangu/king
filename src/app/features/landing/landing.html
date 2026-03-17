@@ -12,7 +12,7 @@
 
     <p class="description">
       Somos <strong>fabricantes de perfil metálico</strong> y distribuidores de paneles de yeso. 
-      Ofrecemos suministro e <strong>instalación especializada para proyectos de gran escala</strong>  con los más altos estándares.
+      Ofrecemos suministro e <strong>instalación especializada para proyectos de gran escala</strong> con los más altos estándares.
     </p>
 
     <ul class="trust-badges" aria-label="Beneficios de comprar con King Panel">
@@ -53,11 +53,10 @@
 
 </section>
 
-<div class="products-grid">
-    @for (item of misProductos; track item.id) {
-      <app-product-card [product]="item"></app-product-card>
-    } @empty {
-      <p>Cargando catálogo de productos...</p>
-    }
-  </div>
-
+<div class="landing-exclusive-grid">
+  @for (item of misProductos; track item.id) {
+    <app-product-card [product]="item"></app-product-card>
+  } @empty {
+    <p>Cargando catálogo de productos...</p>
+  }
+</div>

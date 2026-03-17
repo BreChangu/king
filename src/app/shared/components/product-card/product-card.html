@@ -1,18 +1,21 @@
-<article class="product-card">
+<article class="product-card" [routerLink]="['/producto', product.id]">
+  
   <div class="card-image">
+    <div class="image-overlay"></div>
     <img [src]="product.image" [alt]="product.name" loading="lazy">
   </div>
   
   <div class="card-content">
+    <div class="content-header">
+      <span class="card-category">{{ product.category }}</span>
+      <h3>{{ product.name }}</h3>
+    </div>
     
-    <span class="card-category">{{ product.category }}</span>
+    <p class="description">{{ product.shortDescription }}</p>
     
-    <h3>{{ product.name }}</h3>
-    <p>{{ product.shortDescription }}</p>
-    
-    <a [routerLink]="['/producto', product.id]" class="card-link">
-      Ver Más <span class="arrow">→</span>
-    </a>
-    
+    <span class="card-action">
+      Descubrir Sistema <span class="arrow">→</span>
+    </span>
   </div>
+
 </article>

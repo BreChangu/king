@@ -1,5 +1,6 @@
 // 1. La variante de tamaño/calibre (esto se queda igual)
 export interface ProductVariant {
+  image: string;
   id: string;
   name: string; 
   calibre: string; 
@@ -21,8 +22,7 @@ export interface Product {
   category: string;
   name: string; // "Sistemas de Perfiles Metálicos"
   shortDescription: string;
-  image: string; // La foto hero de la categoría entera
-  inStock: boolean;
+image?: string;  inStock: boolean;
   features?: string[]; 
   // EL CAMBIO CLAVE: En lugar de variantes directas, ahora tiene una lista de sub-productos
   subProducts?: SubProduct[]; 

@@ -5,11 +5,9 @@
 ========================================= */
 .hero-luxury {
   position: relative;
-  // 🌟 Redujimos de 100vh a 80vh para que no se sienta tan "infinito"
   min-height: 20vh; 
   display: flex;
   align-items: center; 
-  // 🌟 Redujimos el padding inferior de 14rem a 8rem para quitar el hueco vacío
   padding: 10rem 2rem 8rem 2rem; 
   overflow: hidden;
 
@@ -149,19 +147,37 @@
 }
 
 /* =========================================
-   CATÁLOGO TÉCNICO (Las Tarjetas)
-
-   
-
-/* --- Grid de Productos --- */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  // 🌟 Aumentamos el hueco entre tarjetas para que "respiren"
+   GRILLA EXCLUSIVA DEL LANDING (Solución al estiramiento)
+========================================= */
+.landing-exclusive-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centrado perfecto siempre */
   gap: 2.5rem; 
   width: 90%;
-  // 🌟 ¡EL SECRETO! Un ancho máximo evita que toquen los bordes de la pantalla
-  pointer-events: auto; 
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.08)); // Sombra un poco más sutil
-  margin: 2rem ;
+  max-width: 1200px; 
+  margin: 3rem auto 6rem auto; /* Espacio arriba, auto a los lados, espacio abajo */
+
+  /* 🌟 EL SECRETO: Controlamos el componente hijo desde aquí */
+  app-product-card {
+    flex: 1 1 300px; /* Crece si hay espacio, empieza en 300px */
+    max-width: 380px; /* 🚨 LÍMITE: ¡Nunca se verán gigantes aunque te alejes! */
+    width: 100%;
+  }
+}
+
+/* ==========================================
+   📱 REGLAS PARA MÓVIL
+========================================== */
+@media (max-width: 768px) {
+  .landing-exclusive-grid {
+    width: 100%; 
+    padding: 0 1.5rem; 
+    margin: 1rem auto 4rem auto;
+    gap: 1.5rem; 
+
+    app-product-card {
+      max-width: 100%; /* En móvil sí queremos que abarquen el ancho de la pantalla */
+    }
+  }
 }

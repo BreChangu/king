@@ -31,8 +31,7 @@
             
             <article class="grid-card">
               <div class="card-image">
-                <img [src]="sub.image" [alt]="sub.name" loading="lazy" />
-              </div>
+<img [src]="selecciones[sub.id]?.variant?.image || sub.image" [alt]="sub.name" loading="lazy" />              </div>
 
               <div class="card-info">
                 <div class="card-header">

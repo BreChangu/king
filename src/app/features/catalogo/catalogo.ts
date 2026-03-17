@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -60,10 +60,11 @@ export class CatalogoComponent implements OnInit {
 
   searchTerm: string = '';
 
-  constructor() { }
+  constructor(private viewportScroller: ViewportScroller) { }
 
-  ngOnInit(): void {
-    window.scrollTo(0, 0);
+ngOnInit(): void {
+    // 3. Usas la forma segura de Angular para ir hacia arriba
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 
   // Lógica simple para un buscador rápido (filtrará las familias)

@@ -6,105 +6,137 @@
 }
 
 .product-card {
-    background: $bg-panel; 
-    border: 4px solid $border;
-    border-radius: 2px; 
+    background: #ffffff; 
+    border: 1px solid rgba(0,0,0,0.08); // Borde mucho más sutil y elegante
+    border-radius: 8px; // Bordes ligeramente redondeados para un look moderno
     display: flex;
     flex-direction: column;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease; 
     font-family: $font-main;
     overflow: hidden; 
     height: 100%; 
-    // margin: 2rem; <-- ¡ELIMINADO! Esto lo controlará el Grid padre.
+    cursor: pointer; // 🌟 Indica que toda la tarjeta es clickeable
+    text-decoration: none; // Por si algún navegador intenta subrayar el texto
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-    // EL HOVER PREMIUM
+    // 🌟 EL HOVER PREMIUM
     &:hover {
-        transform: translateY(-8px); // Un poco más de elevación
-        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08); 
-        border-color: $king-blue; 
+        transform: translateY(-8px); 
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); // Sombra más suave
+        border-color: transparent; 
 
-        .card-image img {
-            filter: grayscale(0%) contrast(1); 
-            transform: scale(1.05); 
+        .card-image {
+            img {
+                filter: grayscale(0%) contrast(1.05); 
+                transform: scale(1.08); 
+            }
+            .image-overlay {
+                opacity: 0; // Quitamos el oscurecimiento al hacer hover
+            }
         }
 
-        .card-link {
-            color: $accent; 
+        .card-action {
+            background-color: $accent; // El botón se rellena de amarillo al hacer hover
+            color: #18c638;
+            border-color: $king-black;
             
-            // Animación de la flecha al hacer hover en la tarjeta
             .arrow {
-                transform: translateX(4px);
+                transform: translateX(6px);
+                color: $king-black; // La flecha se pinta de amarillo al hacer hover
             }
         }
     }
 
     .card-image {
+        position: relative;
         aspect-ratio: 16 / 10; 
-        background: $king-black; 
-        border-bottom: 1px solid $border;
+        background: #f8fafc; 
         overflow: hidden; 
+        border-bottom: 1px solid rgba(0,0,0,0.05);
         
+        // Un filtro sutil encima de la foto
+        .image-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 20, 30, 0.2); // Oscurece levemente la foto
+            z-index: 1;
+            transition: opacity 0.4s ease;
+        }
+
         img {
+            position: relative;
+            z-index: 0;
             width: 100%;
             height: 100%;
             object-fit: cover; 
-            object-position: center; 
-            filter: grayscale(100%) contrast(1.1);
-            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); // Transición más fluida
+            filter: grayscale(60%) contrast(1.1); // No 100% gris, para que no se vea tan "muerta"
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
         }
     }
 
     .card-content {
-        padding: 2.5rem 2rem; // Padding original para Desktop
+        padding: 2.5rem 2rem; 
         display: flex;
         flex-direction: column;
         flex-grow: 1; 
 
-        // NUEVO: Etiqueta de Categoría
-        .card-category {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: $king-blue;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
+        .content-header {
+            margin-bottom: 1.5rem;
+            
+            .card-category {
+                display: block;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: $accent; // Usamos el acento para destacar la categoría
+                margin-bottom: 0.8rem;
+                font-weight: 700;
+            }
+
+            h3 {
+                font-family: $font-heading; 
+                font-size: 1.4rem; // Título un poco más grande
+                font-weight: 800;
+                color: $king-black; 
+                margin: 0;
+                text-transform: uppercase; 
+                line-height: 1.2;
+            }
         }
 
-        h3 {
-            font-family: $font-heading; 
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: $king-black; 
-            margin-bottom: 1rem;
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            line-height: 1.3;
-        }
-
-        p {
-            font-size: 0.95rem;
+        .description {
+            font-size: 1rem;
             line-height: 1.6;
-            color: $text-muted; 
-            margin-bottom: 2.5rem; // Un poco más de aire antes del botón
+            color: #555555; // Gris más oscuro para mejor lectura
+            margin: 0 0 2.5rem 0; 
             flex-grow: 1; 
+            // Esto corta el texto si es muy largo (3 líneas máximo)
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .card-link {
+        // 🌟 EL NUEVO BOTÓN FANTASMA
+        .card-action {
+            align-self: flex-start; // Alineado a la izquierda
             font-family: $font-heading;
             font-size: 0.85rem;
             font-weight: 700;
             color: $king-black; 
-            text-decoration: none; 
             text-transform: uppercase; 
             letter-spacing: 1px; 
-            transition: color 0.3s ease; 
+            padding: 0.8rem 1.5rem;
+            border: 2px solid $border; // Borde que se rellenará en hover
+            border-radius: 4px;
+            transition: all 0.3s ease; 
             display: inline-flex;
             align-items: center;
 
-            // Preparando la flecha animada
             .arrow {
-                margin-left: 8px;
-                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                margin-left: 10px;
+                font-weight: bold;
+                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
             }
         }
     }
@@ -114,18 +146,25 @@
     // ==========================================
     @media (max-width: 768px) {
         .card-image {
-            aspect-ratio: 4 / 3; // Un poco más cuadrado en móviles para no perder detalle
+            aspect-ratio: 4 / 3; 
         }
 
         .card-content {
-            padding: 1.5rem 1.25rem; // Reducimos el padding interno para que respire mejor en pantallas chicas
+            padding: 2rem 1.5rem; 
 
-            h3 {
-                font-size: 1.1rem; // Título ligeramente más pequeño
+            .content-header h3 {
+                font-size: 1.2rem; 
             }
 
-            p {
-                font-size: 0.9rem; // Texto ligeramente más pequeño
+            .description {
+                font-size: 0.95rem; 
+                margin-bottom: 2rem;
+            }
+
+            // En móvil, hacemos que el botón ocupe el 100% del ancho para ser más fácil de tocar
+            .card-action {
+                align-self: stretch;
+                justify-content: center;
             }
         }
     }
