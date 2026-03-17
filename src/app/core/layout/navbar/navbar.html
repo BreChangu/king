@@ -1,17 +1,17 @@
 <header class="king-navbar" [class.scrolled]="isScrolled">
   <div class="container">
-    <a routerLink="/" class="logo">KING PANEL<span class="tm">®</span></a>
+    <a routerLink="/" class="logo" aria-label="Ir al inicio de King Panel">KING PANEL<span class="tm">®</span></a>
 
     <nav>
       <ul class="nav-links" [class.active]="isMenuOpen">
         <li><a href="#sistemas" (click)="toggleMenu()">Sistemas</a></li>
-        <li><a routerLink="catalogo" (click)="toggleMenu()">Catalogo</a></li>
+        <li><a routerLink="catalogo" (click)="toggleMenu()">Catálogo</a></li>
         <li><a routerLink="nosotros" (click)="toggleMenu()">Nosotros</a></li>
       </ul>
     </nav>
 
     <div class="nav-actions">
-      <div class="quote-trigger" (click)="toggleDrawer()">
+      <div class="quote-trigger" (click)="toggleDrawer()" role="button" tabindex="0" aria-label="Ver mi lista de cotización">
         <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M6 6h15l-1.5 9h-13z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
@@ -24,7 +24,7 @@
 
       <button class="btn-contact" (click)="toggleDrawer()">Mi Lista</button>
 
-      <button class="menu-toggle" (click)="toggleMenu()" [class.open]="isMenuOpen">
+      <button class="menu-toggle" (click)="toggleMenu()" [class.open]="isMenuOpen" aria-label="Abrir menú de navegación">
         <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </button>
     </div>
@@ -36,7 +36,7 @@
     <div class="header-left">
       <span class="check-icon">✓</span> Agregado a tu lista
     </div>
-    <button class="close-toast-btn" (click)="cerrarMiniToast()">✕</button>
+    <button class="close-toast-btn" (click)="cerrarMiniToast()" aria-label="Cerrar notificación">✕</button>
   </div>
 
   <div class="toast-body" *ngIf="lastAddedItem">
@@ -56,7 +56,7 @@
 <div class="quotation-drawer" [class.open]="isDrawerOpen">
   <div class="drawer-header">
     <h2>Tu Cotización</h2>
-    <button class="close-btn" (click)="toggleDrawer()">✕</button>
+    <button class="close-btn" (click)="toggleDrawer()" aria-label="Cerrar cotización">✕</button>
   </div>
 
   <div class="items-list">

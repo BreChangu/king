@@ -1,4 +1,4 @@
-<article class="product-card" [routerLink]="['/producto', product.id]">
+<article class="product-card" [routerLink]="['/producto', product.id]" [attr.aria-label]="'Ver detalles de ' + product.name">
   
   <div class="card-image">
     <div class="image-overlay"></div>
@@ -8,12 +8,12 @@
   <div class="card-content">
     <div class="content-header">
       <span class="card-category">{{ product.category }}</span>
-      <h3>{{ product.name }}</h3>
+      <h2>{{ product.name }}</h2>
     </div>
     
     <p class="description">{{ product.shortDescription }}</p>
     
-    <span class="card-action">
+    <span class="card-action" aria-hidden="true">
       Descubrir Sistema <span class="arrow">→</span>
     </span>
   </div>
