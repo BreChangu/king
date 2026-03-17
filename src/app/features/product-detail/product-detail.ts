@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'; // 🌟 1. Agregamos OnDestroy
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core'; 
+import { CommonModule, isPlatformBrowser } from '@angular/common'; 
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; 
 import { ProductService } from '../../core/services/product.service';
 import { QuoteService } from '../../core/services/quote.service'; 
-import { SeoService } from '../../core/services/seo.service'; // 🌟 2. Importamos el SeoService
+import { SeoService } from '../../core/services/seo.service'; 
 import { Product, SubProduct, ProductVariant } from '../../shared/models/product.model';
 import { QuoteItem } from '../../shared/models/quote.model'; 
 
@@ -14,7 +14,7 @@ import { QuoteItem } from '../../shared/models/quote.model';
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss'
 })
-export class ProductDetailComponent implements OnInit, OnDestroy { // 🌟 3. Implementamos OnDestroy
+export class ProductDetailComponent implements OnInit, OnDestroy {
   
   productoActual: Product | undefined;
   selecciones: { [subProductId: string]: { variant: ProductVariant, quantity: number } } = {};
@@ -32,7 +32,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy { // 🌟 3. Im
     private router: Router, 
     private productService: ProductService,
     private quoteService: QuoteService,
-    private seoService: SeoService // 🌟 4. Inyectamos el servicio
+    private seoService: SeoService,
+    // 🌟 INYECTAMOS EL VERIFICADOR DE PLATAFORMA (Evita crasheos del servidor)
+    @Inject(PLATFORM_ID) private platformId: Object 
   ) {}
 
   ngOnInit() {
@@ -43,18 +45,20 @@ export class ProductDetailComponent implements OnInit, OnDestroy { // 🌟 3. Im
         this.productoActual = this.productService.getProductById(idParam);
         this.inicializarSelecciones(); 
         
-        // 🌟 5. INYECTAMOS EL SEO AL CARGAR EL PRODUCTO
+        // INYECTAMOS EL SEO AL CARGAR EL PRODUCTO
         if (this.productoActual) {
           this.seoService.setProductStructuredData(this.productoActual);
         }
 
-        // Cuando cambia de categoría, subimos el scroll al inicio suavemente
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 🌟 FIX SSR: Solo hacemos scroll si estamos corriendo en el navegador (cliente)
+        if (isPlatformBrowser(this.platformId)) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
     });
   }
 
-  // 🌟 6. LIMPIAMOS EL SEO AL SALIR DE LA PÁGINA
+  // LIMPIAMOS EL SEO AL SALIR DE LA PÁGINA
   ngOnDestroy() {
     this.seoService.clearStructuredData();
   }
@@ -75,10 +79,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy { // 🌟 3. Im
   }
 
   scrollToSection(id: string) {
-    const element = document.getElementById(id);
-    if (element) {
-      const yOffset = element.getBoundingClientRect().top + window.scrollY - 120;
-      window.scrollTo({ top: yOffset, behavior: 'smooth' });
+    // 🌟 FIX SSR: Protegemos el uso de document y window
+    if (isPlatformBrowser(this.platformId)) {
+      const element = document.getElementById(id);
+      if (element) {
+        const yOffset = element.getBoundingClientRect().top + window.scrollY - 120;
+        window.scrollTo({ top: yOffset, behavior: 'smooth' });
+      }
     }
   }
 

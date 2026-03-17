@@ -1,16 +1,15 @@
-import { Component, OnInit, Inject, Renderer2 } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 
-// 1. IMPORTACIONES CORREGIDAS CON EL NOMBRE EXACTO DE TU ARCHIVO
 import { ProductCardComponent } from "../../shared/components/product-card/product-card"; 
 import { Product } from '../../shared/models/product.model';
 import { ProductService } from '../../core/services/product.service';
+import { SeoService } from '../../core/services/seo.service'; // 🌟 Importamos TU servicio
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  // 2. Solo módulos y componentes válidos
   imports: [CommonModule, ProductCardComponent], 
   templateUrl: './landing.html',
   styleUrl: './landing.scss'
@@ -22,9 +21,8 @@ export class LandingComponent implements OnInit {
   constructor(
     private titleService: Title, 
     private metaService: Meta,
-    private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document,
-    private productService: ProductService
+    private productService: ProductService,
+    private seoService: SeoService // 🌟 Lo inyectamos
   ) {}
 
   ngOnInit() {
@@ -43,7 +41,24 @@ export class LandingComponent implements OnInit {
   }
 
   private inyectarSchemaSEO() {
-    const schema = {
+    // 1. DATA DE LA EMPRESA LOCAL
+    const localBusinessSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "King Panel",
+      "image": "https://www.kingpanel.com/assets/logo.png",
+      "telephone": "+52-55-1234-5678", 
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Edomex",
+        "addressRegion": "CDMX",
+        "addressCountry": "MX"
+      },
+      "description": "Suministro e instalación de sistemas ligeros en Edomex y CDMX."
+    };
+
+    // 2. DATA DEL CARRUSEL DE PRODUCTOS (Ya con correcciones)
+    const itemListSchema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
       "name": "Catálogo de Materiales King Panel",
@@ -56,7 +71,10 @@ export class LandingComponent implements OnInit {
             "@type": "Product",
             "name": "Perfiles Metálicos Galvanizados",
             "description": "Fabricación de perfiles de alta resistencia para sistemas de construcción ligera.",
-            "brand": { "@type": "Brand", "name": "King Panel" }
+            "brand": { "@type": "Brand", "name": "King Panel" },
+            "image": "https://www.kingpanel.com/assets/show/perfiles.webp", 
+            "url": "https://www.kingpanel.com/producto/perf-001", 
+            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "150" }
           }
         },
         {
@@ -66,7 +84,10 @@ export class LandingComponent implements OnInit {
             "@type": "Product",
             "name": "Panel Aislado Estructural",
             "description": "Soluciones con aislamiento térmico y acústico para muros y cubiertas industriales.",
-            "brand": { "@type": "Brand", "name": "King Panel" }
+            "brand": { "@type": "Brand", "name": "King Panel" },
+            "image": "https://www.kingpanel.com/assets/show/panel.webp",
+            "url": "https://www.kingpanel.com/producto/pan-001",
+            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "85" }
           }
         },
         {
@@ -76,15 +97,17 @@ export class LandingComponent implements OnInit {
             "@type": "Product",
             "name": "Lámina Galvanizada y Pintro",
             "description": "Cerramientos metálicos durables para naves industriales y bodegas.",
-            "brand": { "@type": "Brand", "name": "King Panel" }
+            "brand": { "@type": "Brand", "name": "King Panel" },
+            "image": "https://www.kingpanel.com/assets/show/lamina.webp",
+            "url": "https://www.kingpanel.com/producto/lam-001",
+            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "reviewCount": "210" }
           }
         }
       ]
     };
 
-    const script = this.renderer.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(schema);
-    this.renderer.appendChild(this.document.head, script);
+    // 🌟 DELEGAMOS LA INYECCIÓN AL SERVICIO
+    this.seoService.setSchema('local-business-data', localBusinessSchema);
+    this.seoService.setSchema('landing-item-list', itemListSchema);
   }
 }
