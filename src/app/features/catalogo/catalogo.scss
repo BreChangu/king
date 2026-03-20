@@ -1,157 +1,245 @@
-@use '../../../theme/variables' as *;
+@use '../../../theme/variables' as *; 
 
-// =========================================
-// 1. HERO Y BUSCADOR
-// =========================================
-.catalog-hero {
-  position: relative;
-  background-color: #0f141e;
-  background-image: url('https://via.placeholder.com/1920x800?text=Bodega+King+Panel'); // Cambia por foto tuya
-  background-size: cover;
-  background-position: center;
-  min-height: 50vh; // Más corto que el hero de Nosotros
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10rem 2rem 5rem;
-  text-align: center;
-  overflow: hidden;
+/* =========================================
+   CATÁLOGO COMPONENT - ESTILOS UNIFICADOS
+========================================= */
 
-  .hero-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 20, 30, 0.85); // Oscurecido fuerte para el buscador
-    z-index: 1;
-  }
+/* =========================================
+   CATÁLOGO COMPONENT - ESTILOS CORPORATIVOS
+========================================= */
 
-  .hero-content {
-    position: relative; z-index: 2; width: 100%; max-width: 800px;
-    display: flex; flex-direction: column; align-items: center;
+.king-catalogo {
+  // 🌟 SECCIÓN HERO (CABECERA OSCURA)
+  .catalogo-header {
+    position: relative;
+    padding: 8rem 2rem 5rem;
+    background-color: $king-black;
+    color: $bg-panel;
+    text-align: center;
+    overflow: hidden;
 
     h1 {
-      font-family: $font-heading; color: #ffffff; font-size: clamp(2.2rem, 4vw, 3.5rem);
-      line-height: 1.1; font-weight: 800; letter-spacing: -1px; margin: 0 0 1rem 0;
+      font-family: $font-heading;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
-    .subtitle {
-      font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin: 0 0 3rem 0;
+    p {
+      font-family: $font-main;
+      font-size: 1.1rem;
+      color: $text-muted;
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    // 🌟 EL BUSCADOR GIGANTE
-    .search-bar-container {
-      width: 100%; max-width: 600px;
-      
-      .search-input-wrapper {
-        position: relative; display: flex; align-items: center;
-        background: #ffffff; border-radius: 8px; padding: 0.5rem;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2); transition: transform 0.3s ease;
-
-        &:focus-within { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-
-        .search-icon {
-          padding: 0 1rem; color: $text-muted; display: flex; align-items: center;
-          svg { width: 20px; height: 20px; }
-        }
-
-        input {
-          flex: 1; border: none; outline: none; padding: 1rem 1rem 1rem 0;
-          font-family: $font-main; font-size: 1.1rem; color: $king-black; background: transparent;
-          &::placeholder { color: #94a3b8; font-weight: 500; }
-        }
-      }
-    }
-  }
-}
-
-// =========================================
-// 2. GRILLA DE FAMILIAS (HUB)
-// =========================================
-.catalog-hub-section {
-  background-color: #f8fafc; // Un gris ultra claro para que resalten las tarjetas blancas
-  padding: 5rem 2rem 8rem;
-  min-height: 50vh;
-
-  .container { max-width: 1200px; margin: 0 auto; }
-
-  .results-header {
-    margin-bottom: 2rem;
-    h3 { font-family: $font-main; font-size: 1.2rem; color: $king-black; border-left: 4px solid $accent; padding-left: 1rem; }
-  }
-
-  .hub-grid {
-    display: grid;
-    // Tarjetas más grandes (min 350px) para que destaquen las familias
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 2.5rem;
-
-    .family-card {
-      display: flex; flex-direction: column; background: #ffffff;
-      border-radius: 8px; overflow: hidden; text-decoration: none;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    /* 🔍 BUSCADOR */
+    .search-wrapper {
       position: relative;
+      max-width: 500px;
+      margin: 0 auto;
 
-      &:hover {
-        transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-        
-        .card-image-wrapper {
-          img { transform: scale(1.08); }
-          .hover-overlay { opacity: 1; }
-        }
-        
-        .accent-line { transform: scaleX(1); }
+      .search-icon {
+        position: absolute;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-muted;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
       }
 
-      .card-image-wrapper {
-        position: relative; height: 240px; overflow: hidden;
-        
-        img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        
-        // 🌟 CAPA OSCURA QUE APARECE AL PASAR EL MOUSE
-        .hover-overlay {
-          position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-          background: rgba(15, 20, 30, 0.6); display: flex; align-items: center; justify-content: center;
-          opacity: 0; transition: opacity 0.3s ease;
-          
-          .view-text {
-            color: #ffffff; font-family: $font-heading; font-size: 1rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1px; border: 2px solid $accent;
-            padding: 0.8rem 1.5rem; border-radius: 4px;
-          }
+      input {
+        width: 100%;
+        padding: 1.1rem 1.1rem 1.1rem 3.5rem;
+        border: 1px solid transparent;
+        border-radius: $radius-tech;
+        font-family: $font-main;
+        font-size: 1rem;
+        color: $king-black;
+        background-color: $bg-panel;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        transition: all 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: $accent;
+          box-shadow: 0 4px 25px rgba($accent, 0.3);
         }
       }
+    }
+  }
+}
 
-      .card-content {
-        padding: 2rem; flex: 1; display: flex; flex-direction: column;
-        
-        .card-header {
-          display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
-          
-          .icon-badge {
-            background: #f1f5f9; width: 40px; height: 40px; display: flex; align-items: center;
-            justify-content: center; border-radius: 8px; font-size: 1.2rem;
-          }
-          
-          h2 { font-family: $font-heading; font-size: 1.2rem; font-weight: 800; color: $king-black; margin: 0; text-transform: uppercase; line-height: 1.3; }
-        }
+/* 🌟 SECCIÓN BLANCA DEL CONTENIDO (GRID) */
+.catalog-hub-section {
+  padding: 6rem 0; // Aumentamos padding para dar más aire
+  background-color: $bg-canvas;
 
-        .card-desc { font-size: 0.95rem; color: $text-muted; line-height: 1.6; margin: 0; }
-      }
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+}
 
-      // 🌟 LÍNEA AMARILLA ANIMADA ABAJO
-      .accent-line {
-        position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
-        background-color: $accent; transform: scaleX(0); transform-origin: left;
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+/* 🌟 GRID DE FAMILIAS - CORREGIDO Y CENTRADO */
+.hub-grid {
+  display: flex;
+  flex-wrap: wrap;
+  // 🌟 CAMBIO CLAVE: Centrado horizontal de las tarjetas
+  justify-content: center; 
+  gap: 2.5rem; // Un poco más de espacio entre tarjetas para que respiren
+  max-width: 1300px; 
+  margin: 2rem auto 0; // Añadimos margen arriba para separar del Hero
+
+  // Quitamos el ::after anterior porque ahora queremos centrar natural
+}
+
+/* 🌟 TARJETA DE FAMILIA (ESTILO ARQUITECTÓNICO) */
+.family-card {
+  // Ajuste de flex para permitir 4 columnas pero centrarse si hay menos
+  flex: 0 1 calc(25% - 2rem); 
+  min-width: 280px; 
+  max-width: 320px; 
+  
+  background: $bg-panel; 
+  border-radius: $radius-tech; 
+  border: 1px solid $border; 
+  display: flex; 
+  flex-direction: column; 
+  text-decoration: none;
+  overflow: hidden; 
+  position: relative;
+  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); 
+  
+  &:hover { 
+    transform: translateY(-8px); // Un poco más de elevación
+    border-color: $king-black; 
+    box-shadow: 0 20px 40px rgba($king-black, 0.12); 
+    
+    .hover-overlay { opacity: 1; }
+    .accent-line { width: 100%; }
+  }
+
+  .card-image-wrapper {
+    position: relative;
+    width: 100%; 
+    height: 200px; 
+    background: $bg-canvas;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 1.5rem;
+    border-bottom: 1px solid $border;
+    
+    img { 
+      max-width: 90%; 
+      max-height: 90%; 
+      object-fit: contain; 
+    }
+
+    .hover-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba($king-black, 0.9); // Más sólido para impacto
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+
+      .view-text {
+        color: white;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
       }
     }
   }
 
-  .no-results {
-    grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;
-    p { font-size: 1.2rem; color: $text-muted; margin-bottom: 1.5rem; }
-    .btn-clear { background: $king-black; color: white; border: none; padding: 1rem 2rem; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: 0.3s; &:hover { background: $accent; color: $king-black; } }
+  .card-content {
+    padding: 1.5rem;
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column; 
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+
+      .icon-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: $accent; // Tu amarillo King
+        
+        svg { width: 100%; height: 100%; }
+      }
+
+      h2 { 
+        font-family: $font-heading; 
+        font-size: 1.1rem; 
+        color: $king-black; 
+        margin: 0; 
+        font-weight: 700; 
+        line-height: 1.2; 
+      }
+    }
+
+    .card-desc { 
+      font-family: $font-main;
+      font-size: 0.88rem; 
+      color: $text-muted; 
+      margin: 0; 
+      line-height: 1.6; 
+    }
   }
+  
+  .accent-line {
+    height: 4px;
+    width: 0;
+    background: $accent; 
+    transition: width 0.4s ease;
+  }
+
+  /* Responsivo dinámico */
+  @media (max-width: 1200px) { flex: 0 1 calc(33.333% - 2rem); } 
+  @media (max-width: 900px) { flex: 0 1 calc(50% - 2rem); } 
+  @media (max-width: 600px) { flex: 0 1 100%; max-width: 100%; } 
 }
 
-// ANIMACIÓN
-.fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+/* 🌟 NO RESULTS */
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: $bg-panel;
+  border-radius: $radius-tech;
+  border: 1px solid $border;
+  width: 100%;
+  
+  p { color: $text-muted; margin-bottom: 1.5rem; font-family: $font-main; }
+  
+  .btn-clear {
+    padding: 0.8rem 1.8rem;
+    background-color: $king-black;
+    color: white;
+    border: none;
+    border-radius: $radius-tech;
+    font-family: $font-main;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover { background-color: $king-blue; transform: translateY(-2px); }
+  }
+}

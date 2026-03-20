@@ -1,4 +1,10 @@
 <section class="hero-luxury" aria-label="Materiales para construcción ligera">
+  <div class="visual">
+    <div class="image-wrapper">
+      <img src="/assets/show/tablaroquero.webp" alt="Instalación de sistemas de construcción ligera" fetchpriority="high">
+      <div class="overlay-gradient"></div>
+    </div>
+  </div>
 
   <div class="content">
     <span class="brand-tag">
@@ -31,31 +37,70 @@
     </ul>
 
     <div class="actions">
-      <a href="#cotizar" class="btn-primary">
-        Cotizar Proyecto
-      </a>
-      <a href="#productos" class="link-secondary">
-        Explorar Materiales
-      </a>
+      <a href="#cotizar" class="btn-primary">Cotizar Proyecto</a>
+      <a href="#productos" class="link-secondary">Explorar Materiales</a>
     </div>
   </div>
-
-  <div class="visual">
-    <div class="image-wrapper">
-      <img
-        src="/assets/show/tablaroquero.webp" alt="Instalación de sistemas de construcción ligera" fetchpriority="high">        alt="Instalación de sistemas de construcción ligera"
-        fetchpriority="high"
-      >
-      <div class="overlay-gradient"></div>
-    </div>
-  </div>
-
 </section>
 
-<div class="landing-exclusive-grid">
-  @for (item of misProductos; track item.id) {
-    <app-product-card [product]="item"></app-product-card>
-  } @empty {
-    <p>Cargando catálogo de productos...</p>
-  }
-</div>
+<section class="brands-ticker" aria-label="Marcas que distribuimos">
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <div class="ticker-item"><img src="/assets/brands/usg.webp" alt="Distribuidor USG Tablaroca"></div>
+      <div class="ticker-item"><img src="/assets/brands/panel-rey.webp" alt="Distribuidor Panel Rey"></div>
+      <div class="ticker-item"><img src="/assets/brands/armstrong.webp" alt="Distribuidor Armstrong Plafones"></div>
+      <div class="ticker-item"><img src="/assets/brands/corev.webp" alt="Distribuidor Corev"></div>
+      <div class="ticker-item"><img src="/assets/brands/cemex.webp" alt="Distribuidor Cemex"></div>
+      
+      <div class="ticker-item"><img src="/assets/brands/usg.webp" alt="Distribuidor USG Tablaroca"></div>
+      <div class="ticker-item"><img src="/assets/brands/panel-rey.webp" alt="Distribuidor Panel Rey"></div>
+      <div class="ticker-item"><img src="/assets/brands/armstrong.webp" alt="Distribuidor Armstrong Plafones"></div>
+      <div class="ticker-item"><img src="/assets/brands/corev.webp" alt="Distribuidor Corev"></div>
+      <div class="ticker-item"><img src="/assets/brands/cemex.webp" alt="Distribuidor Cemex"></div>
+    </div>
+  </div>
+</section>
+
+<section class="featured-systems" id="productos">
+  <div class="container">
+    <div class="section-header">
+      <h2>Sistemas Destacados</h2>
+      <p>Soluciones integrales de alto rendimiento para cada etapa de tu obra.</p>
+    </div>
+
+    <div class="landing-exclusive-grid">
+      @for (item of misProductos; track item.id) {
+        <app-product-card [product]="item"></app-product-card>
+      } @empty {
+        <p class="loading-text">Cargando catálogo de productos...</p>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header">
+      <h2>Preguntas Frecuentes</h2>
+      <p>Resolvemos tus dudas sobre compras, envíos y presupuestos.</p>
+    </div>
+
+    <div class="faq-accordion">
+      <div class="faq-item" *ngFor="let faq of faqs; let i = index" [class.active]="faq.abierta">
+        <button class="faq-question" (click)="toggleFaq(i)" [attr.aria-expanded]="faq.abierta">
+          <span>{{ faq.pregunta }}</span>
+          <div class="icon">
+            <svg *ngIf="!faq.abierta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <svg *ngIf="faq.abierta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </div>
+        </button>
+        
+        <div class="faq-answer-wrapper" [style.max-height]="faq.abierta ? '500px' : '0'">
+          <div class="faq-answer">
+            <p>{{ faq.respuesta }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

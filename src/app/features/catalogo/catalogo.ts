@@ -1,73 +1,82 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule, RouterLink,FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.scss'
 })
 export class CatalogoComponent implements OnInit {
 
-  // 🌟 EL "HUB" DE FAMILIAS
+  // 🌟 8 FAMILIAS PARA UN GRID PERFECTO (Sin emojis, 100% corporativo)
   familias = [
     {
-      id: 'perf-001', // 👈 Este ID debe coincidir con los de tu ProductDetail
-      name: 'Sistemas de Perfilería Metálica',
-      description: 'Postes, canales, esquineros y canaletas de carga en diversos calibres para muros y plafones.',
-      image: 'https://via.placeholder.com/600x400?text=Perfileria', // Cambia por foto real
-      icon: '🏗️'
+      id: 'perfiles-metalicos', 
+      name: 'Perfiles Metálicos',
+      description: 'Postes, canales de amarre, canaletas de carga y ángulos estructurales.',
+      image: '/assets/productos/perfil.webp'
     },
     {
-      id: 'pan-001',
-      name: 'Paneles de Yeso y Cemento',
-      description: 'Placas estándar, resistentes a la humedad (RH), fuego (RF) y fibrocemento para exteriores.',
-      image: 'https://via.placeholder.com/600x400?text=Paneles',
-      icon: '🧱'
+      id: 'paneles',
+      name: 'Paneles y Tableros',
+      description: 'Panel de Yeso, Glass Rey, Durock, Permabase y exteriores.',
+      image: '/assets/productos/panel.webp'
     },
     {
-      id: 'comp-001',
-      name: 'Masillas y Adhesivos',
-      description: 'Compuestos para juntas, basecoat, selladores y texturizados de alto rendimiento.',
-      image: 'https://via.placeholder.com/600x400?text=Masillas',
-      icon: '🪣'
+      id: 'plafones-suspension',
+      name: 'Plafones y Suspensión',
+      description: 'Plafones acústicos, T principales, secundarias y ángulos perimetrales.',
+      image: '/assets/productos/panel-ligero.webp'
     },
     {
-      id: 'torn-001',
-      name: 'Tornillería y Fijación',
-      description: 'Tornillos Framer, Tek, anclajes y clavos para todo tipo de estructura ligera.',
-      image: 'https://via.placeholder.com/600x400?text=Tornillos',
-      icon: '🔩'
+      id: 'compuestos-pastas',
+      name: 'Compuestos y Pastas',
+      description: 'Readymix, Basecoat, Estuco, Yeso supremo y cementos.',
+      image: '/assets/productos/compuestos.webp'
     },
     {
-      id: 'cint-001',
+      id: 'cintas',
       name: 'Cintas y Complementos',
-      description: 'Cintas de malla, papel, esquineros plásticos y rebordes para un acabado perfecto.',
-      image: 'https://via.placeholder.com/600x400?text=Cintas',
-      icon: '📏'
+      description: 'Cintas de papel, malla de fibra de vidrio y esquineros metálicos o PVC.',
+      image: '/assets/productos/cinta-papel.webp'
     },
     {
-      id: 'herr-001',
+      id: 'aislamientos',
+      name: 'Aislamientos Térmicos',
+      description: 'Lana de roca, colchoneta Aislhogar, Tyvek y placas de poliestireno.',
+      image: '/assets/productos/panel-amarillo.webp' 
+    },
+    {
+      id: 'tornilleria-fijacion',
+      name: 'Tornillería y Anclajes',
+      description: 'Tornillos Tek, Framer, taquetes, clavos y fulminantes.',
+      image: '/assets/show/maquina.webp'
+    },
+    {
+      id: 'herramientas',
       name: 'Herramientas',
-      description: 'Espátulas, charolas, atornilladores y herramienta especializada para tablaroqueros.',
-      image: 'https://via.placeholder.com/600x400?text=Herramientas',
-      icon: '🛠️'
+      description: 'Espátulas, charolas, rodillos y herramientas de corte.',
+      image: '/assets/show/maquina.webp'
     }
   ];
 
   searchTerm: string = '';
 
-  constructor(private viewportScroller: ViewportScroller) { }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object 
+  ) { }
 
-ngOnInit(): void {
-    // 3. Usas la forma segura de Angular para ir hacia arriba
-    this.viewportScroller.scrollToPosition([0, 0]);
+  ngOnInit(): void {
+    // 🛡️ Evita el error "window is not defined" en el servidor
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
-  // Lógica simple para un buscador rápido (filtrará las familias)
   get familiasFiltradas() {
     if (!this.searchTerm) return this.familias;
     const term = this.searchTerm.toLowerCase();

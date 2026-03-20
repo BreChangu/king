@@ -1,12 +1,166 @@
-/* You can add global styles to this file, and also import other style files */
-@use 'theme/variables' as *;
-body {
+/* =========================================
+   👑 ESTILOS GLOBALES KING PANEL (Definitivos)
+========================================= */
+
+// 1. IMPORTAMOS TUS VARIABLES AL INICIO
+@use 'theme/variables' as *; 
+
+// 2. FUENTES PREMIUM B2B
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+// 3. RESETS Y SEGURIDAD BÁSICA (Anti-Scroll)
+* {
   margin: 0;
-  font-family: 'Space Grotesk', sans-serif;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  // 🌟 FIX CRÍTICO: Previene el scroll horizontal desde la raíz
+  overflow-x: hidden; 
+}
 
+body {
+  // 🌟 CONECTADO A TUS VARIABLES
+  font-family: $font-main; // Usa Space Grotesk
+  color: $king-black; 
+  background-color: $bg-canvas; // O usa #ffffff si prefieres el fondo blanco puro
+  line-height: 1.6;
+  
+  // Anti-Scroll
+  overflow-x: hidden; 
+  width: 100%;
+  position: relative;
+}
+
+// 🌟 TIPOGRAFÍA H-TAGS CONECTADA A VARIABLES
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-heading; // Usa Montserrat
+  font-weight: 800; 
+  line-height: 1.2;
+}
+
+/* =========================================
+   🔧 FIX CRÍTICO DEL HERO SECTION (Anti-Desborde)
+========================================= */
+// Le ponemos una camisa de fuerza a los contenedores principales
+.catalog-hero,
+.hero-content {
+  max-width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
+/* =========================================
+   🌟 BOTÓN FLOTANTE WHATSAPP (CON VARIABLES)
+========================================= */
+.whatsapp-fixed-button {
+  position: fixed;
+  
+  // 📍 POSICIÓN: Centrado verticalmente a la derecha
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%); 
+  
+  width: 60px;
+  height: 60px;
+  background-color: #25D366; // Color marca WhatsApp (Se queda en Hex)
+  border-radius: 50%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  box-shadow: $shadow-elevation; // 🔹 VARIABLE
+  z-index: 9999;
+  text-decoration: none;
+  
+  animation: waPulse 3s infinite;
+
+  &:hover {
+    background-color: #1ebe57;
+    
+    .wa-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) translateX(0);
+    }
+  }
+
+  /* 📞 EL ICONO SVG */
+  .wa-icon {
+    width: 32px !important;
+    height: 32px !important;
+    fill: $bg-panel; // 🔹 VARIABLE (Blanco puro)
+    display: block;
+  }
+
+  /* 💬 EL GLOBO DE TEXTO (Sale hacia la izquierda) */
+  .wa-tooltip {
+    position: absolute;
+    // Empuja el globo hacia la IZQUIERDA del botón
+    right: calc(100% + 15px); 
+    top: 50%;
+    transform: translateY(-50%) translateX(10px); 
+    
+    // 🔹 VARIABLES APLICADAS AL DISEÑO
+    background-color: $king-black; 
+    color: $bg-panel; 
+    font-family: $font-main; 
+    border-radius: $radius-tech; 
+    box-shadow: $shadow-elevation;
+    
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none; // Evita que estorbe al click
+
+    /* Flechita apuntando al botón */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -6px; // Lo saca del lado derecho del globo
+      transform: translateY(-50%);
+      border-width: 6px 0 6px 6px;
+      border-style: solid;
+      border-color: transparent transparent transparent $king-black; // 🔹 VARIABLE
+    }
+  }
+}
+
+@keyframes waPulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* 📱 RESPONSIVO: Más chico en celulares y ocultamos globo */
+@media (max-width: 768px) {
+  .whatsapp-fixed-button {
+    width: 50px;
+    height: 50px;
+    right: 15px;
+
+    .wa-icon {
+      width: 28px !important;
+      height: 28px !important;
+    }
+
+    .wa-tooltip {
+      display: none; // En celular no hay 'hover' real, mejor lo ocultamos
+    }
+  }
+}
+
+/* Ocultar el cursor personalizado en dispositivos táctiles */
 @media (hover: none) {
   body { cursor: auto; }
-  app-custom-cursor { display: none; } // Ocultar nuestro cursor en celular
+  app-custom-cursor { display: none; } 
 }

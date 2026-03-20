@@ -1,11 +1,9 @@
-import { Component, HostListener, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, inject, OnInit, OnDestroy, ChangeDetectorRef, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { map } from 'rxjs/operators';
-import { Subject, Subscription, takeUntil } from 'rxjs';
-import { NosotrosComponent } from '../../../features/nosotros/nosotros';
-import { CatalogoComponent } from '../../../features/catalogo/catalogo';
+import { Subject, takeUntil } from 'rxjs';
 
 import { QuoteService } from '../../services/quote.service';
 import { QuoteItem } from '../../../shared/models/quote.model';
@@ -13,7 +11,7 @@ import { QuoteItem } from '../../../shared/models/quote.model';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, ],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })
@@ -21,11 +19,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   public quoteService = inject(QuoteService);
   private cdr = inject(ChangeDetectorRef);
+  private platformId = inject(PLATFORM_ID); // 🌟 FIX SSR: Inyectamos el verificador de plataforma
 
   isScrolled = false;
   isMenuOpen = false;
   isDrawerOpen = false;
-  isCatalogExpanded = false; // 🆕 Control del panel desplegable
+  isCatalogExpanded = false; 
 
   nombreCliente = '';
   clienteEmail = '';
@@ -37,25 +36,31 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private toastTimeout: any;
   private destroy$ = new Subject<void>();
 
-  // 🌟 VENTA CRUZADA: Complementos sugeridos para el carrusel
+  // 🌟 VENTA CRUZADA CON TUS PRODUCTOS REALES
   complementosSugeridos = [
     {
-      id: 'comp-001',
-      name: 'Tornillo Framer 1/2"',
-      variant: 'Caja 1000 pzas',
-      image: 'https://via.placeholder.com/150?text=Tornillos' // Cambia por la URL de tu imagen real
+      id: 'cinta-de-papel-unimax-de-75-ml',
+      name: 'Cinta de Papel Unimax',
+      variant: 'Rollo 75 ml',
+      image: '/assets/productos/cinta-papel.webp'
     },
     {
-      id: 'comp-002',
-      name: 'Cinta de Malla',
-      variant: 'Rollo 90m',
-      image: 'https://via.placeholder.com/150?text=Cinta' // Cambia por la URL de tu imagen real
+      id: 'tornillo-6-x-1-tablarroca-ciento',
+      name: 'Tornillo 6x1" Tablaroca',
+      variant: 'Ciento',
+      image: '/assets/show/maquina.webp' // Cambiar por foto real de tornillo si tienes
     },
     {
-      id: 'comp-003',
-      name: 'Compuesto Base',
-      variant: 'Cubeta 21.8 kg',
-      image: 'https://via.placeholder.com/150?text=Masilla' // Cambia por la URL de tu imagen real
+      id: 'readymix-caja-de-218-kg',
+      name: 'Readymix Panel Rey',
+      variant: 'Caja 21.8 Kg',
+      image: '/assets/productos/ready-mix-21.webp'
+    },
+    {
+      id: 'esquinero-metalico-3-mts',
+      name: 'Esquinero Metálico',
+      variant: '3.05 Mts',
+      image: '/assets/productos/esquinero-metalico.webp'
     }
   ];
 
@@ -69,7 +74,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.quoteService.itemAddedEvent$
       .pipe(takeUntil(this.destroy$))
       .subscribe(item => {
-        console.log('🔔 Evento ITEM ADDED recibido:', item);
         this.mostrarMiniToast(item);
       });
   }
@@ -80,9 +84,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.toastTimeout) clearTimeout(this.toastTimeout);
   }
 
+  // 🌟 FIX SSR: Protegemos el uso de window en el HostListener
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    this.isScrolled = window.scrollY > 20;
+    // Solo se ejecuta si estamos en el navegador, no en el servidor
+    if (isPlatformBrowser(this.platformId)) {
+      this.isScrolled = window.scrollY > 20;
+    }
   }
 
   toggleMenu() { this.isMenuOpen = !this.isMenuOpen; }
@@ -95,12 +103,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isDrawerOpen = !this.isDrawerOpen;
     this.isMenuOpen = false;
     this.showMiniToast = false;
-    this.isCatalogExpanded = false; // Cerrar catálogo al abrir drawer
+    this.isCatalogExpanded = false; 
   }
 
   removeItem(id: string) { this.quoteService.removeItem(id); }
 
-  // 🌟 AGREGAR COMPLEMENTO DESDE EL CAJÓN (1 Clic)
   agregarComplemento(comp: any) {
     const newItem: QuoteItem = {
       id: comp.id,
@@ -112,15 +119,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       quantity: 1 
     };
     
-    // Al agregarlo, el servicio disparará el evento y el Toast saltará
     this.quoteService.addItem(newItem);
   }
 
-  // =========================
-  // TOAST ANIMADO 
-  // =========================
   mostrarMiniToast(item: QuoteItem) {
-    console.log('📍 MOSTRAR TOAST llamado con:', item);
     if (this.toastTimeout) clearTimeout(this.toastTimeout);
 
     this.showMiniToast = false;
@@ -132,13 +134,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.lastAddedItem = item;
       this.showMiniToast = true; 
       this.popBadge = true; 
-      console.log('✅ Toast mostrado. showMiniToast:', this.showMiniToast, 'lastAddedItem:', this.lastAddedItem);
       this.cdr.detectChanges(); 
 
       this.toastTimeout = setTimeout(() => {
-        console.log('⏰ Cerrando toast por timeout');
         this.cerrarMiniToast();
-      }, 3500); // 3.5 segundos para que se pueda leer bien
+      }, 3500); 
     }, 10);
   }
 
@@ -148,9 +148,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  // =========================
-  // CHECKOUT
-  // =========================
   armarMensajeCotizacion(): string | null {
     if (!this.nombreCliente.trim()) {
       alert('Por favor ingresa tu nombre o empresa.');
@@ -176,14 +173,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
   enviarAWhatsApp() {
     const mensaje = this.armarMensajeCotizacion();
     if (!mensaje) return;
-    const url = `https://wa.me/521XXXXXXXXXX?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
+    const url = `https://wa.me/525512345678?text=${encodeURIComponent(mensaje)}`;
+    
+    // 🌟 FIX SSR: Protegemos la apertura de nuevas ventanas
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(url, '_blank');
+    }
   }
 
   enviarPorCorreo() {
     const mensaje = this.armarMensajeCotizacion();
     if (!mensaje) return;
     const url = `mailto:ventas@kingpanel.com?subject=Solicitud de Cotización - ${this.nombreCliente}&body=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_self');
+    
+    // 🌟 FIX SSR: Protegemos la redirección de correo
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(url, '_self');
+    }
   }
 }

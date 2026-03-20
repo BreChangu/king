@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core'; 
 import { CommonModule, isPlatformBrowser } from '@angular/common'; 
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'; 
+import { ActivatedRoute, Router, RouterModule, NavigationEnd } from '@angular/router'; // 🌟 Importamos NavigationEnd
 import { ProductService } from '../../core/services/product.service';
 import { QuoteService } from '../../core/services/quote.service'; 
 import { SeoService } from '../../core/services/seo.service'; 
 import { Product, SubProduct, ProductVariant } from '../../shared/models/product.model';
 import { QuoteItem } from '../../shared/models/quote.model'; 
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-detail',
@@ -19,12 +20,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   productoActual: Product | undefined;
   selecciones: { [subProductId: string]: { variant: ProductVariant, quantity: number } } = {};
 
-  // EL MENÚ GLOBAL DEL CATÁLOGO
+  // NAVEGACIÓN INFERIOR SINCRONIZADA CON EL CATÁLOGO
   categoriasMenu = [
-    { id: 'perf-001', name: 'Sistemas de Perfilería' },
-    { id: 'pan-001', name: 'Paneles de Yeso' }, 
-    { id: 'comp-001', name: 'Masillas y Adhesivos' },
-    { id: 'torn-001', name: 'Tornillería y Fijación' }
+    { id: 'perfiles-metalicos', name: 'Perfiles Metálicos' },
+    { id: 'paneles', name: 'Paneles y Tableros' }, 
+    { id: 'plafones-suspension', name: 'Plafones y Suspensión' },
+    { id: 'compuestos-pastas', name: 'Compuestos y Pastas' },
+    { id: 'cintas-complementos', name: 'Cintas y Aislantes' },
+    { id: 'tornilleria-fijacion', name: 'Tornillería y Fijación' },
+    { id: 'herramientas', name: 'Herramientas' }
   ];
 
   constructor(
@@ -33,34 +37,63 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private quoteService: QuoteService,
     private seoService: SeoService,
-    // 🌟 INYECTAMOS EL VERIFICADOR DE PLATAFORMA (Evita crasheos del servidor)
+    private titleService: Title,
+    private metaService: Meta,
     @Inject(PLATFORM_ID) private platformId: Object 
   ) {}
 
   ngOnInit() {
-    // Escuchamos los cambios en la URL de forma activa
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam) {
         this.productoActual = this.productService.getProductById(idParam);
-        this.inicializarSelecciones(); 
         
-        // INYECTAMOS EL SEO AL CARGAR EL PRODUCTO
+        // 🌟 MEJORA 3 (UX): Reseteamos las selecciones al cambiar de producto
+        this.selecciones = {}; 
+        this.inicializarSelecciones(); 
+
         if (this.productoActual) {
+          // 🌟 MEJORA 1 (SEO Y SOCIAL): Agregamos etiquetas Open Graph para WhatsApp/Facebook
+          const seoTitle = `${this.productoActual.name} a Excelente Precio | King Panel`;
+          const seoDesc = this.productoActual.shortDescription;
+          const seoImage = this.productoActual.image ? `https://www.kingpanel.com${this.productoActual.image}` : 'https://www.kingpanel.com/assets/logo.png';
+          const seoUrl = `https://www.kingpanel.com/producto/${this.productoActual.id}`;
+
+          this.titleService.setTitle(seoTitle);
+          
+          // Metas Generales
+          this.metaService.updateTag({ name: 'description', content: seoDesc });
+          
+          // Metas Open Graph (Facebook, WhatsApp, LinkedIn)
+          this.metaService.updateTag({ property: 'og:title', content: seoTitle });
+          this.metaService.updateTag({ property: 'og:description', content: seoDesc });
+          this.metaService.updateTag({ property: 'og:image', content: seoImage });
+          this.metaService.updateTag({ property: 'og:url', content: seoUrl });
+          this.metaService.updateTag({ property: 'og:type', content: 'product' });
+
           this.seoService.setProductStructuredData(this.productoActual);
         }
 
-        // 🌟 FIX SSR: Solo hacemos scroll si estamos corriendo en el navegador (cliente)
+        // Subimos el scroll suavemente al cambiar de producto
         if (isPlatformBrowser(this.platformId)) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+             window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 100); // Un pequeño timeout asegura que el DOM ya se dibujó antes de subir
         }
       }
     });
   }
 
-  // LIMPIAMOS EL SEO AL SALIR DE LA PÁGINA
   ngOnDestroy() {
+    // Limpiamos los datos estructurados
     this.seoService.clearStructuredData();
+    
+    // 🌟 MEJORA 2 (Limpieza): Removemos las etiquetas específicas de producto al salir de la página
+    this.metaService.removeTag("property='og:title'");
+    this.metaService.removeTag("property='og:description'");
+    this.metaService.removeTag("property='og:image'");
+    this.metaService.removeTag("property='og:url'");
+    this.metaService.removeTag("property='og:type'");
   }
 
   inicializarSelecciones() {
@@ -79,7 +112,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   scrollToSection(id: string) {
-    // 🌟 FIX SSR: Protegemos el uso de document y window
     if (isPlatformBrowser(this.platformId)) {
       const element = document.getElementById(id);
       if (element) {
@@ -117,20 +149,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     const newItem: QuoteItem = {
       id: `${sub.id}-${seleccion.variant.id}`,
       productId: sub.id,
-      
-      // EL FIX DE LOS TÍTULOS PARA EL CARRITO
       productName: seleccion.variant.name, 
       variantName: sub.name,              
-      
       calibre: seleccion.variant.calibre,
-      
-      // EL FIX DE LA FOTO DINÁMICA
       image: seleccion.variant.image || sub.image, 
-      
       quantity: seleccion.quantity
     };
 
     this.quoteService.addItem(newItem);
+    
+    // Dejamos la cantidad en cero después de agregar al carrito
     this.selecciones[sub.id].quantity = 0; 
   }
 }

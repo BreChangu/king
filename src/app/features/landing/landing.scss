@@ -1,21 +1,17 @@
 @use '../../../theme/variables' as *; 
 
 /* =========================================
-   HERO INMERSIVO (Equilibrado)
+   1. HERO INMERSIVO (Fondo Completo)
 ========================================= */
 .hero-luxury {
   position: relative;
-  // 🌟 FIX 1: Se ajusta solo, con tope mínimo y máximo
-  padding: clamp(4rem, 8vh, 8rem) 0; 
-  min-height: 50vh;
-  max-height: 600px; // 🚨 FIX 2: Nunca pasará de esta altura en monitores gigantes
-  
+  padding: 12rem 5% 8rem 5%; 
+  min-height: 85vh; 
   display: flex;
   align-items: center; 
-  justify-content: center; // Centrado perfecto
+  justify-content: flex-start; 
   overflow: hidden;
 
-  /* 1. LA IMAGEN DE FONDO ABSOLUTO */
   .visual {
     position: absolute;
     top: 0;
@@ -33,71 +29,97 @@
         height: 100%;
         object-fit: cover;
         object-position: center; 
+        transition: transform 0.7s ease; 
       }
 
-      /* Degradado para contraste y legibilidad */
       .overlay-gradient {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, rgba(15, 20, 30, 0.95) 0%, rgba(15, 20, 30, 0.4) 100%);
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(90deg, rgba($king-black, 0.98) 0%, rgba($king-black, 0.8) 40%, rgba($king-black, 0.3) 100%);
+        z-index: 1;
       }
     }
   }
 
-  /* 2. EL TEXTO */
+  &:hover .visual .image-wrapper img {
+    transform: scale(1.02); 
+  }
+
   .content {
     position: relative;
     z-index: 2; 
-    
-    // 🌟 FIX 3: Alineamos el texto exacto con el grid de tarjetas
-    width: 90%;
-    max-width: 1200px; 
-    margin: 0 auto; 
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    // Mantenemos el texto contenido en el lado izquierdo
-    h1, .description, .brand-tag, .actions, .trust-badges {
-      max-width: 700px; 
-    }
-    
     .brand-tag {
-      display: block;
       color: $accent; 
+      font-family: $font-main;
       font-weight: 700;
-      letter-spacing: 2px;
-      margin-bottom: 1.5rem;
-      font-size: 0.85rem;
+      letter-spacing: 3px;
+      margin-bottom: 2rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
+      border-left: 3px solid $accent;
+      padding-left: 1rem;
+      max-width: 700px;
     }
 
     h1 {
-      color: #ffffff; 
+      color: $bg-panel; 
       font-family: $font-heading;
-      font-size: clamp(3rem, 5vw, 4.5rem); 
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
+      font-size: clamp(2.8rem, 4vw, 4.5rem); 
+      line-height: 1.15;
+      margin-bottom: 2rem;
       text-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+      max-width: 700px;
       
-      .text-highlight {
-        color: $accent; 
-      }
+      .text-highlight { color: $accent; }
     }
 
     .description {
-      color: rgba(255, 255, 255, 0.85); 
+      color: rgba($bg-panel, 0.8); 
+      font-family: $font-main;
       font-size: 1.15rem;
-      line-height: 1.6;
+      font-weight: 300; 
+      line-height: 1.7;
       margin-bottom: 3rem; 
+      max-width: 600px; 
+      
+      strong { color: $bg-panel; font-weight: 600; }
     }
 
-    /* BOTONES */
+    .trust-badges {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 3.5rem 0;
+      display: flex;
+      flex-direction: column; 
+      gap: 1.2rem;
+      max-width: 700px;
+
+      li {
+        color: rgba($bg-panel, 0.9);
+        font-family: $font-main;
+        font-size: 0.95rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        letter-spacing: 0.5px;
+
+        .icon { width: 24px; height: 24px; color: $accent; }
+      }
+    }
+
     .actions {
       display: flex;
       gap: 1.5rem;
-      margin-bottom: 3.5rem; 
       flex-wrap: wrap;
+      max-width: 700px;
 
       .btn-primary {
         background-color: $accent; 
@@ -108,132 +130,215 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         text-decoration: none;
+        border-radius: $radius-tech;
         transition: all 0.3s ease;
-        &:hover { background-color: darken($accent, 10%); transform: translateY(-3px); }
+        &:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba($accent, 0.2); }
       }
       
       .link-secondary {
-        color: white;
+        background-color: transparent;
+        color: $bg-panel;
         padding: 1.2rem 2.5rem;
         font-family: $font-heading;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1px;
         text-decoration: none;
-        border: 1px solid white;
+        border: 1px solid rgba($bg-panel, 0.3);
+        border-radius: $radius-tech;
         transition: all 0.3s ease;
-        &:hover { background-color: white; color: $king-black; transform: translateY(-3px); }
-      }
-    }
-
-    /* BADGES */
-    .trust-badges {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-
-      li {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.8rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-
-        .icon { 
-          width: 20px;
-          height: 20px;
-          color: $accent; 
-        }
+        &:hover { border-color: $bg-panel; background-color: rgba($bg-panel, 0.05); transform: translateY(-3px); }
       }
     }
   }
 }
 
 /* =========================================
-   GRILLA EXCLUSIVA DEL LANDING
+   2. CARRUSEL DE MARCAS INFINITO
 ========================================= */
-.landing-exclusive-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Centrado perfecto siempre */
-  gap: 2.5rem; 
-  width: 90%;
-  max-width: 1200px; 
-  margin: 3rem auto 6rem auto; 
+.brands-ticker {
+  background-color: $bg-panel; 
+  padding: 3rem 0;
+  border-bottom: 1px solid $border;
+  overflow: hidden;
+  width: 100%;
 
-  /* Control del componente hijo */
-  app-product-card {
-    flex: 1 1 300px; 
-    max-width: 380px; /* 🚨 LÍMITE DE ESTIRAMIENTO */
+  .ticker-wrap {
     width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 150px;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    &::before { left: 0; background: linear-gradient(to right, $bg-panel 0%, transparent 100%); }
+    &::after { right: 0; background: linear-gradient(to left, $bg-panel 0%, transparent 100%); }
+  }
+
+  .ticker-track {
+    display: flex;
+    align-items: center;
+    width: calc(200px * 10); 
+    animation: scrollTicker 30s linear infinite; 
+
+    &:hover { animation-play-state: paused; }
+  }
+
+  .ticker-item {
+    width: 200px; 
+    flex-shrink: 0;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 100%;
+      max-height: 55px; 
+      object-fit: contain;
+      filter: grayscale(100%); 
+      opacity: 0.6;
+      transition: all 0.3s ease;
+
+      &:hover { filter: grayscale(0%); opacity: 1; }
+    }
+  }
+}
+
+@keyframes scrollTicker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-200px * 5)); } 
+}
+
+/* =========================================
+   3. SISTEMAS DESTACADOS (Grid CSS)
+========================================= */
+.featured-systems {
+  padding: 6rem 0;
+  background-color: $bg-canvas; 
+
+  .container { max-width: 1400px; margin: 0 auto; }
+
+  .section-header {
+    text-align: center; margin-bottom: 4rem; padding: 0 1.5rem;
+    h2 { font-family: $font-heading; font-size: 2.2rem; color: $king-black; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; font-weight: 800; }
+    p { font-family: $font-main; font-size: 1.1rem; color: $text-muted; max-width: 600px; margin: 0 auto; }
+  }
+}
+
+.landing-exclusive-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 2rem; 
+  width: 90%;
+  max-width: 1300px; 
+  margin: 0 auto; 
+
+  app-product-card { display: block; width: 100%; height: 100%; }
+
+  .loading-text {
+    grid-column: 1 / -1; text-align: center; color: $text-muted; font-family: $font-main;
+  }
+}
+
+/* =========================================
+   4. PREGUNTAS FRECUENTES (Acordeón)
+========================================= */
+.faq-section {
+  padding: 8rem 0;
+  background-color: $bg-panel;
+
+  .faq-header {
+    text-align: center; margin-bottom: 5rem;
+    h2 { font-family: $font-heading; font-weight: 300; font-size: 2rem; letter-spacing: 4px; color: $king-black; text-transform: uppercase; margin-bottom: 1rem; }
+    p { font-family: $font-main; font-weight: 300; color: $text-muted; font-size: 1.1rem; }
+  }
+
+  .faq-accordion {
+    max-width: 900px; margin: 0 auto; border-top: 1px solid $border; 
+    
+    .faq-item {
+      border-bottom: 1px solid $border; background: transparent; transition: all 0.4s ease;
+      &:hover { background-color: rgba($accent, 0.03); }
+
+      &.active {
+        .faq-question { color: $king-black; .icon { transform: rotate(180deg); color: $accent; } }
+        .faq-answer-wrapper { padding-bottom: 2rem; }
+      }
+
+      .faq-question {
+        width: 100%; background: transparent; border: none; padding: 2rem 1rem;
+        display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+        font-family: $font-main; font-size: 1.1rem; font-weight: 400; color: $text-main; text-align: left; transition: color 0.3s;
+        .icon { width: 24px; height: 24px; flex-shrink: 0; color: $border; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+      }
+
+      .faq-answer-wrapper {
+        max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .faq-answer { padding: 0 1rem 1rem; p { margin: 0; font-family: $font-main; font-weight: 300; color: $text-muted; line-height: 1.8; font-size: 0.95rem; } }
+      }
+    }
   }
 }
 
 /* ==========================================
-   📱 ECOSISTEMA DE RESPONSIVIDAD (Media Queries)
+   📱 ECOSISTEMA DE RESPONSIVIDAD 
 ========================================== */
-
-/* 1. TABLETS HORIZONTALES Y LAPTOPS PEQUEÑAS */
-@media (max-width: 1024px) {
-  .landing-exclusive-grid {
-    gap: 1.5rem;
-  }
-  .hero-luxury .content h1 {
-    font-size: 3.5rem; 
-  }
+@media (max-width: 1100px) {
+  /* Grilla 2x2 en Tablets */
+  .landing-exclusive-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
 }
 
-/* 2. TABLETS VERTICALES Y CELULARES GRANDES */
 @media (max-width: 768px) {
+  /* Hero Celular */
   .hero-luxury {
-    padding: 6rem 0 3rem 0;
-    max-height: none; // En celular dejamos que el texto mande sobre la altura
-    
+    padding: 10rem 5% 5rem 5%; 
+    justify-content: center; 
+
     .visual .image-wrapper .overlay-gradient {
-      background: linear-gradient(180deg, rgba(15, 20, 30, 0.7) 0%, rgba(15, 20, 30, 0.95) 100%);
+      background: linear-gradient(180deg, rgba($king-black, 0.6) 0%, rgba($king-black, 0.98) 100%);
     }
 
     .content {
-      h1 { font-size: 2.5rem; }
-      .trust-badges {
-        flex-direction: column; 
-        gap: 12px;
-      }
+      align-items: center; text-align: center;
+      .brand-tag { border-left: none; border-bottom: 3px solid $accent; padding-left: 0; padding-bottom: 0.5rem; }
+      .trust-badges { align-items: center; text-align: left; }
     }
   }
 
-  .landing-exclusive-grid {
-    width: 100%; 
-    padding: 0 1.5rem; 
-    gap: 1.5rem; 
-    
-    app-product-card {
-      max-width: 100%; 
-    }
+  /* Carrusel Marcas Celular */
+  .brands-ticker {
+    padding: 2rem 0;
+    .ticker-wrap::before, .ticker-wrap::after { width: 50px; }
+    .ticker-track { width: calc(150px * 10); animation-duration: 20s; }
+    .ticker-item { width: 150px; padding: 0 1rem; img { max-height: 40px; } }
+  }
+
+  /* Animación celular ajustada */
+  @keyframes scrollTicker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-150px * 5)); } 
   }
 }
 
-/* 3. CELULARES PEQUEÑOS */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  /* Hero botones apilados */
   .hero-luxury .content {
-    h1 { font-size: 2rem; }
-    
-    .actions {
-      flex-direction: column; 
-      .btn-primary, .link-secondary {
-        width: 100%;
-        text-align: center;
-      }
-    }
+    h1 { font-size: 2.5rem; }
+    .actions { flex-direction: column; width: 100%; .btn-primary, .link-secondary { width: 100%; text-align: center; } }
   }
 
-  .landing-exclusive-grid {
-    padding: 0 1rem; 
+  /* Grilla 1 columna Celular */
+  .landing-exclusive-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+
+  /* FAQ Celular */
+  .faq-section {
+    padding: 5rem 1rem;
+    .faq-accordion .faq-item .faq-question { padding: 1.5rem 0.5rem; font-size: 1rem; }
   }
 }

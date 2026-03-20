@@ -1,29 +1,29 @@
-// 1. La variante de tamaño/calibre (esto se queda igual)
+// 1. La variante de tamaño/calibre
 export interface ProductVariant {
-  image: string;
+  image?: string; // 🌟 EL CAMBIO: Agregamos el "?" aquí
   id: string;
   name: string; 
   calibre: string; 
   sku?: string; 
 }
 
-// 2. NUEVO: El Sub-producto específico (ej. "Poste Metálico", "Esquinero")
+// 2. El Sub-producto específico
 export interface SubProduct {
   id: string;
   name: string;
   shortDescription: string;
-  image: string; // Cada sub-producto necesita su propia foto
-  variants: ProductVariant[]; // Las medidas de este sub-producto en específico
+  image: string; 
+  variants: ProductVariant[]; 
 }
 
-// 3. El Producto Principal / Familia (ej. "Perfiles Metálicos")
+// 3. El Producto Principal / Familia
 export interface Product {
   id: string;
   category: string;
-  name: string; // "Sistemas de Perfiles Metálicos"
+  name: string; 
   shortDescription: string;
-image?: string;  inStock: boolean;
+  image?: string; 
+  inStock: boolean;
   features?: string[]; 
-  // EL CAMBIO CLAVE: En lugar de variantes directas, ahora tiene una lista de sub-productos
   subProducts?: SubProduct[]; 
 }
