@@ -1,10 +1,12 @@
-// 1. La variante de tamaño/calibre
+// 1. La variante de tamaño/calibre (¡AQUÍ VAN LAS PÍLDORAS!)
 export interface ProductVariant {
-  image?: string; // 🌟 EL CAMBIO: Agregamos el "?" aquí
   id: string;
   name: string; 
-  calibre: string; 
+  calibre?: string; // 🌟 Le ponemos "?" porque ahora algunos usan empaques en lugar de calibre directo
+  image?: string; 
   sku?: string; 
+  empaques?: any[]; // 🌟 AQUÍ VAN LOS EMPAQUES
+  empaqueSeleccionado?: any; // 🌟 AQUÍ VA LA SELECCIÓN
 }
 
 // 2. El Sub-producto específico

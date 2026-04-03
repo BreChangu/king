@@ -103,15 +103,21 @@
     <div class="trust-badge" style="background: #eef2ff; color: #0f172a; padding: 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 15px; text-align: center; border: 1px dashed #cbd5e1;">
       🛡️ ¡Cotización Gratis! Mejoramos presupuestos en CDMX, Edomex y Área Metropolitana.
     </div>
-    <label>Nombre o empresa</label>
-    <input type="text" placeholder="Tu Nombre" [(ngModel)]="nombreCliente">
+   <label>Nombre o empresa *</label>
+    <input type="text" placeholder="Tu Nombre" [(ngModel)]="nombreCliente" maxlength="60" autocomplete="name">
     
-    <label>Correo Electrónico (Opcional)</label>
-    <input type="email" placeholder="correo@empresa.com" [(ngModel)]="clienteEmail">
+    <label>Correo Electrónico (Opcional en WhatsApp) *</label>
+    <input type="email" placeholder="correo@empresa.com" [(ngModel)]="clienteEmail" maxlength="80" autocomplete="email">
+
+    <label>Lugar de entrega (C.P. o Zona) *</label>
+    <input type="text" [(ngModel)]="ubicacionEnvio" placeholder=" Dirección de Envío" maxlength="60" autocomplete="postal-code"> 
+    
 
     <p class="footer-hint">Elige cómo enviar tu solicitud:</p>
     <div class="action-buttons">
-      <button class="whatsapp-btn" (click)="enviarAWhatsApp()">WhatsApp</button>
+      <button class="whatsapp-btn" (click)="enviarAWhatsApp()">
+   <i class="fab fa-whatsapp"></i> WhatsApp
+</button>
       <button class="email-btn" (click)="enviarPorCorreo()">Correo</button>
     </div>
   </div>

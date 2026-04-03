@@ -5,21 +5,22 @@
   padding: 4rem 0 0;
   border-top: 0.0625rem solid #f1f5f9;
   margin-top: 2rem;
+
   .container {
     max-width: 87.5rem; // 1400px
     margin: 0 auto;
-    padding: 0 8%; // Alineación exacta con tu Hero
+    padding: 0 8%;
   }
 
   .main-content {
     display: flex;
-    justify-content: space-between; // Distribución a lo largo de los 1400px
+    justify-content: space-between;
     padding-bottom: 3.5rem;
 
     @media (max-width: 64rem) { // 1024px
       flex-direction: column;
       gap: 3rem;
-      text-align: center;
+      text-align: center; // Centra el texto en móvil
     }
   }
 
@@ -40,7 +41,7 @@
   .logo {
     font-size: 1.15rem;
     font-weight: 800;
-    color: #000;
+    color: #0f172a;
     text-decoration: none;
     span { font-size: 0.6em; vertical-align: super; color: #94a3b8; }
   }
@@ -50,7 +51,9 @@
     font-size: 0.85rem;
     line-height: 1.6;
     max-width: 18rem;
-    @media (max-width: 64rem) { margin: 0 auto; }
+    @media (max-width: 64rem) { 
+      margin: 0 auto; // Mantiene el párrafo centrado en móvil
+    }
   }
 
   .nav ul {
@@ -62,7 +65,7 @@
       color: #475569;
       font-size: 0.85rem;
       transition: color 0.2s;
-      &:hover { color: #000; }
+      &:hover { color: #0f172a; font-weight: 500;}
     }
   }
 
@@ -70,37 +73,45 @@
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    
+    // 🌟 ARREGLO PARA MÓVIL: Centra los botones de contacto
+    @media (max-width: 64rem) {
+      align-items: center; 
+    }
 
     .phone {
       font-size: 1.1rem;
       font-weight: 800;
-      color: #000;
+      color: #0f172a;
       text-decoration: none;
+      transition: color 0.2s;
+      &:hover { color: #2563eb; }
     }
 
     .whatsapp-btn {
-      display: flex;
+      display: inline-flex; // Cambiado de flex a inline-flex
       align-items: center;
       gap: 0.5rem;
-      color: #25D366; // Verde oficial
+      color: #25D366; 
       font-weight: 700;
       text-decoration: none;
       font-size: 0.9rem;
+      padding: 0.5rem 0;
 
       .wa-icon {
-        width: 1.1rem;
-        height: 1.1rem;
+        width: 1.2rem;
+        height: 1.2rem;
         fill: currentColor;
       }
-      &:hover { opacity: 0.8; }
+      &:hover { filter: brightness(0.9); }
     }
   }
 
   // --- BARRA LEGAL SLIM ---
   .footer-legal {
     padding: 1.5rem 0;
-    background-color: #f9fafb;
-    border-top: 0.0625rem solid #f1f5f9;
+    background-color: #f8fafc;
+    border-top: 0.0625rem solid #e2e8f0;
 
     .legal-flex {
       display: flex;
@@ -109,15 +120,26 @@
 
       @media (max-width: 48rem) {
         flex-direction: column;
-        gap: 0.8rem;
+        gap: 1rem;
       }
     }
 
-    p, a { font-size: 0.65rem; color: #94a3b8; text-decoration: none; }
+    p { 
+      font-size: 0.7rem; 
+      color: #94a3b8; 
+      margin: 0;
+    }
+
     .legal-links {
       display: flex;
       gap: 2rem;
-      a:hover { color: #475569; text-decoration: underline; }
+      
+      a { 
+        font-size: 0.7rem; 
+        color: #64748b; 
+        text-decoration: none; 
+        &:hover { color: #0f172a; }
+      }
     }
   }
 }

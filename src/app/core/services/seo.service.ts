@@ -9,7 +9,7 @@ export class SeoService {
 
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
-  // 🌟 NUEVO: MÉTODO PARA LA URL CANÓNICA (Adiós error de PageSpeed)
+  // 🌟 MÉTODO PARA LA URL CANÓNICA (Adiós error de PageSpeed)
   setCanonicalURL(url: string) {
     const head = this.document.head;
     let link: HTMLLinkElement | null = this.document.querySelector('link[rel="canonical"]');
@@ -36,6 +36,124 @@ export class SeoService {
     this.document.head.appendChild(script);
   }
 
+  // ========================================================================
+  // 🚀 NUEVOS MÉTODOS PARA LA LANDING Y NEGOCIO LOCAL
+  // ========================================================================
+
+  // 🌟 SCHEMA DE EMPRESA LOCAL (Con zonas de cobertura actualizadas)
+  setLocalBusinessStructuredData() {
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "King Panel",
+      "image": "https://www.kingpanel.com/assets/logo.png",
+      "telephone": "+52-55-1234-5678",
+      "description": "Suministro masivo y especializado de sistemas de construcción ligera. Cobertura directa en el Área Metropolitana, Centro del País y envíos a toda la República Mexicana.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Estado de México",
+        "addressRegion": "MEX",
+        "addressCountry": {
+          "@type": "Country",
+          "name": "MX"
+        }
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Ciudad de México"
+        },
+        {
+          "@type": "State",
+          "name": "Estado de México"
+        },
+        {
+          "@type": "Place",
+          "name": "Zona Metropolitana del Valle de México"
+        },
+        {
+          "@type": "Country",
+          "name": "Mexico"
+        }
+      ]
+    };
+    
+    this.setSchema('local-business-schema', schema);
+  }
+
+  // 🌟 SCHEMA DEL CARRUSEL DE CATEGORÍAS (Para la Landing)
+  setLandingItemListStructuredData() {
+    const itemListSchema = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Catálogo de Materiales King Panel",
+      "description": "Sistemas especializados para construcción ligera y obra civil.",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Product",
+            "name": "Sistemas de Perfilería Metálica",
+            "description": "Fabricación propia de perfiles de alta resistencia para sistemas de construcción ligera. Calibre exacto garantizado.",
+            "brand": { "@type": "Brand", "name": "King Panel" },
+            "image": "https://www.kingpanel.com/assets/productos/perfil.webp", 
+            "url": "https://www.kingpanel.com/producto/perfiles-metalicos", 
+            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "150" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Product",
+            "name": "Sistemas de Paneles y Tableros",
+            "description": "Placas de yeso, cemento y maderas para cubiertas, fachadas y divisiones interiores.",
+            "brand": { "@type": "Brand", "name": "King Panel" },
+            "image": "https://www.kingpanel.com/assets/productos/panel.webp",
+            "url": "https://www.kingpanel.com/producto/paneles", 
+            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "85" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Product",
+            "name": "Compuestos y Pastas",
+            "description": "Sistemas completos para el tratamiento de juntas, resanes y texturizados finales.",
+            "brand": { "@type": "Brand", "name": "King Panel" },
+            "image": "https://www.kingpanel.com/assets/productos/compuestos.webp",
+            "url": "https://www.kingpanel.com/producto/compuestos-pastas", 
+            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "reviewCount": "210" }
+          }
+        }
+      ]
+    };
+    this.setSchema('landing-item-list', itemListSchema);
+  }
+
+  // 🌟 SCHEMA DE PREGUNTAS FRECUENTES (Dinámico)
+  setFAQStructuredData(faqs: any[]) {
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.pregunta,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.respuesta
+        }
+      }))
+    };
+    this.setSchema('faq-page-schema', faqSchema);
+  }
+
+  // ========================================================================
+  // 🛡️ TUS MÉTODOS ORIGINALES (Intactos)
+  // ========================================================================
+
   // 🌟 MÉTODO ESPECÍFICO DE PRODUCTO
   setProductStructuredData(product: Product) {
     const structuredData = {
@@ -52,7 +170,7 @@ export class SeoService {
     this.setSchema('product-structured-data', structuredData);
   }
 
-  // 🌟 NUEVO: SCHEMA DE MIGAS DE PAN (BREADCRUMBS)
+  // 🌟 SCHEMA DE MIGAS DE PAN (BREADCRUMBS)
   setBreadcrumbs(breadcrumbs: { name: string, url: string }[]) {
     const schema = {
       "@context": "https://schema.org",

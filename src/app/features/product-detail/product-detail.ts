@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core'; 
 import { CommonModule, isPlatformBrowser } from '@angular/common'; 
-import { ActivatedRoute, Router, RouterModule, NavigationEnd } from '@angular/router'; // 🌟 Importamos NavigationEnd
+import { ActivatedRoute, Router, RouterModule, NavigationEnd } from '@angular/router';
 import { ProductService } from '../../core/services/product.service';
 import { QuoteService } from '../../core/services/quote.service'; 
 import { SeoService } from '../../core/services/seo.service'; 
@@ -16,6 +16,9 @@ import { Title, Meta } from '@angular/platform-browser';
   styleUrl: './product-detail.scss'
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
+  seleccionarEmpaque(_t57: ProductVariant, _t61: any) {
+    throw new Error('Method not implemented.');
+  }
   
   productoActual: Product | undefined;
   selecciones: { [subProductId: string]: { variant: ProductVariant, quantity: number } } = {};
@@ -121,6 +124,25 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+obtenerImagenActiva(sub: SubProduct): string {
+    const seleccion = this.selecciones[sub.id];
+    if (!seleccion) return sub.image; 
+
+    // 1. ¿El empaque seleccionado tiene imagen propia? (Ej. Cubeta de 6kg)
+    if (seleccion.variant.empaqueSeleccionado && seleccion.variant.empaqueSeleccionado.image) {
+      return seleccion.variant.empaqueSeleccionado.image;
+    }
+
+    // 2. ¿La variante tiene imagen propia?
+    if (seleccion.variant.image) {
+      return seleccion.variant.image;
+    }
+
+    // 3. Si no hay nada específico, mostramos la imagen general del sub-producto
+    return sub.image;
+  }
+
+
   seleccionarVariante(subId: string, variant: ProductVariant) {
     if (this.selecciones[subId]) this.selecciones[subId].variant = variant;
   }
@@ -139,26 +161,34 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (this.selecciones[subId]) this.selecciones[subId].quantity = valor;
   }
 
-  agregarACotizacion(sub: SubProduct) {
+agregarACotizacion(sub: SubProduct) {
     const seleccion = this.selecciones[sub.id];
+    
     if (!seleccion || seleccion.quantity <= 0) {
       alert("Por favor, ingresa una cantidad válida para cotizar.");
       return;
     }
 
+    // 🌟 Usamos nuestra nueva función inteligente
+    const imagenFinal = this.obtenerImagenActiva(sub);
+
+    let presentacionFinal = seleccion.variant.calibre || 'N/A';
+    if (seleccion.variant.empaqueSeleccionado) {
+       presentacionFinal = seleccion.variant.empaqueSeleccionado.nombre || seleccion.variant.empaqueSeleccionado;
+    }
+
     const newItem: QuoteItem = {
       id: `${sub.id}-${seleccion.variant.id}`,
       productId: sub.id,
-      productName: seleccion.variant.name, 
-      variantName: sub.name,              
-      calibre: seleccion.variant.calibre,
-      image: seleccion.variant.image || sub.image, 
-      quantity: seleccion.quantity
+      productName: seleccion.variant.name,
+      variantName: sub.name,
+      calibre: presentacionFinal, 
+      image: imagenFinal,
+      quantity: seleccion.quantity,
+      category: this.productoActual?.category || 'general'
     };
 
     this.quoteService.addItem(newItem);
-    
-    // Dejamos la cantidad en cero después de agregar al carrito
     this.selecciones[sub.id].quantity = 0; 
   }
 }
