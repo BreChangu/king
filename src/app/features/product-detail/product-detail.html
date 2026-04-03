@@ -1,17 +1,19 @@
-<section class="product-detail-hero" *ngIf="productoActual; else noEncontrado">
+<article class="product-detail-hero" *ngIf="productoActual; else noEncontrado">
   <div class="detail-container">
     
-    <div class="breadcrumbs">
+    <nav class="breadcrumbs" aria-label="Navegación del sitio">
       <a routerLink="/catalogo">Catálogo Central</a>
       <span class="separator">/</span>
-      <span class="current">{{ productoActual.name }}</span>
-    </div>
+      <span class="current" aria-current="page">{{ productoActual.category }}</span>
+    </nav>
 
-    <div class="family-header">
+    <header class="family-header">
       <span class="category">{{ productoActual.category }}</span>
+      
       <h1>{{ productoActual.name }}</h1>
+      
       <div class="divider"></div>
-      <p class="description">{{ productoActual.shortDescription }}</p>
+      <p class="description" itemprop="description">{{ productoActual.shortDescription }}</p>
 
       @if (productoActual.features) {
         <ul class="features-list">
@@ -20,27 +22,30 @@
           }
         </ul>
       }
-    </div>
+    </header>
 
     @if (productoActual.subProducts && productoActual.subProducts.length > 0) {
-      <div class="family-explorer">
+      <section class="family-explorer">
         <h3 class="explorer-title">Materiales en este sistema:</h3>
 
         <div class="quick-add-grid">
           @for (sub of productoActual.subProducts; track sub.id) {
             
-            <article class="grid-card">
+            <div class="grid-card">
               <div class="card-image">
-                <img [src]="selecciones[sub.id]?.variant?.image || sub.image" [alt]="sub.name" class="foto-dinamica"> 
+                <img 
+                  [src]="selecciones[sub.id]?.variant?.image || sub.image" 
+                  [alt]="'Imagen de ' + sub.name" 
+                  class="foto-dinamica"
+                > 
               </div>
               
               <div class="card-info">
-                <div class="card-header">
-                  <h4>{{ sub.name }}</h4>
+                <header class="card-header">
+                  <h2>{{ sub.name }}</h2>
                   <p class="description" [title]="sub.shortDescription">{{ sub.shortDescription }}</p>
-                </div>
+                </header>
 
-             
               <div class="card-variants">
                   <span class="label">Medida / Variante:</span>
                   <div class="chips-container">
@@ -78,9 +83,10 @@
                     }
                   }
                 </div>
+                
                 <div class="card-purchase">
                   <div class="qty-control">
-                    <button class="qty-btn" (click)="cambiarCantidad(sub.id, -1)">-</button>
+                    <button class="qty-btn" (click)="cambiarCantidad(sub.id, -1)" aria-label="Restar cantidad">-</button>
                     <input 
                       type="number" 
                       class="qty-input" 
@@ -89,17 +95,18 @@
                       (input)="onInputCantidad(sub.id, $event)"
                       (focus)="$any($event.target).select()"
                       min="0"
+                      aria-label="Cantidad a cotizar"
                     />
-                    <button class="qty-btn" (click)="cambiarCantidad(sub.id, 1)">+</button>
+                    <button class="qty-btn" (click)="cambiarCantidad(sub.id, 1)" aria-label="Sumar cantidad">+</button>
                   </div>
                   <button class="add-btn" (click)="agregarACotizacion(sub)">Agregar</button>
                 </div>
               </div>
-            </article>
+            </div>
           }
         </div>
 
-        <div class="explore-catalog">
+        <nav class="explore-catalog" aria-label="Navegación de categorías">
           <h3>Continúa Explorando</h3>
           <div class="catalog-pills">
             @for (cat of categoriasMenu; track cat.id) {
@@ -109,13 +116,13 @@
                 (click)="navegarACategoria(cat.id)"
               >
                 {{ cat.name }} 
-                <span class="arrow">➔</span>
+                <span class="arrow" aria-hidden="true">➔</span>
               </button>
             }
           </div>
-        </div>
+        </nav>
 
-      </div>
+      </section>
     }
 
     <div class="actions">
@@ -124,7 +131,7 @@
       </a>
     </div>
   </div>
-</section>
+</article>
 
 <ng-template #noEncontrado>
   <div class="error-container">
