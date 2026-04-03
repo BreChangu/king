@@ -6,84 +6,81 @@ import { Product } from '../../shared/models/product.model';
 })
 export class ProductService {
   // ==========================================
-  // 🌟 1. FAMILIAS PARA EL CATÁLOGO
+  // 🌟 1. FAMILIAS PARA EL CATÁLOGO (Lo que sale en la Landing)
   // ==========================================
   private familiasCatalogo = [
     {
       id: 'perfiles-metalicos',
-      name: 'Perfiles Metálicos',
-      description: 'Postes, canales de amarre, canaletas de carga y ángulos estructurales.',
+      name: 'Perfiles para Tablaroca (Postes y Canales)',
+      description: 'Postes metálicos, canales de amarre, canaletas y estructurales.',
       image: 'assets/productos/perfil.webp',
     },
     {
       id: 'paneles',
-      name: 'Paneles y Tableros',
-      description: 'Panel de Yeso, Glass Rey, Durock, Permabase y exteriores.',
+      name: 'Tablaroca, Panel Rey y Durock',
+      description: 'Paneles de yeso, Tablacemento para exterior, Permabase y maderas.',
       image: 'assets/productos/panel.webp',
     },
     {
       id: 'plafones-suspension',
-      name: 'Plafones y Suspensión',
-      description: 'Plafones acústicos, T principales, secundarias y ángulos perimetrales.',
+      name: 'Plafones Acústicos y Suspensión',
+      description: 'Plafones reticulares, suspensión Donn/GPM y ángulos perimetrales.',
       image: 'assets/productos/panel-ligero.webp',
     },
     {
       id: 'compuestos-pastas',
-      name: 'Compuestos y Pastas',
-      description: 'Readymix, Basecoat, Estuco, Yeso supremo y cementos.',
+      name: 'Readymix, Basecoat y Pastas',
+      description: 'Pasta Readymix, Redimix USG, Basecoat para Durock y estucos.',
       image: 'assets/productos/compuestos.webp',
     },
     {
       id: 'cintas-complementos',
-      name: 'Cintas y Complementos',
-      description: 'Cintas de papel, malla de fibra de vidrio y esquineros metálicos o PVC.',
+      name: 'Cintas para Tablaroca y Esquineros',
+      description: 'Cinta de malla, cinta de papel USG, esquineros Perfatrim y PVC.',
       image: 'assets/productos/cinta-papel.webp',
     },
     {
       id: 'aislamientos',
-      name: 'Aislamientos Térmicos',
-      description: 'Lana de roca, colchoneta Aislhogar, Tyvek y placas de poliestireno.',
+      name: 'Colchonetas Aislhogar y Tyvek',
+      description: 'Fibra de vidrio Aislhogar, lana mineral y placas de poliestireno.',
       image: 'assets/productos/panel-amarillo.webp',
     },
     {
       id: 'tornilleria-fijacion',
-      name: 'Tornillería y Anclajes',
-      description: 'Tornillos Tek, Framer, taquetes, clavos y fulminantes.',
+      name: 'Tornillos Tek y Taquetes',
+      description: 'Tornillo Framer, tornillos para tablaroca, taquetes y fulminantes.',
       image: 'assets/show/maquina.webp',
     },
     {
       id: 'herramientas',
-      name: 'Herramientas',
-      description: 'Espátulas, charolas, rodillos y herramientas de corte.',
+      name: 'Espátulas y Herramientas',
+      description: 'Espátulas para Readymix, charolas, lijas y navajas.',
       image: 'assets/show/maquina.webp',
     },
   ];
 
   // ==========================================
-  // 🌟 2. PRODUCTOS DETALLADOS (Con SEO de Alto Impacto)
+  // 🌟 2. PRODUCTOS DETALLADOS (Con Nombres de Marca y SEO)
   // ==========================================
   private products: Product[] = [
     
     // --- 1. PERFILES METÁLICOS ---
     {
       id: 'perfiles-metalicos',
-      name: 'Sistemas de Perfilería Metálica',
+      name: 'Perfiles Galvanizados para Tablaroca',
       category: 'Perfiles',
       image: 'assets/productos/perfil.webp',
-      shortDescription: 'Fabricantes directos de perfiles de alta resistencia. Suministro e instalación para proyectos de construcción ligera.',
+      shortDescription: 'Postes y canales de amarre de acero galvanizado para muros de Tablaroca y Panel Rey. Calibres 20, 22, 24 y 26.',
       features: ['Acero galvanizado de alta calidad', 'Fabricación bajo estándares', 'Calibres 20, 22, 24 y 26'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Perfiles Metálicos para Tablaroca | Postes y Canales Calibre 26 y 20',
-      seoDescription: 'Fábrica y distribuidora de perfiles metálicos para construcción ligera. Postes, canales de amarre y canaletas de carga. Precios de mayoreo para contratistas.',
-      seoKeywords: 'perfiles metalicos para tablaroca, poste metalico tablaroca, canal de amarre, canaleta de carga, precio perfiles tablaroca, acero galvanizado construccion',
-      
+      seoTitle: 'Perfiles Metálicos para Tablaroca | Postes y Canales Calibre 26',
+      seoDescription: 'Venta de perfiles metálicos galvanizados. Poste metálico y canal de amarre para instalar Tablaroca. Precios de mayoreo.',
+      seoKeywords: 'perfiles para tablaroca, poste metalico, canal de amarre, precio perfiles tablaroca, acero galvanizado, canaleta de carga',
       subProducts: [
         {
           id: 'poste-metalico',
-          name: 'Poste Metálico',
-          shortDescription: 'Poste estructural y divisorio de acero galvanizado.',
+          name: 'Poste Metálico para Tablaroca',
+          shortDescription: 'Poste estructural y divisorio. Base fundamental del bastidor.',
           image: 'assets/productos/poste-6.webp',
           variants: [
             { id: 'var-pos-410', name: 'Medida: 4.10 cm x 3.05 m', empaqueSeleccionado: null, empaques: [{ idProducto: 'pos-410-26', nombre: 'Calibre 26', cantidad: 'Pieza', image: 'assets/productos/poste-6.webp' }, { idProducto: 'pos-410-20', nombre: 'Calibre 20 (Estructural)', cantidad: 'Pieza', image: 'assets/productos/poste-6.webp' }] },
@@ -94,8 +91,8 @@ export class ProductService {
         },
         {
           id: 'canal-amarre',
-          name: 'Canal de Amarre',
-          shortDescription: 'Canal de amarre de acero galvanizado para bastidores.',
+          name: 'Canal de Amarre Galvanizado',
+          shortDescription: 'Canal de amarre superior e inferior para bastidores de panel de yeso.',
           image: 'assets/productos/canal-amarre.webp',
           variants: [
             { id: 'var-can-410', name: 'Ancho: 4.10 cm x 3.05 m', empaqueSeleccionado: null, empaques: [{ idProducto: 'can-410-26', nombre: 'Calibre 26', cantidad: 'Pieza' }, { idProducto: 'can-410-22', nombre: 'Calibre 22 (Estructural)', cantidad: 'Pieza' }] },
@@ -106,8 +103,8 @@ export class ProductService {
         },
         {
           id: 'canaleta-carga',
-          name: 'Canaleta de Carga y Listón',
-          shortDescription: 'Canaleta de carga y listón metálico para plafones.',
+          name: 'Canaleta de Carga y Canal Listón',
+          shortDescription: 'Perfilería estructural para armado de plafones falsos.',
           image: 'assets/productos/canaleta-carga.webp',
           variants: [
             { id: 'var-canc-34', name: 'Canaleta 3/4" x 3.05 m', empaqueSeleccionado: null, empaques: [{ idProducto: 'canc-34-24', nombre: 'Calibre 24', cantidad: 'Pieza' }] },
@@ -117,8 +114,8 @@ export class ProductService {
         },
         {
           id: 'angulos-metalicos',
-          name: 'Ángulos y Esquineros Metálicos',
-          shortDescription: 'Ángulos de amarre y esquineros para remates de muros.',
+          name: 'Esquinero Metálico y Ángulo de Amarre',
+          shortDescription: 'Remates y protección de esquinas para muros de panel.',
           image: 'assets/productos/esquinero-metalico.webp',
           variants: [
             { id: 'var-esq-met', name: 'Esquinero Metálico', empaqueSeleccionado: null, empaques: [{ idProducto: 'esq-met-244', nombre: 'Largo: 2.44 m', cantidad: 'Cal 30' }, { idProducto: 'esq-met-305', nombre: 'Largo: 3.05 m', cantidad: 'Cal 30' }] },
@@ -131,54 +128,51 @@ export class ProductService {
     // --- 2. PANELES DE YESO Y TABLEROS ---
     {
       id: 'paneles',
-      name: 'Sistemas de Paneles y Tableros',
+      name: 'Tablaroca, Panel Rey y Tablacemento',
       category: 'Paneles',
       image: 'assets/productos/panel.webp',
-      shortDescription: 'Suministro masivo de paneles de yeso, cemento y maderas estructurales.',
+      shortDescription: 'Todo tipo de hojas: Tablaroca USG, Panel Rey, paneles verdes antihumedad para baño y Durock/Permabase para exterior.',
       features: ['Aislamiento térmico', 'Resistencia a fuego y humedad', 'Maderas para obra'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Tablaroca Precio por Hoja | Paneles para Exterior y Baño | King Panel',
-      seoDescription: 'Cotiza tablaroca a precio de distribuidor. Tenemos Tablaroca para exterior (Durock/Permabase), Tablaroca para baño (verde antihumedad) y paneles de yeso estándar USG y Panel Rey.',
-      seoKeywords: 'tablaroca precio, tablaroca para exterior, tablaroca para baño, tablaroca precio por hoja, medidas de tablaroca, distribuidor panel de yeso',
-      
+      seoTitle: 'Tablaroca Precio por Hoja | Panel Rey, Durock y Permabase',
+      seoDescription: 'Cotiza Tablaroca a precio de distribuidor. Hoja de Tablaroca USG, Panel Rey, Tablaroca verde para baño y Durock para exterior. Envíos masivos.',
+      seoKeywords: 'tablaroca precio, panel rey, durock, permabase, tablaroca verde, tablaroca para exterior, medidas de tablaroca, hoja de tablaroca',
       subProducts: [
         {
           id: 'panel-regular',
-          name: 'Panel de Yeso Regular y Firecode',
-          shortDescription: 'Tableros estándar y resistentes al fuego (USG y Panel Rey).',
+          name: 'Tablaroca USG y Panel Rey Regular',
+          shortDescription: 'Hojas de panel de yeso estándar (1/2" y 5/8") y Firecode (Contra fuego).',
           image: 'assets/productos/panel-regular.webp',
           variants: [
-            { id: 'var-pr-12', name: 'Grosor: 1/2" (1.22 x 2.44m)', empaqueSeleccionado: null, empaques: [{ idProducto: 'pr-usg', nombre: 'Tablaroca USG', cantidad: 'Hoja' }, { idProducto: 'pr-prey', nombre: 'Panel Rey', cantidad: 'Hoja' }, { idProducto: 'pr-ligero', nombre: 'Panel Ligero', cantidad: 'Hoja' }] },
+            { id: 'var-pr-12', name: 'Medida estándar: 1.22 x 2.44m (1/2")', empaqueSeleccionado: null, empaques: [{ idProducto: 'pr-usg', nombre: 'Tablaroca USG', cantidad: 'Hoja' }, { idProducto: 'pr-prey', nombre: 'Panel Rey', cantidad: 'Hoja' }, { idProducto: 'pr-ligero', nombre: 'Panel Ligero', cantidad: 'Hoja' }] },
             { id: 'var-pr-58', name: 'Grosor: 5/8" y Especiales', empaqueSeleccionado: null, empaques: [{ idProducto: 'pr-58', nombre: 'Tablaroca 5/8"', cantidad: 'Hoja' }, { idProducto: 'pr-fire', nombre: 'Firecode Tipo X', cantidad: 'Hoja' }] }
           ],
         },
         {
           id: 'panel-humedad',
-          name: 'Panel Resistente a la Humedad',
-          shortDescription: 'Paneles RH y sustratos especiales Anti Moho.',
+          name: 'Tablaroca Verde (Antihumedad para Baños)',
+          shortDescription: 'Panel verde RH (Resistente a la Humedad) Panel Rey y Anti Moho USG.',
           image: 'assets/productos/panel-verde.webp',
           variants: [
-            { id: 'var-ph', name: 'Paneles RH (1.22 x 2.44m)', empaqueSeleccionado: null, empaques: [{ idProducto: 'ph-rey', nombre: 'RH Panel Rey (12.7mm)', cantidad: 'Hoja' }, { idProducto: 'ph-usg', nombre: 'Anti Moho USG (13mm)', cantidad: 'Hoja' }] }
+            { id: 'var-ph', name: 'Panel RH Verde (1.22 x 2.44m)', empaqueSeleccionado: null, empaques: [{ idProducto: 'ph-rey', nombre: 'RH Panel Rey (12.7mm)', cantidad: 'Hoja' }, { idProducto: 'ph-usg', nombre: 'Anti Moho USG (13mm)', cantidad: 'Hoja' }] }
           ],
         },
         {
           id: 'tablero-cemento',
-          name: 'Sustratos para Exterior (Tablacemento)',
-          shortDescription: 'Placas de cemento y recubrimientos de fibra de vidrio.',
+          name: 'Durock y Permabase (Tablacemento Exterior)',
+          shortDescription: 'Placas de cemento altamente resistentes para fachadas y muros exteriores.',
           image: 'assets/productos/permabase.webp',
           variants: [
-            { id: 'var-tc', name: 'Placas Exterior (1.22 x 2.44m)', empaqueSeleccionado: null, empaques: [{ idProducto: 'tc-permabase', nombre: 'Permabase (1/2")', cantidad: 'Hoja' }, { idProducto: 'tc-durock', nombre: 'Durock USG (1/2")', cantidad: 'Hoja' }, { idProducto: 'tc-glassrey', nombre: 'Glass Rey (1/2")', cantidad: 'Hoja' }, { idProducto: 'tc-securock', name: 'Securock Glass Mat', cantidad: 'Hoja' }] }
+            { id: 'var-tc', name: 'Hoja de Cemento (1.22 x 2.44m)', empaqueSeleccionado: null, empaques: [{ idProducto: 'tc-permabase', nombre: 'Permabase (1/2")', cantidad: 'Hoja' }, { idProducto: 'tc-durock', nombre: 'Durock USG (1/2")', cantidad: 'Hoja' }, { idProducto: 'tc-glassrey', nombre: 'Glass Rey Exterior (1/2")', cantidad: 'Hoja' }, { idProducto: 'tc-securock', name: 'Securock Glass Mat', cantidad: 'Hoja' }] }
           ],
         },
         {
           id: 'maderas-construccion',
-          name: 'Maderas Estructurales',
-          shortDescription: 'Láminas OSB, MDF y Triplay para cimbres y usos estructurales.',
+          name: 'Hojas de Triplay, OSB y MDF',
+          shortDescription: 'Maderas estructurales para cimbra y recubrimientos.',
           image: 'assets/productos/panel-amarillo.webp',
           variants: [
-            { id: 'var-maderas', name: 'Hojas y Triplay', empaqueSeleccionado: null, empaques: [{ idProducto: 'mad-osb', nombre: 'OSB 16mm', cantidad: 'Hoja' }, { idProducto: 'mad-triplay9', nombre: 'Triplay 9mm', cantidad: 'Hoja' }, { idProducto: 'mad-triplay12', nombre: 'Triplay 1/2" Segunda', cantidad: 'Hoja' }, { idProducto: 'mad-mdf', nombre: 'MDF 9mm', cantidad: 'Hoja' }] }
+            { id: 'var-maderas', name: 'Hojas Estructurales', empaqueSeleccionado: null, empaques: [{ idProducto: 'mad-osb', nombre: 'OSB 16mm', cantidad: 'Hoja' }, { idProducto: 'mad-triplay9', nombre: 'Triplay 9mm', cantidad: 'Hoja' }, { idProducto: 'mad-triplay12', nombre: 'Triplay 1/2" Segunda', cantidad: 'Hoja' }, { idProducto: 'mad-mdf', nombre: 'MDF 9mm', cantidad: 'Hoja' }] }
           ],
         },
       ],
@@ -187,23 +181,20 @@ export class ProductService {
     // --- 3. PLAFONES Y SUSPENSIÓN ---
     {
       id: 'plafones-suspension',
-      name: 'Plafones y Suspensión',
+      name: 'Plafón Reticular y Suspensión Acústica',
       category: 'Plafones',
       image: 'assets/productos/panel-ligero.webp',
-      shortDescription: 'Losetas acústicas y suspensión metálica para techos reticulares.',
-      features: ['Variedad de texturas', 'Suspensión GPM y DX', 'Fácil mantenimiento'],
+      shortDescription: 'Plafones acústicos Radar y Cortega. Suspensión Donn y GPM para techos falsos.',
+      features: ['Variedad de texturas', 'Suspensión GPM y Donn', 'Fácil mantenimiento'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Plafones Acústicos y Suspensión para Falso Plafón | King Panel',
-      seoDescription: 'Venta de plafón reticular, losetas acústicas (Radar, Cortega, Yeso Vinil) y perfilería de suspensión T principal y secundaria. Sistemas para techo falso.',
-      seoKeywords: 'plafon acustico, plafon reticular, suspension para plafon, techo falso, loseta acustica usg, plafon radar, suspension donnn',
-      
+      seoTitle: 'Plafón Reticular Acústico | Suspensión Donn y GPM',
+      seoDescription: 'Venta de plafón reticular. Losetas acústicas Radar USG y Cortega. Perfilería de suspensión Donn y GPM para plafón falso.',
+      seoKeywords: 'plafon acustico, plafon reticular, suspension donn, loseta radar usg, techo falso tablaroca, suspension gpm',
       subProducts: [
         {
           id: 'plafones-reticulares',
-          name: 'Losetas y Plafones Acústicos',
-          shortDescription: 'Plafones de fibra mineral, yeso y vinil para control acústico.',
+          name: 'Loseta Acústica Radar USG y Cortega',
+          shortDescription: 'Losetas de fibra mineral y yeso vinil para falsos plafones reticulares.',
           image: 'assets/productos/panel-ligero.webp',
           variants: [
             { id: 'var-plaf-61', name: 'Medida: .61 x .61 m', empaqueSeleccionado: null, empaques: [{ idProducto: 'plaf-radar', nombre: 'Radar USG', cantidad: 'Caja 16 Pzas' }, { idProducto: 'plaf-cortega', nombre: 'Cortega Armstrong', cantidad: 'Caja 16 Pzas' }, { idProducto: 'plaf-fisured', nombre: 'Fisured L/S', cantidad: 'Caja 16 Pzas' }, { idProducto: 'plaf-yeso', nombre: 'Yeso Vinil', cantidad: 'Caja 10 Pzas' }, { idProducto: 'plaf-gpm', name: 'GPM Lana Mineral', cantidad: 'Caja 10 Pzas' }] },
@@ -212,11 +203,11 @@ export class ProductService {
         },
         {
           id: 'suspension-metalica',
-          name: 'Suspensión Metálica y Ángulos',
-          shortDescription: 'Sistemas de suspensión perimetral y conectores.',
+          name: 'Suspensión Donn USG y GPM',
+          shortDescription: 'Tee principal, Tees secundarias y ángulos para armar plafones.',
           image: 'assets/productos/perfil.webp',
           variants: [
-            { id: 'var-susp-gpm', name: 'Línea Suspensión (GPM / DX)', empaqueSeleccionado: null, empaques: [{ idProducto: 'susp-tprin', nombre: 'T Principal 3.66m', cantidad: 'Pieza' }, { idProducto: 'susp-tsec122', nombre: 'T Secundaria 1.22m', cantidad: 'Pieza' }, { idProducto: 'susp-tsec61', nombre: 'T Secundaria 0.61m', cantidad: 'Pieza' }, { idProducto: 'susp-ang', nombre: 'Ángulo Perimetral', cantidad: 'Pieza' }] }
+            { id: 'var-susp-gpm', name: 'Línea Suspensión (GPM / Donn)', empaqueSeleccionado: null, empaques: [{ idProducto: 'susp-tprin', nombre: 'T Principal 3.66m', cantidad: 'Pieza' }, { idProducto: 'susp-tsec122', nombre: 'T Secundaria 1.22m', cantidad: 'Pieza' }, { idProducto: 'susp-tsec61', nombre: 'T Secundaria 0.61m', cantidad: 'Pieza' }, { idProducto: 'susp-ang', nombre: 'Ángulo Perimetral', cantidad: 'Pieza' }] }
           ],
         },
       ],
@@ -225,46 +216,43 @@ export class ProductService {
     // --- 4. COMPUESTOS Y PASTAS ---
     {
       id: 'compuestos-pastas',
-      name: 'Compuestos y Pastas',
+      name: 'Pasta Readymix, Basecoat y Redimix USG',
       category: 'Compuestos',
       image: 'assets/productos/compuestos.webp',
-      shortDescription: 'Premezclados, cementos y materiales de obra civil para recubrimientos y obra negra.',
+      shortDescription: 'Cubetas y cajas de compuesto para tratamiento de juntas de Tablaroca, Basecoat para Durock y yeso.',
       features: ['Sistemas de tratamiento de juntas', 'Adhesivos y Yesos', 'Materiales a granel'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Pasta Readymix y Basecoat para Exterior | Precios Mayoreo',
-      seoDescription: 'Todo para el tratamiento de juntas. Venta de pasta Readymix Panel Rey y Redimix USG en caja y cubeta. Basecoat para Durock, estucos y yeso.',
-      seoKeywords: 'readymix tablaroca, pasta para tablaroca precio, basecoat precio, cubeta de readymix usg, tratamiento de juntas, yeso supremo, estuco fino',
-      
+      seoTitle: 'Pasta Readymix Panel Rey y Basecoat | Precio Mayoreo',
+      seoDescription: 'Pasta para tablaroca Readymix y Redimix USG. Venta de Basecoat para Durock y Permabase. Estuco y Yeso Supremo.',
+      seoKeywords: 'readymix panel rey, redimix usg, pasta para tablaroca, basecoat durock precio, basecoat permabase, tratamiento de juntas',
       subProducts: [
         {
           id: 'readymix',
-          name: 'Compuesto Premezclado (Readymix)',
-          shortDescription: 'Pasta para tratamiento de juntas en sistemas ligeros.',
+          name: 'Pasta Readymix y Redimix USG',
+          shortDescription: 'Compuesto premezclado estándar para encintado y acabado de juntas de Tablaroca.',
           image: 'assets/productos/ready-mix-21.webp',
           variants: [
-            { id: 'var-rm-caja', name: 'Presentación: Caja', empaqueSeleccionado: null, empaques: [{ idProducto: 'rm-caja21', nombre: 'Panel Rey', cantidad: '21.8 kg', image: 'assets/productos/ready-mix-21.webp' }, { idProducto: 'rm-caja25', nombre: 'Estándar', cantidad: '25 kg' }, { idProducto: 'rm-caja28usg', nombre: 'Redimix USG', cantidad: '28 kg', image: 'assets/productos/ready-mix-28.webp' }] },
-            { id: 'var-rm-cubeta', name: 'Presentación: Cubeta y Granel', empaqueSeleccionado: null, empaques: [{ idProducto: 'rm-cubeta6', nombre: 'Cubeta Pequeña', cantidad: '6 kg', image: 'assets/productos/ready-mix-6.webp' }, { idProducto: 'rm-cubeta28', nombre: 'Cubeta Grande', cantidad: '28 kg', image: 'assets/productos/ready-mix-28.wep' }, { idProducto: 'rm-granel', nombre: 'A Granel', cantidad: '1 kg' }] }
+            { id: 'var-rm-caja', name: 'Presentación en Caja', empaqueSeleccionado: null, empaques: [{ idProducto: 'rm-caja21', nombre: 'Readymix Panel Rey', cantidad: '21.8 kg', image: 'assets/productos/ready-mix-21.webp' }, { idProducto: 'rm-caja25', nombre: 'Estándar', cantidad: '25 kg' }, { idProducto: 'rm-caja28usg', nombre: 'Redimix USG', cantidad: '28 kg', image: 'assets/productos/ready-mix-28.webp' }] },
+            { id: 'var-rm-cubeta', name: 'Presentación en Cubeta', empaqueSeleccionado: null, empaques: [{ idProducto: 'rm-cubeta6', nombre: 'Cubeta Pequeña', cantidad: '6 kg', image: 'assets/productos/ready-mix-6.webp' }, { idProducto: 'rm-cubeta28', nombre: 'Cubeta Grande Redimix', cantidad: '28 kg', image: 'assets/productos/ready-mix-28.wep' }, { idProducto: 'rm-granel', nombre: 'A Granel', cantidad: '1 kg' }] }
           ],
         },
         {
           id: 'basecoat-estuco',
-          name: 'Basecoat, Estucos y Pastas',
-          shortDescription: 'Recubrimientos para exterior y acabados decorativos.',
+          name: 'Basecoat para Durock y Permabase',
+          shortDescription: 'Mortero Basecoat para tratamiento de juntas en placas de exterior.',
           image: 'assets/productos/basecoat.webp',
           variants: [
-            { id: 'var-bc', name: 'Basecoat (Tratamiento Exterior)', empaqueSeleccionado: null, empaques: [{ idProducto: 'bc-usg20', nombre: 'Basecoat USG', cantidad: '20 kg' }, { idProducto: 'bc-protekto', nombre: 'Protekto Plus', cantidad: '22.7 kg' }] },
+            { id: 'var-bc', name: 'Sacos de Basecoat', empaqueSeleccionado: null, empaques: [{ idProducto: 'bc-usg20', nombre: 'Basecoat USG (Para Durock)', cantidad: '20 kg' }, { idProducto: 'bc-protekto', nombre: 'Protekto Plus (Para Permabase)', cantidad: '22.7 kg' }] },
             { id: 'var-est', name: 'Estucos y Recubrimientos', empaqueSeleccionado: null, empaques: [{ idProducto: 'est-adhetec25', nombre: 'Estuco Fino Adhetec', cantidad: '25 kg' }, { idProducto: 'est-exter40', nombre: 'Estuco Exter Block', cantidad: '40 kg' }, { idProducto: 'past-royal', nombre: 'Pasta Royal / MS-Block', cantidad: '25 kg' }] }
           ],
         },
         {
           id: 'cementos-yesos',
-          name: 'Cementos, Yesos y Adhesivos',
-          shortDescription: 'Materiales base para albañilería y nivelación.',
+          name: 'Yeso Supremo, Cemento y Pegazulejo',
+          shortDescription: 'Polvos básicos para albañilería, nivelación y adherencia.',
           image: 'assets/productos/compuestos.webp',
           variants: [
-            { id: 'var-yeso', name: 'Yeso', empaqueSeleccionado: null, empaques: [{ idProducto: 'kilo-de-yeso-penitas', nombre: 'Por Kilo', cantidad: '1 kg' }, { idProducto: 'cy-supremo', nombre: 'Bulto Supremo', cantidad: '40 kg' }] },
+            { id: 'var-yeso', name: 'Yeso de Construcción', empaqueSeleccionado: null, empaques: [{ idProducto: 'kilo-de-yeso-penitas', nombre: 'Por Kilo', cantidad: '1 kg' }, { idProducto: 'cy-supremo', nombre: 'Bulto Yeso Supremo', cantidad: '40 kg' }] },
             { id: 'var-cem', name: 'Cemento', empaqueSeleccionado: null, empaques: [{ idProducto: 'cy-cemblanco', nombre: 'Cemento Blanco', cantidad: '25 kg' }, { idProducto: 'cy-cemgris', nombre: 'Cemento Gris', cantidad: '50 kg' }] },
             { id: 'var-pega', name: 'Adhesivos', empaqueSeleccionado: null, empaques: [{ idProducto: 'cy-pegayeso', nombre: 'Pegayeso', cantidad: 'Galón' }, { idProducto: 'cy-pegazulejo', nombre: 'Pegazulejo', cantidad: '20 kg' }] }
           ],
@@ -275,33 +263,30 @@ export class ProductService {
     // --- 5. CINTAS Y COMPLEMENTOS ---
     {
       id: 'cintas-complementos',
-      name: 'Cintas y Complementos',
+      name: 'Cinta de Malla y Esquineros Perfatrim',
       category: 'Complementos',
       image: 'assets/productos/cinta-papel.webp',
-      shortDescription: 'Cintas de amarre, esquineros plásticos y accesorios misceláneos.',
+      shortDescription: 'Cintas de malla de fibra de vidrio, cinta de papel USG y esquineros metálicos/PVC.',
       features: ['Esquineros PVC y Metal', 'Cintas de Fibra de Vidrio', 'Selladores y espumas'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Cinta de Malla para Tablaroca y Esquineros Perfatrim | Accesorios',
-      seoDescription: 'Cinta de malla de fibra de vidrio, cinta de papel USG para juntas de tablaroca, esquineros metálicos y de PVC. Complementos de construcción ligera.',
-      seoKeywords: 'cinta para tablaroca, cinta de malla fibra de vidrio, cinta de papel usg, esquinero plastico pvc, reborde j, esquinero perfatrim, masking tape',
-      
+      seoTitle: 'Cinta de Malla para Tablaroca y Esquineros | Accesorios',
+      seoDescription: 'Cinta de malla de fibra de vidrio, cinta de papel USG para juntas de Tablaroca, esquineros metálicos Perfatrim y PVC. Reborde J.',
+      seoKeywords: 'cinta para tablaroca, cinta de malla fibra de vidrio, cinta de papel usg, esquinero plastico pvc, reborde j, esquinero perfatrim',
       subProducts: [
         {
           id: 'cintas-juntas',
-          name: 'Cintas para Juntas y Enmascarar',
-          shortDescription: 'Cintas de papel, malla y masking tape.',
+          name: 'Cinta de Malla y Cinta de Papel USG',
+          shortDescription: 'Cintas esenciales para ocultar las juntas de los paneles de yeso.',
           image: 'assets/productos/cinta-papel.webp',
           variants: [
             { id: 'var-cin-malla', name: 'Cinta de Malla (Fibra de Vidrio)', empaqueSeleccionado: null, empaques: [{ idProducto: 'cinta-de-malla-de-fibra-de-vidrio-de-10-cm-x-23-mts', nombre: 'Rollo Chico', cantidad: '23 mts' }, { idProducto: 'cin-malla45', nombre: 'Rollo Grande', cantidad: '45 mts' }] },
-            { id: 'var-cin-papel', name: 'Otras Cintas', empaqueSeleccionado: null, empaques: [{ idProducto: 'cin-papel75', nombre: 'Cinta de Papel USG', cantidad: 'Rollo 75 ml' }, { idProducto: 'cin-masking', nombre: 'Masking Azul 3/4"', cantidad: 'Pieza' }, { idProducto: 'cin-gris', nombre: 'Cinta Gris (Duct Tape)', cantidad: 'Pieza' }] }
+            { id: 'var-cin-papel', name: 'Cinta de Papel y Masking', empaqueSeleccionado: null, empaques: [{ idProducto: 'cin-papel75', nombre: 'Cinta de Papel USG', cantidad: 'Rollo 75 ml' }, { idProducto: 'cin-masking', nombre: 'Masking Azul 3/4"', cantidad: 'Pieza' }, { idProducto: 'cin-gris', nombre: 'Cinta Gris (Duct Tape)', cantidad: 'Pieza' }] }
           ],
         },
         {
           id: 'esquineros-rollos',
-          name: 'Esquineros y Rebordes (PVC y Metal)',
-          shortDescription: 'Protección perimetral y guardacantos.',
+          name: 'Esquineros PVC y Perfatrim (Metálico)',
+          shortDescription: 'Guardacantos y protección de esquinas vivas.',
           image: 'assets/productos/esquinero-metalico.webp',
           variants: [
             { id: 'var-esq-rollo', name: 'Protección Perimetral', empaqueSeleccionado: null, empaques: [{ idProducto: 'esq-rollo', nombre: 'Rollo Metálico Perfatrim', cantidad: '30 mts' }, { idProducto: 'pvc-esq', nombre: 'Esquinero PVC 1 1/4"', cantidad: '3.05 m' }, { idProducto: 'reb-j', nombre: 'Reborde "J"', cantidad: '3.05 m' }, { idProducto: 'reb-lz', nombre: 'Reborde "Z" PVC', cantidad: '3.05 m' }] }
@@ -313,23 +298,20 @@ export class ProductService {
     // --- 6. AISLAMIENTOS TÉRMICOS ---
     {
       id: 'aislamientos',
-      name: 'Aislamientos Térmicos y Acústicos',
+      name: 'Colchoneta Aislhogar y Lana Mineral',
       category: 'Aislamientos',
       image: 'assets/productos/panel-amarillo.webp',
-      shortDescription: 'Lana mineral, Tyvek y poliestireno para control de temperatura y ruido.',
+      shortDescription: 'Rollos de fibra de vidrio Aislhogar Owens Corning para muros de Tablaroca.',
       features: ['Fibra de vidrio Aislhogar', 'Membranas protectoras', 'Placas de poliestireno'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Colchoneta de Fibra de Vidrio Aislhogar | Aislante Acústico y Térmico',
-      seoDescription: 'Aislamiento térmico y acústico para muros de tablaroca. Venta de colchoneta de fibra de vidrio Aislhogar R-8 y R-11. Controla temperatura y ruido.',
-      seoKeywords: 'aislante termico tablaroca, fibra de vidrio aislhogar, colchoneta acustica, aislante acustico muro, lana mineral, aislamiento termico r11',
-      
+      seoTitle: 'Colchoneta de Fibra de Vidrio Aislhogar | Aislante Acústico',
+      seoDescription: 'Aislamiento térmico y acústico para muros de Tablaroca. Venta de colchoneta de fibra de vidrio Aislhogar R-8 y R-11 de Owens Corning.',
+      seoKeywords: 'aislante termico tablaroca, fibra de vidrio aislhogar, owens corning, colchoneta acustica, lana mineral, aislamiento termico r11',
       subProducts: [
         {
           id: 'aislamiento-fibra',
-          name: 'Colchoneta de Fibra de Vidrio',
-          shortDescription: 'Aislante Aislhogar para interiores.',
+          name: 'Fibra de Vidrio Aislhogar (Owens Corning)',
+          shortDescription: 'Colchoneta aislante termoacústica para el interior de bastidores metálicos.',
           image: 'assets/productos/panel-amarillo.webp',
           variants: [
             { id: 'var-ais-fibra', name: 'Aislhogar en Rollo', empaqueSeleccionado: null, empaques: [{ idProducto: 'ais-r8', nombre: 'Valor R-8', cantidad: 'Rollo' }, { idProducto: 'ais-r11', nombre: 'Valor R-11 (3 1/2")', cantidad: 'Rollo' }] }
@@ -341,23 +323,20 @@ export class ProductService {
     // --- 7. TORNILLERÍA Y FIJACIÓN ---
     {
       id: 'tornilleria-fijacion',
-      name: 'Tornillería y Anclajes',
+      name: 'Tornillos para Tablaroca y Tornillo Framer',
       category: 'Tornillería',
       image: 'assets/show/maquina.webp',
-      shortDescription: 'Tornillos Tek, Tablaroca, madera, taquetes y fulminantes de pólvora.',
+      shortDescription: 'Tornillos Tek broca, tornillo punta fina para panel, fulminantes y clavos con rondana.',
       features: ['Fijación especializada', 'Anclajes a concreto', 'Cartuchos cal. 22 y 27'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Tornillos para Tablaroca 1 pulgada y Tornillo Framer | Fijación',
-      seoDescription: 'Cajas de tornillos para tablaroca (punta fina y broca/tek) 1, 1 1/4 y 1 5/8 pulgadas. Clavo con rondana para concreto, fulminantes cal 22 y 27.',
+      seoTitle: 'Tornillos para Tablaroca 1 pulgada y Tornillo Framer',
+      seoDescription: 'Cajas de tornillos para Tablaroca (punta fina y Tek broca) 1 y 1 1/4 pulgadas. Clavo con rondana, tornillo Framer y fulminantes cal 27.',
       seoKeywords: 'tornillos para tablaroca, tornillo framer, tornillo tek broca, clavo con rondana, fulminantes cal 27, tornillo punta fina 1 pulgada, taquete plastico',
-      
       subProducts: [
         {
           id: 'tornillos-tablaroca',
-          name: 'Tornillos Tablaroca (Punta Fina)',
-          shortDescription: 'Tornillos fosfatados para fijación de paneles.',
+          name: 'Tornillos para Tablaroca (Punta Fina)',
+          shortDescription: 'Tornillos fosfatados color negro para fijar la hoja de yeso al poste.',
           image: 'assets/show/maquina.webp',
           variants: [
             { id: 'var-tor-6x1', name: 'Medida: 6 x 1"', empaqueSeleccionado: null, empaques: [{ idProducto: 'tor-6x1-ciento', nombre: 'Por Ciento', cantidad: '100 pzas' }, { idProducto: 'tor-6x1-caja', nombre: 'Caja Cerrada', cantidad: 'Millar' }] },
@@ -368,19 +347,19 @@ export class ProductService {
         },
         {
           id: 'tornillos-tek',
-          name: 'Tornillos Tek (Broca) y Madera',
-          shortDescription: 'Para estructuras metálicas y sustratos especiales.',
+          name: 'Tornillos Tek Broca y Tornillo Framer',
+          shortDescription: 'Para unir perfiles metálicos entre sí o fijar Durock.',
           image: 'assets/show/maquina.webp',
           variants: [
-            { id: 'var-tek-8x12', name: 'Medida: 8 x 1/2" Framer', empaqueSeleccionado: null, empaques: [{ idProducto: 'tek-8x12', nombre: 'Por Ciento', cantidad: '100 pzas' }, { idProducto: 'caja-de-tornillo-8-x-12-dr-tekbroca', nombre: 'Caja Cerrada', cantidad: 'Millar' }] },
+            { id: 'var-tek-8x12', name: 'Medida: 8 x 1/2" (Framer)', empaqueSeleccionado: null, empaques: [{ idProducto: 'tek-8x12', nombre: 'Por Ciento', cantidad: '100 pzas' }, { idProducto: 'caja-de-tornillo-8-x-12-dr-tekbroca', nombre: 'Caja Cerrada', cantidad: 'Millar' }] },
             { id: 'var-tek-8x1', name: 'Medida: 8 x 1"', empaqueSeleccionado: null, empaques: [{ idProducto: 'tek-8x1', nombre: 'Por Ciento', cantidad: '100 pzas' }] },
-            { id: 'var-tek-8x114', name: 'Medida: 8 x 1 1/4" Permabase', empaqueSeleccionado: null, empaques: [{ idProducto: 'tek-8x114', nombre: 'Por Ciento', cantidad: '100 pzas' }, { idProducto: 'caja-de-tornillo-8-x-1-14-dr', nombre: 'Caja Cerrada', cantidad: 'Millar' }] }
+            { id: 'var-tek-8x114', name: 'Medida: 8 x 1 1/4" (Para Durock)', empaqueSeleccionado: null, empaques: [{ idProducto: 'tek-8x114', nombre: 'Por Ciento', cantidad: '100 pzas' }, { idProducto: 'caja-de-tornillo-8-x-1-14-dr', nombre: 'Caja Cerrada', cantidad: 'Millar' }] }
           ],
         },
         {
           id: 'taquetes-clavos',
-          name: 'Taquetes, Clavos y Remaches',
-          shortDescription: 'Anclajes a concreto y mampostería.',
+          name: 'Clavo con Rondana y Taquetes',
+          shortDescription: 'Anclajes para fijar el canal de amarre al concreto.',
           image: 'assets/show/maquina.webp',
           variants: [
             { id: 'var-taq-plas', name: 'Taquete Plástico Rojo', empaqueSeleccionado: null, empaques: [{ idProducto: 'fij-taq-plastico', nombre: 'Por Ciento', cantidad: '100 pzas' }] },
@@ -390,8 +369,8 @@ export class ProductService {
         },
         {
           id: 'fulminantes',
-          name: 'Fulminantes (Cargas de Pólvora)',
-          shortDescription: 'Cargas para pistolas de fijación directa.',
+          name: 'Fulminantes Calibre 27 y 22',
+          shortDescription: 'Cargas de pólvora amarilla y roja para fijación directa.',
           image: 'assets/show/maquina.webp',
           variants: [
             { id: 'var-fulm-cal22', name: 'Calibre 22', empaqueSeleccionado: null, empaques: [{ idProducto: 'fulminante-cartucho-individual-cal-22-1-pza', nombre: 'Individual', cantidad: '1 pza' }] },
@@ -405,23 +384,20 @@ export class ProductService {
     // --- 8. HERRAMIENTAS ---
     {
       id: 'herramientas',
-      name: 'Herramientas, Pintura y Acabados',
+      name: 'Espátulas para Readymix y Lijas',
       category: 'Herramientas',
       image: 'assets/show/maquina.webp',
-      shortDescription: 'Espátulas, brochas, lijas, puntas de impacto y accesorios para instalación.',
+      shortDescription: 'Espátulas aceradas, charolas para encintar, lijas esmeril y navajas utilitarias.',
       features: ['Herramientas manuales', 'Accesorios de corte', 'Insumos de pintura'],
       inStock: true,
-      
-      // 🎯 SEO OPTIMIZADO 🎯
-      seoTitle: 'Herramientas para Tablaroca | Espátulas y Lijas',
-      seoDescription: 'Catálogo de herramientas manuales para tablaroqueros. Espátulas aceradas (4, 6, 8, 10, 12 pulgadas), lijas y navajas. Todo para acabados e instalación.',
+      seoTitle: 'Espátulas para Tablaroca y Charolas para Readymix',
+      seoDescription: 'Catálogo de herramientas manuales para tablaroqueros. Espátulas aceradas (4 a 12 pulgadas), lijas esmeril y charolas. Todo para instalar Tablaroca.',
       seoKeywords: 'herramienta para tablaroca, espatula para tablaroca, navaja utilitaria, lija esmeril, charola para readymix, instalar tablaroca',
-      
       subProducts: [
         {
           id: 'herramientas-manuales',
-          name: 'Espátulas y Charolas',
-          shortDescription: 'Herramientas aceradas para tratamiento de juntas.',
+          name: 'Espátulas para Tablaroquero',
+          shortDescription: 'Láminas de acero al carbón para aplicar compuestos y pastas.',
           image: 'assets/show/maquina.webp',
           variants: [
             { id: 'var-esp', name: 'Medidas de Espátula', empaqueSeleccionado: null, empaques: [{ idProducto: 'esp-4', nombre: '4 Pulgadas', cantidad: 'Pieza' }, { idProducto: 'esp-6', nombre: '6 Pulgadas', cantidad: 'Pieza' }, { idProducto: 'esp-8', nombre: '8 Pulgadas', cantidad: 'Pieza' }, { idProducto: 'esp-10', nombre: '10 Pulgadas', cantidad: 'Pieza' }, { idProducto: 'esp-12', nombre: '12 Pulgadas', cantidad: 'Pieza' }] }
@@ -429,11 +405,11 @@ export class ProductService {
         },
         {
           id: 'pintura-lijas',
-          name: 'Pintura, Selladores y Lijas',
-          shortDescription: 'Consumibles para acabados finales.',
+          name: 'Lija Esmeril para Tablaroca',
+          shortDescription: 'Lijas de malla para detallar el tratamiento de juntas sin empastarse.',
           image: 'assets/show/maquina.webp',
           variants: [
-            { id: 'var-lija', name: 'Lija / Lija Esmeril', empaqueSeleccionado: null, empaques: [{ idProducto: 'lija-80', nombre: 'Grano 80', cantidad: 'Pieza' }, { idProducto: 'lija-120', nombre: 'Grano 120', cantidad: 'Pieza' }, { idProducto: 'lija-220', nombre: 'Grano 220', cantidad: 'Pieza' }] }
+            { id: 'var-lija', name: 'Grano de Lija', empaqueSeleccionado: null, empaques: [{ idProducto: 'lija-80', nombre: 'Grano 80', cantidad: 'Pieza' }, { idProducto: 'lija-120', nombre: 'Grano 120', cantidad: 'Pieza' }, { idProducto: 'lija-220', nombre: 'Grano 220', cantidad: 'Pieza' }] }
           ],
         },
       ],
@@ -441,10 +417,6 @@ export class ProductService {
   ];
 
   constructor() {}
-
-  // ==========================================
-  // 🌟 MÉTODOS DE ACCESO A LA INFORMACIÓN
-  // ==========================================
 
   getFamiliasCatalogo() {
     return this.familiasCatalogo;
