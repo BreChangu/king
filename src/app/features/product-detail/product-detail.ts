@@ -55,36 +55,38 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.selecciones = {}; 
         this.inicializarSelecciones(); 
 
-     if (this.productoActual) {
-          // 🌟 MAGIA SEO: Usamos los campos optimizados. Si el producto no los tiene, usamos un texto por defecto.
+      if (this.productoActual) {
+          // 🌟 MAGIA SEO: Usamos los campos optimizados.
           const seoTitle = this.productoActual.seoTitle || `${this.productoActual.name} | King Panel México`;
           const seoDesc = this.productoActual.seoDescription || this.productoActual.shortDescription;
           const seoKeys = this.productoActual.seoKeywords || 'construcción ligera, tablaroca, king panel, materiales';
           const seoImage = this.productoActual.image ? `https://www.kingpanel.com${this.productoActual.image}` : 'https://www.kingpanel.com/assets/logo.png';
           const seoUrl = `https://www.kingpanel.com/producto/${this.productoActual.id}`;
 
-          // Cambiamos la pestaña del navegador (Lo que el usuario lee arriba)
+          // Cambiamos la pestaña del navegador
           this.titleService.setTitle(seoTitle);
           
-          // Metas Generales (Lo que lee el Robot de Google)
+          // Metas Generales
           this.metaService.updateTag({ name: 'description', content: seoDesc });
           this.metaService.updateTag({ name: 'keywords', content: seoKeys });
           
-          // Metas Open Graph (Lo que sale en WhatsApp y Facebook)
+          // Metas Open Graph
           this.metaService.updateTag({ property: 'og:title', content: seoTitle });
           this.metaService.updateTag({ property: 'og:description', content: seoDesc });
           this.metaService.updateTag({ property: 'og:image', content: seoImage });
           this.metaService.updateTag({ property: 'og:url', content: seoUrl });
           this.metaService.updateTag({ property: 'og:type', content: 'product' });
 
-          // Los datos estructurados (Para intentar ganarnos las tarjetitas visuales de Google)
-          this.seoService.setProductStructuredData(this.productoActual);
+          // 🔥 AQUÍ ESTÁ EL CAMBIO 🔥
+          // Usamos el nuevo método para listar cada tarjeta como un producto independiente
+          this.seoService.setMultipleProductsOnPage(this.productoActual);
         }
+        
         // Subimos el scroll suavemente al cambiar de producto
         if (isPlatformBrowser(this.platformId)) {
           setTimeout(() => {
              window.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 100); // Un pequeño timeout asegura que el DOM ya se dibujó antes de subir
+          }, 100); 
         }
       }
     });
@@ -92,7 +94,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Limpiamos los datos estructurados
-    this.seoService.clearStructuredData();
+    this.seoService.clearStructuredData('product-structured-data');
     
     // 🌟 MEJORA 2 (Limpieza): Removemos las etiquetas específicas de producto al salir de la página
     this.metaService.removeTag("property='og:title'");
@@ -131,20 +133,16 @@ obtenerImagenActiva(sub: SubProduct): string {
     const seleccion = this.selecciones[sub.id];
     if (!seleccion) return sub.image; 
 
-    // 1. ¿El empaque seleccionado tiene imagen propia? (Ej. Cubeta de 6kg)
     if (seleccion.variant.empaqueSeleccionado && seleccion.variant.empaqueSeleccionado.image) {
       return seleccion.variant.empaqueSeleccionado.image;
     }
 
-    // 2. ¿La variante tiene imagen propia?
     if (seleccion.variant.image) {
       return seleccion.variant.image;
     }
 
-    // 3. Si no hay nada específico, mostramos la imagen general del sub-producto
     return sub.image;
   }
-
 
   seleccionarVariante(subId: string, variant: ProductVariant) {
     if (this.selecciones[subId]) this.selecciones[subId].variant = variant;
@@ -172,7 +170,6 @@ agregarACotizacion(sub: SubProduct) {
       return;
     }
 
-    // 🌟 Usamos nuestra nueva función inteligente
     const imagenFinal = this.obtenerImagenActiva(sub);
 
     let presentacionFinal = seleccion.variant.calibre || 'N/A';
