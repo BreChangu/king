@@ -1,12 +1,12 @@
-// 1. La variante de tamaño/calibre (¡AQUÍ VAN LAS PÍLDORAS!)
+// 1. La variante de tamaño/calibre (¡Las Píldoras!)
 export interface ProductVariant {
   id: string;
   name: string; 
-  calibre?: string; // 🌟 Le ponemos "?" porque ahora algunos usan empaques en lugar de calibre directo
+  calibre?: string; 
   image?: string; 
   sku?: string; 
-  empaques?: any[]; // 🌟 AQUÍ VAN LOS EMPAQUES
-  empaqueSeleccionado?: any; // 🌟 AQUÍ VA LA SELECCIÓN
+  empaques?: any[]; 
+  empaqueSeleccionado?: any; 
 }
 
 // 2. El Sub-producto específico
@@ -18,7 +18,7 @@ export interface SubProduct {
   variants: ProductVariant[]; 
 }
 
-// 3. El Producto Principal / Familia
+// 3. El Producto Principal / Familia (Con SEO Integrado)
 export interface Product {
   id: string;
   category: string;
@@ -28,4 +28,9 @@ export interface Product {
   inStock: boolean;
   features?: string[]; 
   subProducts?: SubProduct[]; 
+  
+  // 🔥 CAMPOS EXCLUSIVOS PARA EL ALGORITMO DE GOOGLE 🔥
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
 }

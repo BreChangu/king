@@ -55,28 +55,31 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.selecciones = {}; 
         this.inicializarSelecciones(); 
 
-        if (this.productoActual) {
-          // 🌟 MEJORA 1 (SEO Y SOCIAL): Agregamos etiquetas Open Graph para WhatsApp/Facebook
-          const seoTitle = `${this.productoActual.name} a Excelente Precio | King Panel`;
-          const seoDesc = this.productoActual.shortDescription;
+     if (this.productoActual) {
+          // 🌟 MAGIA SEO: Usamos los campos optimizados. Si el producto no los tiene, usamos un texto por defecto.
+          const seoTitle = this.productoActual.seoTitle || `${this.productoActual.name} | King Panel México`;
+          const seoDesc = this.productoActual.seoDescription || this.productoActual.shortDescription;
+          const seoKeys = this.productoActual.seoKeywords || 'construcción ligera, tablaroca, king panel, materiales';
           const seoImage = this.productoActual.image ? `https://www.kingpanel.com${this.productoActual.image}` : 'https://www.kingpanel.com/assets/logo.png';
           const seoUrl = `https://www.kingpanel.com/producto/${this.productoActual.id}`;
 
+          // Cambiamos la pestaña del navegador (Lo que el usuario lee arriba)
           this.titleService.setTitle(seoTitle);
           
-          // Metas Generales
+          // Metas Generales (Lo que lee el Robot de Google)
           this.metaService.updateTag({ name: 'description', content: seoDesc });
+          this.metaService.updateTag({ name: 'keywords', content: seoKeys });
           
-          // Metas Open Graph (Facebook, WhatsApp, LinkedIn)
+          // Metas Open Graph (Lo que sale en WhatsApp y Facebook)
           this.metaService.updateTag({ property: 'og:title', content: seoTitle });
           this.metaService.updateTag({ property: 'og:description', content: seoDesc });
           this.metaService.updateTag({ property: 'og:image', content: seoImage });
           this.metaService.updateTag({ property: 'og:url', content: seoUrl });
           this.metaService.updateTag({ property: 'og:type', content: 'product' });
 
+          // Los datos estructurados (Para intentar ganarnos las tarjetitas visuales de Google)
           this.seoService.setProductStructuredData(this.productoActual);
         }
-
         // Subimos el scroll suavemente al cambiar de producto
         if (isPlatformBrowser(this.platformId)) {
           setTimeout(() => {
