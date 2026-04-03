@@ -107,7 +107,7 @@ export class SeoService {
           "position": 2,
           "item": {
             "@type": "Product",
-            "name": "Sistemas de Paneles y Tableros",
+            "name": "Tablaroca,Paneles de Yeso, ",
             "description": "Placas de yeso, cemento y maderas para cubiertas, fachadas y divisiones interiores.",
             "brand": { "@type": "Brand", "name": "King Panel" },
             "image": "https://www.kingpanel.com/assets/productos/panel.webp",
@@ -168,6 +168,41 @@ export class SeoService {
     };
     
     this.setSchema('product-structured-data', structuredData);
+  }
+
+
+  // 🌟 NUEVO MÉTODO: MÚLTIPLES PRODUCTOS EN UNA SOLA PÁGINA
+  setMultipleProductsOnPage(familyProduct: Product) {
+    // 1. Verificamos que la familia tenga subproductos (las tarjetas)
+    if (!familyProduct.subProducts || familyProduct.subProducts.length === 0) {
+      this.setProductStructuredData(familyProduct); // Fallback de seguridad
+      return;
+    }
+
+    // 2. Mapeamos (recorremos) tus tarjetas para crear un producto SEO por cada una
+    const schemasArray = familyProduct.subProducts.map(sub => ({
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": `${sub.name} | King Panel`, // Ej: "Panel Resistente a la Humedad | King Panel"
+      "description": sub.shortDescription,
+      "image": sub.image ? `https://www.kingpanel.com/${sub.image}` : "https://www.kingpanel.com/assets/logo.png",
+      "sku": sub.id,
+      "brand": { 
+        "@type": "Brand", 
+        "name": "King Panel" 
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": `https://www.kingpanel.com/producto/${familyProduct.id}`, // Todos apuntan a la misma URL padre
+        "priceCurrency": "MXN",
+        "price": "0.00",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition"
+      }
+    }));
+
+    // 3. Inyectamos el arreglo con todos los productos al mismo tiempo
+    this.setSchema('product-structured-data', schemasArray);
   }
 
   // 🌟 SCHEMA DE MIGAS DE PAN (BREADCRUMBS)
