@@ -34,9 +34,9 @@
             <div class="grid-card">
               <div class="card-image">
                 <img 
-                  [src]="selecciones[sub.id]?.variant?.image || sub.image" 
-                  [alt]="'Imagen de ' + sub.name" 
-                  class="foto-dinamica"
+               [src]="obtenerImagenActiva(sub)" 
+  [alt]="'Imagen de ' + sub.name" 
+  class="foto-dinamica"
                 > 
               </div>
               
