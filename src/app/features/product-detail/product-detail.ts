@@ -16,8 +16,9 @@ import { Title, Meta } from '@angular/platform-browser';
   styleUrl: './product-detail.scss'
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
-  seleccionarEmpaque(_t57: ProductVariant, _t61: any) {
-    throw new Error('Method not implemented.');
+  // 🌟 ELIMINAMOS EL ERROR Y AGREGAMOS LA LÓGICA REAL
+  seleccionarEmpaque(variant: ProductVariant, empaque: any) {
+    variant.empaqueSeleccionado = empaque;
   }
   
   productoActual: Product | undefined;
@@ -77,7 +78,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           this.metaService.updateTag({ property: 'og:url', content: seoUrl });
           this.metaService.updateTag({ property: 'og:type', content: 'product' });
 
-          // 🔥 AQUÍ ESTÁ EL CAMBIO 🔥
           // Usamos el nuevo método para listar cada tarjeta como un producto independiente
           this.seoService.setMultipleProductsOnPage(this.productoActual);
         }
@@ -109,6 +109,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.productoActual.subProducts.forEach(sub => {
         if (sub.variants && sub.variants.length > 0) {
           this.selecciones[sub.id] = { variant: sub.variants[0], quantity: 0 };
+          
+          // 🌟 MEJORA UX: Autoseleccionar el primer empaque al cargar la página
+          if (sub.variants[0].empaques && sub.variants[0].empaques.length > 0) {
+            sub.variants[0].empaqueSeleccionado = sub.variants[0].empaques[0];
+          }
         }
       });
     }
@@ -129,23 +134,33 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-obtenerImagenActiva(sub: SubProduct): string {
+  obtenerImagenActiva(sub: SubProduct): string {
     const seleccion = this.selecciones[sub.id];
     if (!seleccion) return sub.image; 
 
+    // Si el empaque tiene imagen (Ej. Cubeta USG)
     if (seleccion.variant.empaqueSeleccionado && seleccion.variant.empaqueSeleccionado.image) {
       return seleccion.variant.empaqueSeleccionado.image;
     }
 
+    // Si la variante tiene imagen
     if (seleccion.variant.image) {
       return seleccion.variant.image;
     }
 
+    // Imagen por defecto del subproducto
     return sub.image;
   }
 
   seleccionarVariante(subId: string, variant: ProductVariant) {
-    if (this.selecciones[subId]) this.selecciones[subId].variant = variant;
+    if (this.selecciones[subId]) {
+      this.selecciones[subId].variant = variant;
+      
+      // 🌟 MEJORA UX: Si cambias de variante, se autoselecciona el primer empaque disponible
+      if (variant.empaques && variant.empaques.length > 0 && !variant.empaqueSeleccionado) {
+        variant.empaqueSeleccionado = variant.empaques[0];
+      }
+    }
   }
 
   cambiarCantidad(subId: string, delta: number) {
@@ -162,7 +177,7 @@ obtenerImagenActiva(sub: SubProduct): string {
     if (this.selecciones[subId]) this.selecciones[subId].quantity = valor;
   }
 
-agregarACotizacion(sub: SubProduct) {
+  agregarACotizacion(sub: SubProduct) {
     const seleccion = this.selecciones[sub.id];
     
     if (!seleccion || seleccion.quantity <= 0) {
@@ -178,7 +193,7 @@ agregarACotizacion(sub: SubProduct) {
     }
 
     const newItem: QuoteItem = {
-      id: `${sub.id}-${seleccion.variant.id}`,
+      id: `${sub.id}-${seleccion.variant.id}-${seleccion.variant.empaqueSeleccionado?.idProducto || 'base'}`,
       productId: sub.id,
       productName: seleccion.variant.name,
       variantName: sub.name,

@@ -40,15 +40,15 @@ export class SeoService {
   // 🚀 NUEVOS MÉTODOS PARA LA LANDING Y NEGOCIO LOCAL
   // ========================================================================
 
-  // 🌟 SCHEMA DE EMPRESA LOCAL (Con zonas de cobertura actualizadas)
+  // 🌟 SCHEMA DE EMPRESA LOCAL (NIVEL 1: SEO GEOGRÁFICO)
   setLocalBusinessStructuredData() {
     const schema = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "King Panel",
+      "name": "King Panel | Materiales de Construcción Ligera",
       "image": "https://www.kingpanel.com/assets/logo.png",
-      "telephone": "+52-55-1234-5678",
-      "description": "Suministro masivo y especializado de sistemas de construcción ligera. Cobertura directa en el Área Metropolitana, Centro del País y envíos a toda la República Mexicana.",
+      "telephone": "+52-55-1234-5678", // Reemplaza con tu número
+      "description": "Proveedores y venta de tablaroca, panel de yeso, perfiles y sistemas de construcción ligera. Venta de tablaroca cerca de mi ubicación con envíos a obra.",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Estado de México",
@@ -58,61 +58,49 @@ export class SeoService {
           "name": "MX"
         }
       },
+      // 🔥 AQUI ESTÁN TUS PALABRAS CLAVE LOCALES 🔥
       "areaServed": [
-        {
-          "@type": "City",
-          "name": "Ciudad de México"
-        },
-        {
-          "@type": "State",
-          "name": "Estado de México"
-        },
-        {
-          "@type": "Place",
-          "name": "Zona Metropolitana del Valle de México"
-        },
-        {
-          "@type": "Country",
-          "name": "Mexico"
-        }
+        { "@type": "City", "name": "Nicolás Romero" },
+        { "@type": "City", "name": "Atizapán de Zaragoza" },
+        { "@type": "City", "name": "Cuautitlán Izcalli" },
+        { "@type": "State", "name": "Estado de México" },
+        { "@type": "Place", "name": "Zona Metropolitana del Valle de México" }
       ]
     };
     
     this.setSchema('local-business-schema', schema);
   }
 
-  // 🌟 SCHEMA DEL CARRUSEL DE CATEGORÍAS (Para la Landing)
+  // 🌟 SCHEMA DEL CARRUSEL DE CATEGORÍAS (Orden optimizado: Tablaroca Posición 1)
   setLandingItemListStructuredData() {
     const itemListSchema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
       "name": "Catálogo de Materiales King Panel",
-      "description": "Sistemas especializados para construcción ligera y obra civil.",
+      "description": "Distribuidor líder de Tablaroca, perfiles y sistemas de construcción ligera en el Estado de México.",
       "itemListElement": [
         {
           "@type": "ListItem",
-          "position": 1,
+          "position": 1, // 🥇 LA TABLAROCA MANDA
           "item": {
             "@type": "Product",
-            "name": "Sistemas de Perfilería Metálica",
-            "description": "Fabricación propia de perfiles de alta resistencia para sistemas de construcción ligera. Calibre exacto garantizado.",
+            "name": "Tablaroca, Panel Rey y Tablacemento",
+            "description": "Venta de panel de yeso estándar, Panel Rey, Tablaroca para baño (verde) y Durock exterior.",
             "brand": { "@type": "Brand", "name": "King Panel" },
-            "image": "https://www.kingpanel.com/assets/productos/perfil.webp", 
-            "url": "https://www.kingpanel.com/producto/perfiles-metalicos", 
-            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "150" }
+            "image": "https://www.kingpanel.com/assets/productos/panel.webp", 
+            "url": "https://www.kingpanel.com/producto/paneles"
           }
         },
         {
           "@type": "ListItem",
-          "position": 2,
+          "position": 2, // 🥈 PERFILES
           "item": {
             "@type": "Product",
-            "name": "Tablaroca,Paneles de Yeso, ",
-            "description": "Placas de yeso, cemento y maderas para cubiertas, fachadas y divisiones interiores.",
+            "name": "Perfiles Metálicos para Tablaroca",
+            "description": "Postes metálicos, canales de amarre y canaletas de acero galvanizado.",
             "brand": { "@type": "Brand", "name": "King Panel" },
-            "image": "https://www.kingpanel.com/assets/productos/panel.webp",
-            "url": "https://www.kingpanel.com/producto/paneles", 
-            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "85" }
+            "image": "https://www.kingpanel.com/assets/productos/perfil.webp",
+            "url": "https://www.kingpanel.com/producto/perfiles-metalicos"
           }
         },
         {
@@ -120,12 +108,11 @@ export class SeoService {
           "position": 3,
           "item": {
             "@type": "Product",
-            "name": "Compuestos y Pastas",
-            "description": "Sistemas completos para el tratamiento de juntas, resanes y texturizados finales.",
+            "name": "Pasta Readymix y Basecoat",
+            "description": "Cubetas de pasta para tablaroca Readymix Panel Rey, Redimix USG y Basecoat para Durock.",
             "brand": { "@type": "Brand", "name": "King Panel" },
             "image": "https://www.kingpanel.com/assets/productos/compuestos.webp",
-            "url": "https://www.kingpanel.com/producto/compuestos-pastas", 
-            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "reviewCount": "210" }
+            "url": "https://www.kingpanel.com/producto/compuestos-pastas"
           }
         }
       ]
@@ -133,7 +120,7 @@ export class SeoService {
     this.setSchema('landing-item-list', itemListSchema);
   }
 
-  // 🌟 SCHEMA DE PREGUNTAS FRECUENTES (Dinámico)
+  // 🌟 SCHEMA DE PREGUNTAS FRECUENTES (Para tu cubeta informativa)
   setFAQStructuredData(faqs: any[]) {
     const faqSchema = {
       "@context": "https://schema.org",
@@ -151,39 +138,20 @@ export class SeoService {
   }
 
   // ========================================================================
-  // 🛡️ TUS MÉTODOS ORIGINALES (Intactos)
+  // 🛡️ MÉTODOS DE PRODUCTO
   // ========================================================================
 
-  // 🌟 MÉTODO ESPECÍFICO DE PRODUCTO
-  setProductStructuredData(product: Product) {
-    const structuredData = {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": product.name,
-      "description": product.shortDescription,
-      "image": product.subProducts && product.subProducts.length > 0 ? product.subProducts[0].image : "https://www.kingpanel.com/assets/logo.png",
-      "sku": product.id,
-      "brand": { "@type": "Brand", "name": "King Panel" },
-      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "124" }
-    };
-    
-    this.setSchema('product-structured-data', structuredData);
-  }
-
-
-  // 🌟 NUEVO MÉTODO: MÚLTIPLES PRODUCTOS EN UNA SOLA PÁGINA
+  // 🌟 NUEVO MÉTODO: MÚLTIPLES PRODUCTOS EN UNA SOLA PÁGINA (Fichas de Comerciante)
   setMultipleProductsOnPage(familyProduct: Product) {
-    // 1. Verificamos que la familia tenga subproductos (las tarjetas)
     if (!familyProduct.subProducts || familyProduct.subProducts.length === 0) {
-      this.setProductStructuredData(familyProduct); // Fallback de seguridad
+      this.setProductStructuredData(familyProduct); 
       return;
     }
 
-    // 2. Mapeamos (recorremos) tus tarjetas para crear un producto SEO por cada una
     const schemasArray = familyProduct.subProducts.map(sub => ({
       "@context": "https://schema.org/",
       "@type": "Product",
-      "name": `${sub.name} | King Panel`, // Ej: "Panel Resistente a la Humedad | King Panel"
+      "name": `${sub.name} | King Panel`, 
       "description": sub.shortDescription,
       "image": sub.image ? `https://www.kingpanel.com/${sub.image}` : "https://www.kingpanel.com/assets/logo.png",
       "sku": sub.id,
@@ -193,7 +161,7 @@ export class SeoService {
       },
       "offers": {
         "@type": "Offer",
-        "url": `https://www.kingpanel.com/producto/${familyProduct.id}`, // Todos apuntan a la misma URL padre
+        "url": `https://www.kingpanel.com/producto/${familyProduct.id}`, 
         "priceCurrency": "MXN",
         "price": "0.00",
         "availability": "https://schema.org/InStock",
@@ -201,8 +169,31 @@ export class SeoService {
       }
     }));
 
-    // 3. Inyectamos el arreglo con todos los productos al mismo tiempo
     this.setSchema('product-structured-data', schemasArray);
+  }
+
+  // 🌟 MÉTODO ESPECÍFICO DE PRODUCTO SINGULAR
+  setProductStructuredData(product: Product) {
+    const structuredData = {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": product.seoTitle || product.name,
+      "description": product.seoDescription || product.shortDescription,
+      "image": product.image ? `https://www.kingpanel.com/${product.image}` : "https://www.kingpanel.com/assets/logo.png",
+      "sku": product.id,
+      "brand": { "@type": "Brand", "name": "King Panel" },
+      "offers": {
+        "@type": "Offer",
+        "url": `https://www.kingpanel.com/producto/${product.id}`,
+        "priceCurrency": "MXN",
+        "price": "0.00", 
+        "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        "itemCondition": "https://schema.org/NewCondition"
+      },
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "124" }
+    };
+    
+    this.setSchema('product-structured-data', structuredData);
   }
 
   // 🌟 SCHEMA DE MIGAS DE PAN (BREADCRUMBS)
