@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,NgOptimizedImage } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { ProductCardComponent } from "../../shared/components/product-card/product-card"; 
@@ -10,7 +10,7 @@ import { SeoService } from '../../core/services/seo.service';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent], 
+  imports: [CommonModule, ProductCardComponent,NgOptimizedImage], 
   templateUrl: './landing.html',
   styleUrl: './landing.scss'
 })
