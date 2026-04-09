@@ -78,7 +78,7 @@ export class ProductService {
       seoDescription:
         'Cotiza hoja de tablaroca precio mayoreo. Proveedores de tablaroca, panel de yeso estandar, panel rey, placa de yeso, tablaroca para baño y tablaroca exterior.',
       seoKeywords:
-        'venta de tablaroca, panel de yeso, Venta de panel de yeso, tabla roca, precio de tablaroca, tabla de yeso, tabla de roca, tabalroca precio, tablaroca panel rey precio, tablaroca panel rey, Tablaroca mdedias, tabla roca para interior, panel de yeso estandar, panel de yeso ligth rey, panel de yeso panel rey, panel rey precios, proveedores de tablaroca, placa de yeso, venta tablaroca, hoja de tablaroca precio, tablaroca home depot, hoja de tablaroca, tablaroca exterior, Panel de yeso precio, tablaroca para baño, durock precio por hoja',
+        'Tablaroca,venta de tablaroca, panel de yeso, Venta de panel de yeso, tabla roca, precio de tablaroca, tabla de yeso, tabla de roca, tabalroca precio, tablaroca panel rey precio, tablaroca panel rey, Tablaroca mdedias, tabla roca para interior, panel de yeso estandar, panel de yeso ligth rey, panel de yeso panel rey, panel rey precios, proveedores de tablaroca, placa de yeso, venta tablaroca, hoja de tablaroca precio,, hoja de tablaroca, tablaroca exterior, Panel de yeso precio,Panel de yeso regular, Panel de yeso, tablaroca para baño, durock precio por hoja',
       subProducts: [
         {
           id: 'panel-regular',

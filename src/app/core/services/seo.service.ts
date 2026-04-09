@@ -64,7 +64,11 @@ export class SeoService {
         { "@type": "City", "name": "Atizapán de Zaragoza" },
         { "@type": "City", "name": "Cuautitlán Izcalli" },
         { "@type": "State", "name": "Estado de México" },
-        { "@type": "Place", "name": "Zona Metropolitana del Valle de México" }
+        { "@type": "Place", "name": "Zona Metropolitana del Valle de México"},
+        { "@type": "Place", "name": "Ciudad de México" },
+        {"@type": " City", "name": "Mexico City"},
+        
+
       ]
     };
     
