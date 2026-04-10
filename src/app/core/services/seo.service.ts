@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Meta, Title } from '@angular/platform-browser';
 import { Product } from '../../shared/models/product.model';
 
 @Injectable({
@@ -7,9 +8,41 @@ import { Product } from '../../shared/models/product.model';
 })
 export class SeoService {
 
-  constructor(@Inject(DOCUMENT) private document: Document) { }
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private metaService: Meta,
+    private titleService: Title
+  ) { }
 
-  // 🌟 MÉTODO PARA LA URL CANÓNICA (Adiós error de PageSpeed)
+  // ========================================================================
+  // 📱 1. ETIQUETAS META BÁSICAS Y OPEN GRAPH (WHATSAPP, LINKEDIN, SEO)
+  // ========================================================================
+  setMetaTags(config: { title: string, description: string, url: string, image?: string }) {
+    // Título de la pestaña del navegador
+    this.titleService.setTitle(`${config.title} | King Panel`);
+    
+    // Descripción para los resultados de Google
+    this.metaService.updateTag({ name: 'description', content: config.description });
+
+    // Etiquetas Open Graph para Redes Sociales y WhatsApp
+    this.metaService.updateTag({ property: 'og:title', content: `${config.title} | King Panel` });
+    this.metaService.updateTag({ property: 'og:description', content: config.description });
+    this.metaService.updateTag({ property: 'og:type', content: 'website' });
+    this.metaService.updateTag({ property: 'og:url', content: config.url });
+
+    // 🚀 LA FOTO DE PORTADA PARA WHATSAPP (URL Absoluta)
+    const imageUrl = config.image || 'https://www.kingpanel.com/assets/brands/King-portada.jpeg';
+    this.metaService.updateTag({ property: 'og:image', content: imageUrl });
+    
+    // Forzamos a WhatsApp a mostrar la imagen en formato grande (1200x630)
+    this.metaService.updateTag({ property: 'og:image:width', content: '1200' });
+    this.metaService.updateTag({ property: 'og:image:height', content: '630' });
+
+    // Evitamos contenido duplicado en Google
+    this.setCanonicalURL(config.url);
+  }
+
+  // 🌟 MÉTODO PARA LA URL CANÓNICA
   setCanonicalURL(url: string) {
     const head = this.document.head;
     let link: HTMLLinkElement | null = this.document.querySelector('link[rel="canonical"]');
@@ -21,6 +54,10 @@ export class SeoService {
     }
     link.setAttribute('href', url);
   }
+
+  // ========================================================================
+  // 🧠 2. MOTOR DE DATOS ESTRUCTURADOS (JSON-LD)
+  // ========================================================================
 
   // 🌟 MÉTODO MAESTRO GENÉRICO
   setSchema(scriptId: string, schema: any) {
@@ -36,65 +73,71 @@ export class SeoService {
     this.document.head.appendChild(script);
   }
 
+  clearStructuredData(scriptId: string = 'product-structured-data') {
+    const existingScript = this.document.getElementById(scriptId);
+    if (existingScript) {
+      existingScript.remove();
+    }
+  }
+
   // ========================================================================
-  // 🚀 NUEVOS MÉTODOS PARA LA LANDING Y NEGOCIO LOCAL
+  // 🚀 3. ESQUEMAS DE NEGOCIO Y LANDING
   // ========================================================================
 
-  // 🌟 SCHEMA DE EMPRESA LOCAL (NIVEL 1: SEO GEOGRÁFICO)
+  // 🌟 SCHEMA DE EMPRESA LOCAL (SEO GEOGRÁFICO B2B)
   setLocalBusinessStructuredData() {
     const schema = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "King Panel | Materiales de Construcción Ligera",
+      "name": "King Panel | Sistemas de Construcción Ligera y Termoaislantes",
       "image": "https://www.kingpanel.com/assets/logo.png",
-      "telephone": "+52-55-1234-5678", // Reemplaza con tu número
-      "description": "Proveedores y venta de tablaroca, panel de yeso, perfiles y sistemas de construcción ligera. Venta de tablaroca cerca de mi ubicación con envíos a obra.",
+      "telephone": "+52-55-1234-5678", 
+      "description": "Proveedores y venta de paneles termoaislantes, tablaroca, perfiles y sistemas de construcción ligera para naves industriales. Envíos a obra.",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Estado de México",
-        "addressRegion": "MEX",
+        "addressLocality": "Ciudad López Mateos",
+        "addressRegion": "Estado de México",
         "addressCountry": {
           "@type": "Country",
           "name": "MX"
         }
       },
-      // 🔥 AQUI ESTÁN TUS PALABRAS CLAVE LOCALES 🔥
+      // 🔥 PALABRAS CLAVE LOCALES Y ZONAS INDUSTRIALES 🔥
       "areaServed": [
+        { "@type": "City", "name": "Ciudad López Mateos" },
         { "@type": "City", "name": "Nicolás Romero" },
         { "@type": "City", "name": "Atizapán de Zaragoza" },
         { "@type": "City", "name": "Cuautitlán Izcalli" },
+        { "@type": "City", "name": "Tlalnepantla de Baz" },
+        { "@type": "City", "name": "Naucalpan de Juárez" },
+        { "@type": "City", "name": "Toluca" },
+        { "@type": "City", "name": "Ciudad de México" },
         { "@type": "State", "name": "Estado de México" },
-        { "@type": "Place", "name": "Zona Metropolitana del Valle de México"},
-        { "@type": "Place", "name": "Ciudad de México" },
-        {"@type": " City", "name": "Mexico City"},
-        
-
+        { "@type": "Place", "name": "Zona Metropolitana del Valle de México" }
       ]
     };
     
     this.setSchema('local-business-schema', schema);
   }
 
-  // 🌟 SCHEMA DEL CARRUSEL DE CATEGORÍAS (Orden optimizado: Tablaroca Posición 1)
-  // 🌟 SCHEMA DEL CARRUSEL DE CATEGORÍAS (Para la Landing - Libre de Errores Críticos)
+  // 🌟 SCHEMA DEL CARRUSEL DE CATEGORÍAS (Catálogo sin errores)
   setLandingItemListStructuredData() {
     const itemListSchema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
       "name": "Catálogo de Materiales King Panel",
-      "description": "Distribuidor líder de Tablaroca, perfiles y sistemas de construcción ligera en el Estado de México.",
+      "description": "Distribuidor líder de Panel Termoaislante, Tablaroca y perfiles en el Estado de México.",
       "itemListElement": [
         {
           "@type": "ListItem",
-          "position": 1, // 🥇 TABLAROCA ES EL REY
+          "position": 1, 
           "item": {
             "@type": "Product",
-            "name": "Tablaroca, Panel Rey, Durock y Permabase", // 🎯 Añadido Permabase
+            "name": "Tablaroca, Panel Rey, Durock y Permabase", 
             "description": "Venta de panel de yeso estándar, Panel Rey, Tablaroca para baño (verde), Durock y Permabase exterior.",
             "brand": { "@type": "Brand", "name": "King Panel" },
             "image": "https://www.kingpanel.com/assets/productos/panel.webp", 
             "url": "https://www.kingpanel.com/producto/paneles",
-            // 🔥 SOLUCIÓN AL ERROR CRÍTICO: Agregamos Ofertas y Reseñas 🔥
             "offers": {
               "@type": "Offer",
               "url": "https://www.kingpanel.com/producto/paneles",
@@ -111,7 +154,7 @@ export class SeoService {
         },
         {
           "@type": "ListItem",
-          "position": 2, // 🥈 PERFILES
+          "position": 2, 
           "item": {
             "@type": "Product",
             "name": "Perfiles Metálicos para Tablaroca",
@@ -119,7 +162,6 @@ export class SeoService {
             "brand": { "@type": "Brand", "name": "King Panel" },
             "image": "https://www.kingpanel.com/assets/productos/perfil.webp",
             "url": "https://www.kingpanel.com/producto/perfiles-metalicos",
-            // 🔥 SOLUCIÓN AL ERROR CRÍTICO 🔥
             "offers": {
               "@type": "Offer",
               "url": "https://www.kingpanel.com/producto/perfiles-metalicos",
@@ -136,7 +178,7 @@ export class SeoService {
         },
         {
           "@type": "ListItem",
-          "position": 3, // 🥉 PASTAS
+          "position": 3, 
           "item": {
             "@type": "Product",
             "name": "Pasta Readymix y Basecoat",
@@ -144,7 +186,6 @@ export class SeoService {
             "brand": { "@type": "Brand", "name": "King Panel" },
             "image": "https://www.kingpanel.com/assets/productos/compuestos.webp",
             "url": "https://www.kingpanel.com/producto/compuestos-pastas",
-            // 🔥 SOLUCIÓN AL ERROR CRÍTICO 🔥
             "offers": {
               "@type": "Offer",
               "url": "https://www.kingpanel.com/producto/compuestos-pastas",
@@ -164,7 +205,7 @@ export class SeoService {
     this.setSchema('landing-item-list', itemListSchema);
   }
 
-  // 🌟 SCHEMA DE PREGUNTAS FRECUENTES (Para tu cubeta informativa)
+  // 🌟 SCHEMA DE PREGUNTAS FRECUENTES
   setFAQStructuredData(faqs: any[]) {
     const faqSchema = {
       "@context": "https://schema.org",
@@ -182,10 +223,10 @@ export class SeoService {
   }
 
   // ========================================================================
-  // 🛡️ MÉTODOS DE PRODUCTO
+  // 🛡️ 4. MÉTODOS DE PRODUCTO Y NAVEGACIÓN
   // ========================================================================
 
-  // 🌟 NUEVO MÉTODO: MÚLTIPLES PRODUCTOS EN UNA SOLA PÁGINA (Fichas de Comerciante)
+  // 🌟 MÚLTIPLES PRODUCTOS EN UNA SOLA PÁGINA
   setMultipleProductsOnPage(familyProduct: Product) {
     if (!familyProduct.subProducts || familyProduct.subProducts.length === 0) {
       this.setProductStructuredData(familyProduct); 
@@ -216,7 +257,7 @@ export class SeoService {
     this.setSchema('product-structured-data', schemasArray);
   }
 
-  // 🌟 MÉTODO ESPECÍFICO DE PRODUCTO SINGULAR
+  // 🌟 PRODUCTO SINGULAR
   setProductStructuredData(product: Product) {
     const structuredData = {
       "@context": "https://schema.org/",
@@ -240,7 +281,7 @@ export class SeoService {
     this.setSchema('product-structured-data', structuredData);
   }
 
-  // 🌟 SCHEMA DE MIGAS DE PAN (BREADCRUMBS)
+  // 🌟 BREADCRUMBS (MIGAS DE PAN)
   setBreadcrumbs(breadcrumbs: { name: string, url: string }[]) {
     const schema = {
       "@context": "https://schema.org",
@@ -253,12 +294,5 @@ export class SeoService {
       }))
     };
     this.setSchema('breadcrumbs-schema', schema);
-  }
-
-  clearStructuredData(scriptId: string = 'product-structured-data') {
-    const existingScript = this.document.getElementById(scriptId);
-    if (existingScript) {
-      existingScript.remove();
-    }
   }
 }

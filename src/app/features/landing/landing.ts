@@ -10,7 +10,8 @@ import { SeoService } from '../../core/services/seo.service';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent,NgOptimizedImage], 
+  imports: [CommonModule, ProductCardComponent,NgOptimizedImage],
+  providers: [ProductService],
   templateUrl: './landing.html',
   styleUrl: './landing.scss'
 })
