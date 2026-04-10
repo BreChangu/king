@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule,NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { ProductCardComponent } from "../../shared/components/product-card/product-card"; 
@@ -10,7 +10,7 @@ import { SeoService } from '../../core/services/seo.service';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent,NgOptimizedImage],
+  imports: [CommonModule, ProductCardComponent, NgOptimizedImage],
   providers: [ProductService],
   templateUrl: './landing.html',
   styleUrl: './landing.scss'
@@ -51,17 +51,22 @@ export class LandingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('Distribuidor de Tablaroca, Durock y Perfiles en CDMX y Edomex | King Panel');
-    
-    this.metaService.updateTag({ 
-      name: 'description', 
-      content: 'Venta e Instalación de materiales para construcción ligera. Tablaroca, Permabase, perfiles metálicos, plafones y compuestos.Entregas en CDMX, Área Metropolitana y envíos a todo México.' 
-    });
-    
-    this.metaService.updateTag({ name: 'robots', content: 'index, follow' });
-
+    // 1. Cargamos los productos
     this.misProductos = this.productService.getProducts().slice(0, 4);
 
+    // 2. 🚀 MAGIA SEO Y WHATSAPP: Inyectamos todas las etiquetas Open Graph
+    // Aquí es donde WhatsApp por fin va a encontrar tu imagen
+    this.seoService.setMetaTags({
+      title: 'Distribuidor de Tablaroca, Durock y Perfiles en CDMX y Edomex',
+      description: 'Venta e Instalación de materiales para construcción ligera. Tablaroca, Permabase, perfiles metálicos, plafones y compuestos. Entregas en CDMX, Área Metropolitana y envíos a todo México.',
+      url: 'https://king-lake.vercel.app/', // URL de tu Landing
+      image: 'https://king-lake.vercel.app/assets/brands/King-portada.jpeg' // 👈 La ruta exacta que validamos
+    });
+    
+    // Le decimos a Google que indexe
+    this.metaService.updateTag({ name: 'robots', content: 'index, follow' });
+
+    // 3. Inyectamos Schema JSON-LD
     this.inyectarSchemaSEO();
   }
 
@@ -70,8 +75,8 @@ export class LandingComponent implements OnInit {
   }
 
   private inyectarSchemaSEO() {
-    // 🚀 Mágia limpia: Llamamos al servicio para que haga el trabajo pesado
-    this.seoService.setLocalBusinessStructuredData(); // Aquí está el de Zonas y CDMX correcto
+    // 🚀 Llamamos al servicio para que haga el trabajo pesado
+    this.seoService.setLocalBusinessStructuredData(); 
     this.seoService.setLandingItemListStructuredData();
     this.seoService.setFAQStructuredData(this.faqs); 
   }
