@@ -31,7 +31,7 @@ export class SeoService {
     this.metaService.updateTag({ property: 'og:url', content: config.url });
 
     // 🚀 LA FOTO DE PORTADA PARA WHATSAPP (URL Absoluta)
-    const imageUrl = config.image || 'https://www.kingpanel.com/assets/brands/King-portada.jpeg';
+    const imageUrl = config.image || 'https://king-lake.vercel.app/assets/brands/King-portada.jpeg';
     this.metaService.updateTag({ property: 'og:image', content: imageUrl });
     
     // Forzamos a WhatsApp a mostrar la imagen en formato grande (1200x630)
