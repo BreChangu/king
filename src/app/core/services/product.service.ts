@@ -81,7 +81,7 @@ export class ProductService {
       subProducts: [
         {
           id: 'panel-regular',
-          name: 'Tablaroca USG y Panel Rey Regular',
+          name: ' Panel Rey Regular y Tablaroca USG  ',
           shortDescription:
             'Hojas de panel de yeso estándar (1/2" y 5/8") y Firecode (Contra fuego).',
           image: 'assets/productos/usg-tablaroca.webp',
@@ -91,18 +91,21 @@ export class ProductService {
               name: 'Medida estándar: 1.22 x 2.44m (1/2")',
               empaqueSeleccionado: null,
               empaques: [
+
+
+                   {
+                  idProducto: 'pr-prey',
+                  nombre: 'Panel Rey',
+                  cantidad: 'Hoja',
+                  image: 'assets/productos/panel-regular.webp',
+                },
                 {
                   idProducto: 'pr-usg',
                   nombre: 'Tablaroca USG',
                   cantidad: 'Hoja',
                   image: 'assets/productos/usg-tablaroca.webp',
                 },
-                {
-                  idProducto: 'pr-prey',
-                  nombre: 'Panel Rey',
-                  cantidad: 'Hoja',
-                  image: 'assets/productos/panel-regular.webp',
-                },
+             
                 {
                   idProducto: 'pr-ligero',
                   nombre: 'Panel Ligero',
